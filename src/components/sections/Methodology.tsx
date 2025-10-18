@@ -278,11 +278,11 @@ export function Methodology() {
               <div className="absolute -inset-1 bg-verde-lima/0 group-hover:shadow-[0_0_40px_rgba(180,252,5,0.4)] rounded-2xl transition-all duration-300 -z-10" />
 
               {/* Process Flow */}
-              <div className="flex items-center justify-center gap-2 text-sm pt-6 border-t border-gray-700 mt-auto">
+              <div className="flex items-center justify-center gap-2 text-xs pt-6 border-t border-gray-700 mt-auto">
                 {pillar.process.map((step, j) => (
                   <div key={j} className="flex items-center gap-2">
-                    <span className="text-verde-lima font-bold">{step}</span>
-                    {j < pillar.process.length - 1 && <ArrowRight className="w-4 h-4 text-gray-100" />}
+                    <span className="text-verde-lima font-semibold">{step}</span>
+                    {j < pillar.process.length - 1 && <ArrowRight className="w-3 h-3 text-gray-100" />}
                   </div>
                 ))}
               </div>
