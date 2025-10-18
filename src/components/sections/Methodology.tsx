@@ -49,32 +49,63 @@ export function Methodology() {
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-verde-lima/35 rounded-full blur-3xl"
       />
       
-      {/* Partículas flotantes estilo neón - MUY VISIBLES */}
-      {[...Array(18)].map((_, i) => (
-        <motion.div
-          key={i}
-          animate={{
-            y: [0, -30, 0],
-            x: [0, Math.sin(i) * 15, 0],
-            opacity: [0.65, 1, 0.65],
-            scale: [1, 1.3, 1],
-          }}
-          transition={{
-            duration: 3 + i * 0.3,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: i * 0.3,
-          }}
-          className="absolute rounded-full bg-verde-lima blur-lg pointer-events-none z-[1]"
-          style={{
-            width: `${45 + i * 7}px`,
-            height: `${45 + i * 7}px`,
-            left: `${3 + i * 5.5}%`,
-            top: `${12 + (i % 5) * 20}%`,
-            filter: 'blur(6px)',
-          }}
-        />
-      ))}
+      {/* Pocos brillos sutiles en posiciones aleatorias */}
+      <motion.div
+        animate={{ opacity: [0.18, 0.48, 0.18], scale: [1, 1.13, 1], x: [0, 15, 0] }}
+        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute rounded-full pointer-events-none"
+        style={{
+          width: '110px',
+          height: '110px',
+          left: '12%',
+          top: '20%',
+          background: 'rgba(180, 252, 5, 0.42)',
+          filter: 'blur(33px)',
+          zIndex: 1,
+        }}
+      />
+      <motion.div
+        animate={{ opacity: [0.22, 0.52, 0.22], scale: [1, 1.1, 1], y: [0, -12, 0] }}
+        transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 2.5 }}
+        className="absolute rounded-full pointer-events-none"
+        style={{
+          width: '95px',
+          height: '95px',
+          right: '18%',
+          bottom: '30%',
+          background: 'rgba(180, 252, 5, 0.38)',
+          filter: 'blur(30px)',
+          zIndex: 1,
+        }}
+      />
+      <motion.div
+        animate={{ opacity: [0.2, 0.5, 0.2], scale: [1, 1.15, 1] }}
+        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 5 }}
+        className="absolute rounded-full pointer-events-none"
+        style={{
+          width: '105px',
+          height: '105px',
+          left: '65%',
+          top: '55%',
+          background: 'rgba(180, 252, 5, 0.4)',
+          filter: 'blur(34px)',
+          zIndex: 1,
+        }}
+      />
+      <motion.div
+        animate={{ opacity: [0.16, 0.46, 0.16], scale: [1, 1.12, 1], x: [0, -10, 0] }}
+        transition={{ duration: 6.5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+        className="absolute rounded-full pointer-events-none"
+        style={{
+          width: '85px',
+          height: '85px',
+          left: '35%',
+          bottom: '15%',
+          background: 'rgba(180, 252, 5, 0.36)',
+          filter: 'blur(28px)',
+          zIndex: 1,
+        }}
+      />
 
       <div className="container mx-auto px-6 relative z-[5]">
         {/* Header */}

@@ -45,31 +45,49 @@ export function Stats() {
         className="absolute bottom-1/3 left-1/3 w-32 h-32 bg-verde-lima/35 rounded-full blur-xl"
       />
       
-      {/* Particulas flotantes estilo neón - MUY VISIBLES */}
-      {[...Array(15)].map((_, i) => (
-        <motion.div
-          key={i}
-          animate={{
-            y: [0, -25, 0],
-            opacity: [0.6, 1, 0.6],
-            scale: [1, 1.2, 1],
-          }}
-          transition={{
-            duration: 2.5 + i * 0.3,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: i * 0.2,
-          }}
-          className="absolute rounded-full bg-verde-lima blur-lg pointer-events-none z-[1]"
-          style={{
-            width: `${40 + i * 8}px`,
-            height: `${40 + i * 8}px`,
-            left: `${5 + i * 6.5}%`,
-            top: `${10 + (i % 4) * 25}%`,
-            filter: 'blur(8px)',
-          }}
-        />
-      ))}
+      {/* Pocos brillos sutiles en posiciones aleatorias */}
+      <motion.div
+        animate={{ opacity: [0.2, 0.5, 0.2], scale: [1, 1.1, 1] }}
+        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute rounded-full pointer-events-none"
+        style={{
+          width: '100px',
+          height: '100px',
+          left: '15%',
+          top: '25%',
+          background: 'rgba(180, 252, 5, 0.4)',
+          filter: 'blur(30px)',
+          zIndex: 1,
+        }}
+      />
+      <motion.div
+        animate={{ opacity: [0.15, 0.45, 0.15], scale: [1, 1.15, 1] }}
+        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+        className="absolute rounded-full pointer-events-none"
+        style={{
+          width: '120px',
+          height: '120px',
+          right: '20%',
+          top: '60%',
+          background: 'rgba(180, 252, 5, 0.35)',
+          filter: 'blur(35px)',
+          zIndex: 1,
+        }}
+      />
+      <motion.div
+        animate={{ opacity: [0.25, 0.55, 0.25], scale: [1, 1.12, 1] }}
+        transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 4 }}
+        className="absolute rounded-full pointer-events-none"
+        style={{
+          width: '90px',
+          height: '90px',
+          left: '70%',
+          top: '35%',
+          background: 'rgba(180, 252, 5, 0.38)',
+          filter: 'blur(32px)',
+          zIndex: 1,
+        }}
+      />
       <div className="container mx-auto px-6 relative z-[5]">
         {/* Top divider - MÁS VISIBLE */}
         <div className="mb-8">
@@ -115,22 +133,15 @@ function StatItem({ stat, delay, enabled }: StatItemProps) {
 
   return (
     <motion.div
-      className="text-center relative group"
+      className="text-center relative"
       initial={{ opacity: 0, y: 30 }}
       animate={enabled ? { opacity: 1, y: 0 } : {}}
       transition={{ delay }}
-      whileHover={{ scale: 1.05 }}
     >
-      {/* Efecto de brillo neón al hover */}
-      <div className="absolute inset-0 bg-verde-lima/0 group-hover:bg-verde-lima/10 rounded-2xl blur-xl transition-all duration-300" />
-      <div className="absolute -inset-2 bg-verde-lima/0 group-hover:shadow-[0_0_30px_rgba(180,252,5,0.4)] rounded-2xl transition-all duration-300" />
-      
-      <div className="relative z-10">
-        <div className="text-4xl md:text-5xl font-bold text-verde-lima mb-2 drop-shadow-[0_0_10px_rgba(180,252,5,0.5)]">
-          {count}{stat.suffix}
-        </div>
-        <p className="text-base text-blanco">{stat.label}</p>
+      <div className="text-4xl md:text-5xl font-bold text-verde-lima mb-2 drop-shadow-[0_0_10px_rgba(180,252,5,0.5)]">
+        {count}{stat.suffix}
       </div>
+      <p className="text-base text-blanco">{stat.label}</p>
     </motion.div>
   );
 }
