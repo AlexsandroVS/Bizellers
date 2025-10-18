@@ -4,7 +4,11 @@ export function useCountUp(end: number, duration: number = 2000, enabled: boolea
   const [count, setCount] = useState(0);
 
   useEffect(() => {
-    if (!enabled) return;
+    if (!enabled) {
+      // Reiniciar el contador cuando sale de la vista
+      setCount(0);
+      return;
+    }
 
     const steps = 60;
     const increment = end / steps;

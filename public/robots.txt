@@ -1,14 +1,43 @@
+# robots.txt para Bizellers - Consultoría de Ventas B2B
+
+# Googlebot
 User-agent: Googlebot
 Allow: /
+Crawl-delay: 0
 
+# Bingbot
 User-agent: Bingbot
 Allow: /
+Crawl-delay: 0
 
+# Social Media Bots
 User-agent: Twitterbot
 Allow: /
 
 User-agent: facebookexternalhit
 Allow: /
 
+User-agent: LinkedInBot
+Allow: /
+
+# Todos los demás bots
 User-agent: *
 Allow: /
+
+# Evitar rastreo de archivos de sistema y APIs
+Disallow: /api/
+Disallow: /*.json$
+Disallow: /*.map$
+Disallow: /node_modules/
+
+# Archivos y directorios permitidos explícitamente
+Allow: /sitemap.xml
+Allow: /favicon.ico
+Allow: /*.jpg$
+Allow: /*.png$
+Allow: /*.webp$
+Allow: /*.svg$
+Allow: /*.gif$
+
+# Sitemap location
+Sitemap: https://www.bizellers.com/sitemap.xml

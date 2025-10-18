@@ -86,9 +86,9 @@ export function ServiceModal({ isOpen, onClose, serviceName }: ServiceModalProps
           </motion.div>
 
           {/* Modal */}
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none overflow-y-auto">
             <motion.div
-              className="bg-gradient-to-br from-blanco to-gray-50 rounded-3xl shadow-[0_30px_100px_-15px_rgba(0,0,0,0.5),0_0_50px_rgba(180,252,5,0.2)] max-w-2xl w-full border-2 border-verde-lima/20 pointer-events-auto"
+              className="bg-gradient-to-br from-blanco to-gray-50 rounded-3xl shadow-[0_30px_100px_-15px_rgba(0,0,0,0.5),0_0_50px_rgba(180,252,5,0.2)] max-w-2xl w-full border-2 border-verde-lima/20 pointer-events-auto my-8 max-h-[90vh] flex flex-col"
               initial={{ scale: 0.8, opacity: 0, y: 100 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.8, opacity: 0, y: 100 }}
@@ -96,7 +96,7 @@ export function ServiceModal({ isOpen, onClose, serviceName }: ServiceModalProps
               onClick={(e) => e.stopPropagation()}
             >
               {/* Header con degradado - MÁS COMPACTO */}
-              <div className="bg-gradient-to-r from-verde-lima via-verde-lima-dark to-verde-lima px-6 py-5 rounded-t-3xl flex justify-between items-center shadow-lg">
+              <div className="bg-gradient-to-r from-verde-lima via-verde-lima-dark to-verde-lima px-6 py-5 rounded-t-3xl flex justify-between items-center shadow-lg flex-shrink-0">
                 <div className="flex-1">
                   <div className="inline-flex items-center gap-1.5 bg-negro/10 rounded-full px-2.5 py-1 mb-2">
                     <Sparkles className="w-3.5 h-3.5 text-negro" />
@@ -114,8 +114,8 @@ export function ServiceModal({ isOpen, onClose, serviceName }: ServiceModalProps
                 </motion.button>
               </div>
 
-              {/* Form con fondo mejorado */}
-              <form onSubmit={handleSubmit} className="p-6 space-y-5 bg-white/50 backdrop-blur-sm">
+              {/* Form con fondo mejorado - CON SCROLL */}
+              <form onSubmit={handleSubmit} className="p-6 space-y-5 bg-white/50 backdrop-blur-sm overflow-y-auto flex-1">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   {/* Nombre */}
                   <div>

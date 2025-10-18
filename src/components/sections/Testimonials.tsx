@@ -1,6 +1,7 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { motion } from "framer-motion";
 import { Star, ChevronLeft, ChevronRight } from "lucide-react";
+import { useScrollInView } from "@/hooks/useScrollInView";
 
 const cn = (...classes: (string | boolean | undefined)[]) => classes.filter(Boolean).join(' ');
 
@@ -50,6 +51,8 @@ const testimonials = [
 export function Testimonials() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+  const { isInView } = useScrollInView(sectionRef, 0.2);
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
@@ -78,7 +81,7 @@ export function Testimonials() {
   };
 
   return (
-    <section id="testimonios" className="py-24 md:py-36 bg-blanco relative overflow-hidden">
+    <section ref={sectionRef} id="testimonios" className="py-24 md:py-36 bg-blanco relative overflow-hidden">
       {/* Background Elements - Enhanced green glows */}
       <motion.div
         animate={{ scale: [1, 1.2, 1], opacity: [0.15, 0.25, 0.15] }}
@@ -102,7 +105,7 @@ export function Testimonials() {
           <motion.h2
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
+            viewport={{ once: false, amount: 0.3 }}
             transition={{ duration: 0.7, ease: "easeOut" }}
             className="text-4xl md:text-5xl font-extrabold mb-6 text-negro"
           >
@@ -121,7 +124,7 @@ export function Testimonials() {
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
+            viewport={{ once: false, amount: 0.3 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-xl text-gray-600"
           >
@@ -232,13 +235,16 @@ export function Testimonials() {
                           <motion.img
                             whileHover={{ scale: isCenter ? 1.05 : 1 }}
                             src={testimonial.image}
-                            alt={testimonial.author}
+                            alt={`${testimonial.author} - ${testimonial.role} en ${testimonial.company}, cliente de Bizellers`}
                             className={cn(
                               "w-20 h-20 rounded-full object-cover border-4 shadow-lg transition-all",
                               isCenter
                                 ? "border-verde-lima/50 ring-4 ring-verde-lima/20"
                                 : "border-gray-300 ring-2 ring-gray-200"
                             )}
+                            loading="lazy"
+                            width="80"
+                            height="80"
                           />
                         </div>
 
@@ -376,8 +382,8 @@ export function Testimonials() {
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
+          viewport={{ once: false, amount: 0.3 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
           className="text-center mt-12"
         >
           <motion.a

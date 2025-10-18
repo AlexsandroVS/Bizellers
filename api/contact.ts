@@ -7,7 +7,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(405).json({ error: 'Método no permitido' });
   }
 
-  const { name, email, phone, message } = req.body;
+  const { name, email, phone, message, cargo, empresa, service } = req.body;
 
   // Validar campos requeridos
   if (!name || !email) {
@@ -19,21 +19,28 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
-        user: process.env.VITE_EMAIL_USER,
-        pass: process.env.VITE_EMAIL_PASS,
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
       },
     });
 
+    // Determinar el asunto del email
+    const subject = service
+      ? `Nueva solicitud de servicio: ${service} - ${name}`
+      : `Nuevo contacto desde la Landing Page - ${name}`;
+
     // Configurar el email
     const mailOptions = {
-      from: process.env.VITE_EMAIL_USER,
-      to: process.env.VITE_EMAIL_TO || 'contacto@bizellers.com',
-      subject: `Nuevo contacto desde la Landing Page - ${name}`,
+      from: process.env.EMAIL_USER,
+      to: process.env.VITE_CONTACT_EMAIL || 'contacto@bizellers.com',
+      subject: subject,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <div style="background: linear-gradient(to right, #B4FC05, #9DD604); padding: 30px; text-align: center;">
             <h1 style="color: #121212; margin: 0;">BIZELLERS</h1>
-            <p style="color: #121212; margin: 10px 0 0 0;">Nuevo contacto desde la landing page</p>
+            <p style="color: #121212; margin: 10px 0 0 0; font-weight: bold;">
+              ${service ? `Solicitud de Servicio: ${service}` : 'Nuevo contacto desde la landing page'}
+            </p>
           </div>
 
           <div style="background: #f5f5f5; padding: 30px;">
@@ -42,7 +49,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             <div style="background: white; padding: 20px; border-radius: 8px; margin-bottom: 15px;">
               <p style="margin: 0 0 10px 0;"><strong>Nombre:</strong> ${name}</p>
               <p style="margin: 0 0 10px 0;"><strong>Email:</strong> ${email}</p>
+              ${cargo ? `<p style="margin: 0 0 10px 0;"><strong>Cargo:</strong> ${cargo}</p>` : ''}
+              ${empresa ? `<p style="margin: 0 0 10px 0;"><strong>Empresa:</strong> ${empresa}</p>` : ''}
               ${phone ? `<p style="margin: 0 0 10px 0;"><strong>Teléfono:</strong> ${phone}</p>` : ''}
+              ${service ? `<p style="margin: 0 0 10px 0;"><strong>Servicio solicitado:</strong> <span style="color: #B4FC05; background: #121212; padding: 4px 12px; border-radius: 4px; font-weight: bold;">${service}</span></p>` : ''}
               ${message ? `
                 <div style="margin-top: 20px;">
                   <p style="margin: 0 0 10px 0;"><strong>Mensaje:</strong></p>
@@ -52,7 +62,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             </div>
 
             <p style="color: #3A3A3A; font-size: 14px; margin-top: 20px;">
-              Este email fue generado automáticamente desde el formulario de contacto de la landing page de Bizellers.
+              Este email fue generado automáticamente desde ${service ? 'el modal de servicios' : 'el formulario de contacto'} de la landing page de Bizellers.
             </p>
           </div>
 

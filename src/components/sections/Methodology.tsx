@@ -1,6 +1,8 @@
 import { motion } from "framer-motion";
 import { Lightbulb, Target, Laptop, Sparkles, ArrowRight } from "lucide-react";
-import { fadeInUp } from "@/utils/animations";
+import { fadeInUp, slideUpScale } from "@/utils/animations";
+import { useRef } from "react";
+import { useScrollInView } from "@/hooks/useScrollInView";
 
 const pillars = [
   {
@@ -30,8 +32,11 @@ const pillars = [
 ];
 
 export function Methodology() {
+  const ref = useRef<HTMLElement>(null);
+  const { isInView } = useScrollInView(ref, 0.2);
+
   return (
-    <section id="metodologia" className="py-24 bg-negro relative overflow-hidden">
+    <section ref={ref} id="metodologia" className="py-24 bg-negro relative overflow-hidden">
       {/* Background Effect - MUY VISIBLES */}
       <motion.div
         animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
@@ -114,7 +119,8 @@ export function Methodology() {
             className="inline-flex items-center gap-2 bg-verde-lima/10 border border-verde-lima/30 rounded-full px-4 py-2 mb-6"
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
+            viewport={{ once: false, amount: 0.3 }}
+            transition={{ duration: 0.5 }}
           >
             <Sparkles className="w-4 h-4 text-verde-lima" />
             <span className="text-verde-lima font-bold text-sm">Metodología Comprobada</span>
@@ -124,27 +130,80 @@ export function Methodology() {
             className="text-4xl md:text-5xl font-bold text-blanco mb-6"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: false, amount: 0.3 }}
+            transition={{ duration: 0.6 }}
           >
             Nuestra fórmula de <span className="text-verde-lima">éxito</span>
           </motion.h2>
 
           <motion.p
-            className="text-2xl md:text-3xl font-bold text-verde-lima mb-6"
+            className="text-2xl md:text-3xl font-bold mb-6"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
+            viewport={{ once: false, amount: 0.3 }}
+            transition={{ delay: 0.2, duration: 0.6 }}
           >
-            ESTRATEGIA + ENTRENAMIENTO + TECNOLOGÍA
+            <motion.span
+              className="inline-block text-verde-lima"
+              animate={{
+                scale: [1, 1.05, 1],
+                textShadow: [
+                  "0 0 10px rgba(180, 252, 5, 0.5)",
+                  "0 0 20px rgba(180, 252, 5, 0.8)",
+                  "0 0 10px rgba(180, 252, 5, 0.5)",
+                ],
+              }}
+              transition={{
+                scale: { duration: 2, repeat: Infinity, ease: "easeInOut", repeatType: "loop" },
+                textShadow: { duration: 2, repeat: Infinity, ease: "easeInOut", repeatType: "loop" },
+              }}
+            >
+              ESTRATEGIA
+            </motion.span>
+            {" + "}
+            <motion.span
+              className="inline-block text-verde-lima"
+              animate={{
+                scale: [1, 1.05, 1],
+                textShadow: [
+                  "0 0 10px rgba(180, 252, 5, 0.5)",
+                  "0 0 20px rgba(180, 252, 5, 0.8)",
+                  "0 0 10px rgba(180, 252, 5, 0.5)",
+                ],
+              }}
+              transition={{
+                scale: { duration: 2, repeat: Infinity, ease: "easeInOut", delay: 0.3, repeatType: "loop" },
+                textShadow: { duration: 2, repeat: Infinity, ease: "easeInOut", delay: 0.3, repeatType: "loop" },
+              }}
+            >
+              ENTRENAMIENTO
+            </motion.span>
+            {" + "}
+            <motion.span
+              className="inline-block text-verde-lima"
+              animate={{
+                scale: [1, 1.05, 1],
+                textShadow: [
+                  "0 0 10px rgba(180, 252, 5, 0.5)",
+                  "0 0 20px rgba(180, 252, 5, 0.8)",
+                  "0 0 10px rgba(180, 252, 5, 0.5)",
+                ],
+              }}
+              transition={{
+                scale: { duration: 2, repeat: Infinity, ease: "easeInOut", delay: 0.6, repeatType: "loop" },
+                textShadow: { duration: 2, repeat: Infinity, ease: "easeInOut", delay: 0.6, repeatType: "loop" },
+              }}
+            >
+              TECNOLOGÍA
+            </motion.span>
           </motion.p>
 
           <motion.p
             className="text-lg text-gray-100 max-w-2xl mx-auto"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.4 }}
+            viewport={{ once: false, amount: 0.3 }}
+            transition={{ delay: 0.4, duration: 0.6 }}
           >
             No creemos en la suerte. Creemos en <span className="text-verde-lima font-bold">sistemas probados</span>.
           </motion.p>
@@ -154,27 +213,64 @@ export function Methodology() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
           {pillars.map((pillar, i) => (
             <motion.div
-              key={i}
-              className="relative bg-gray-800/50 backdrop-blur-sm p-8 rounded-2xl border-2 border-gray-700 hover:border-verde-lima transition-all duration-300 group flex flex-col"
-              variants={fadeInUp}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.2 }}
-              whileHover={{ y: -10, boxShadow: "0 25px 50px rgba(180, 252, 5, 0.15)" }}
+              key={`${i}-${isInView}`}
+              className="relative bg-gray-800/50 backdrop-blur-sm p-8 rounded-2xl border-2 group flex flex-col"
+              style={{ borderColor: "#374151" }}
+              initial={{ opacity: 0, y: 60 }}
+              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 60 }}
+              transition={{
+                delay: isInView ? i * 0.12 : 0,
+                duration: 0.8,
+                ease: [0.25, 0.46, 0.45, 0.94],
+              }}
+              whileHover={{
+                y: -12,
+                borderColor: "#b4fc05",
+                transition: { duration: 0.3, ease: "easeOut" }
+              }}
             >
               {/* Number Badge */}
-              <div className="absolute -top-4 -right-4 w-12 h-12 bg-negro text-verde-lima rounded-full flex items-center justify-center font-bold text-lg border-2 border-verde-lima shadow-lg">
+              <motion.div
+                className="absolute -top-4 -right-4 w-12 h-12 bg-negro text-verde-lima rounded-full flex items-center justify-center font-bold text-lg border-2 border-verde-lima shadow-lg"
+                whileHover={{ rotate: 360, scale: 1.2 }}
+                transition={{ duration: 0.5 }}
+              >
                 {pillar.number}
-              </div>
+              </motion.div>
 
-              <div className="w-16 h-16 bg-gradient-to-br from-verde-lima/20 to-verde-lima/5 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                <pillar.icon className="w-8 h-8 text-verde-lima" />
-              </div>
+              <motion.div
+                className="w-16 h-16 bg-gradient-to-br from-verde-lima/20 to-verde-lima/5 rounded-xl flex items-center justify-center mb-6"
+                whileHover={{
+                  scale: 1.15,
+                  rotate: [0, -10, 10, -10, 0],
+                  backgroundColor: "rgba(180, 252, 5, 0.3)",
+                }}
+                transition={{ duration: 0.5 }}
+              >
+                <motion.div
+                  animate={{
+                    scale: [1, 1.1, 1],
+                  }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    delay: i * 0.3,
+                  }}
+                >
+                  <pillar.icon className="w-8 h-8 text-verde-lima" />
+                </motion.div>
+              </motion.div>
 
-              <h3 className="text-2xl font-bold text-blanco mb-4 group-hover:text-verde-lima transition-colors">
+              <motion.h3
+                className="text-2xl font-bold text-blanco mb-4"
+                whileHover={{
+                  color: "#b4fc05",
+                  x: 5,
+                }}
+                transition={{ duration: 0.2 }}
+              >
                 {pillar.title}
-              </h3>
+              </motion.h3>
               <p className="text-gray-100 leading-relaxed mb-8">{pillar.description}</p>
               
               {/* Green glow effect on hover - MÁS VISIBLE */}
@@ -199,7 +295,8 @@ export function Methodology() {
           className="text-center"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: false, amount: 0.3 }}
+          transition={{ delay: 0.6, duration: 0.6 }}
         >
           <motion.a
             href="#contacto"

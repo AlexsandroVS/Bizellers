@@ -1,7 +1,8 @@
 import { motion } from "framer-motion";
 import { Building2, TrendingUp, Users, Wrench, ChevronDown } from "lucide-react";
-import { useState } from "react";
-import { fadeInUp } from "@/utils/animations";
+import { useState, useRef } from "react";
+import { slideUpScale } from "@/utils/animations";
+import { useScrollInView } from "@/hooks/useScrollInView";
 
 const faqs = [
   {
@@ -28,9 +29,11 @@ const faqs = [
 
 export function FAQs() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const ref = useRef<HTMLElement>(null);
+  const { isInView } = useScrollInView(ref, 0.2);
 
   return (
-    <section id="faqs" className="py-24 bg-blanco relative overflow-hidden">
+    <section ref={ref} id="faqs" className="py-24 bg-blanco relative overflow-hidden">
       {/* Green glow effects */}
       <motion.div
         animate={{ scale: [1, 1.2, 1], opacity: [0.12, 0.22, 0.12] }}
@@ -49,7 +52,8 @@ export function FAQs() {
             className="inline-block bg-verde-lima-muted border border-verde-lima/30 rounded-full px-4 py-2 mb-6"
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
+            viewport={{ once: false, amount: 0.3 }}
+            transition={{ duration: 0.5 }}
           >
             <span className="text-verde-lima font-bold text-sm">Preguntas Frecuentes</span>
           </motion.div>
@@ -58,7 +62,8 @@ export function FAQs() {
             className="text-4xl md:text-5xl font-bold text-negro mb-4"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: false, amount: 0.3 }}
+            transition={{ duration: 0.6 }}
           >
             Resolvemos tus <span className="text-verde-lima">dudas</span>
           </motion.h2>
@@ -66,8 +71,8 @@ export function FAQs() {
             className="text-xl text-gray-700 max-w-3xl mx-auto"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
+            viewport={{ once: false, amount: 0.3 }}
+            transition={{ delay: 0.2, duration: 0.6 }}
           >
             Encuentra respuestas claras a las consultas más comunes sobre nuestros servicios
           </motion.p>
@@ -77,11 +82,12 @@ export function FAQs() {
         <div className="max-w-4xl mx-auto space-y-4 mb-12">
           {faqs.map((faq, i) => (
             <FAQ
-              key={i}
+              key={`${i}-${isInView}`}
               faq={faq}
               index={i}
               isOpen={openIndex === i}
               onClick={() => setOpenIndex(openIndex === i ? null : i)}
+              isInView={isInView}
             />
           ))}
         </div>
@@ -91,7 +97,8 @@ export function FAQs() {
           className="text-center"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: false, amount: 0.3 }}
+          transition={{ delay: 0.4, duration: 0.6 }}
         >
           <motion.a
             href="#contacto"
@@ -112,38 +119,75 @@ interface FAQProps {
   index: number;
   isOpen: boolean;
   onClick: () => void;
+  isInView: boolean;
 }
 
-function FAQ({ faq, index, isOpen, onClick }: FAQProps) {
+function FAQ({ faq, index, isOpen, onClick, isInView }: FAQProps) {
   const Icon = faq.icon;
 
   return (
     <motion.div
-      key={index}
-      className="bg-white border-2 border-gray-200 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl hover:border-verde-lima/30 transition-all duration-300 group"
-      variants={fadeInUp}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true }}
-      transition={{ delay: index * 0.1 }}
-      whileHover={{ y: -4 }}
+      className="bg-white border-2 rounded-2xl overflow-hidden group"
+      style={{
+        borderColor: "#e5e7eb",
+        boxShadow: "0 10px 30px -10px rgba(0,0,0,0.1)"
+      }}
+      initial={{ opacity: 0, y: 60 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 60 }}
+      transition={{
+        delay: isInView ? index * 0.08 : 0,
+        duration: 0.8,
+        ease: [0.25, 0.46, 0.45, 0.94],
+      }}
+      whileHover={{
+        y: -6,
+        borderColor: "rgba(180, 252, 5, 0.3)",
+        boxShadow: "0 20px 50px -12px rgba(180, 252, 5, 0.15)",
+        transition: { duration: 0.3, ease: "easeOut" }
+      }}
     >
       <button
-        className={`w-full px-6 py-6 flex items-center justify-between cursor-pointer hover:bg-verde-lima/5 transition-colors group ${
+        className={`w-full px-6 py-6 flex items-center justify-between cursor-pointer group ${
           isOpen ? "bg-verde-lima/5" : ""
         }`}
+        style={{
+          backgroundColor: isOpen ? "rgba(180, 252, 5, 0.05)" : "transparent"
+        }}
         onClick={onClick}
       >
         <div className="flex items-start gap-4 flex-1">
-          <div className="w-12 h-12 rounded-xl bg-verde-lima/10 flex items-center justify-center flex-shrink-0 group-hover:bg-verde-lima/20 transition-colors">
-            <Icon className="w-6 h-6 text-verde-lima group-hover:scale-110 transition-transform" />
-          </div>
-          <h3 className="text-lg font-bold text-negro flex-1 text-left group-hover:text-verde-lima transition-colors">{faq.question}</h3>
+          <motion.div
+            className="w-12 h-12 rounded-xl bg-verde-lima/10 flex items-center justify-center flex-shrink-0"
+            whileHover={{
+              scale: 1.1,
+              backgroundColor: "rgba(180, 252, 5, 0.2)",
+              rotate: [0, -5, 5, -5, 0],
+            }}
+            transition={{ duration: 0.3 }}
+          >
+            <motion.div
+              animate={isOpen ? { scale: 1.1, rotate: 15 } : { scale: 1, rotate: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <Icon className="w-6 h-6 text-verde-lima" />
+            </motion.div>
+          </motion.div>
+          <motion.h3
+            className="text-lg font-bold text-negro flex-1 text-left"
+            whileHover={{
+              color: "#b4fc05",
+              x: 3,
+            }}
+            transition={{ duration: 0.2 }}
+          >
+            {faq.question}
+          </motion.h3>
         </div>
         <motion.div
           animate={{ rotate: isOpen ? 180 : 0 }}
           transition={{ duration: 0.3 }}
           className="flex-shrink-0"
+          whileHover={{ scale: 1.2 }}
         >
           <ChevronDown className="w-6 h-6 text-verde-lima" />
         </motion.div>
