@@ -26,8 +26,8 @@ app.post('/api/contact', async (req: Request, res: Response) => {
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
-        user: process.env.VITE_EMAIL_USER,
-        pass: process.env.VITE_EMAIL_PASS,
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
       },
     });
 
@@ -38,47 +38,145 @@ app.post('/api/contact', async (req: Request, res: Response) => {
 
     // Configurar el email
     const mailOptions = {
-      from: process.env.VITE_EMAIL_USER,
-      to: process.env.VITE_EMAIL_TO || 'contacto@bizellers.com',
+      from: process.env.EMAIL_USER,
+      to: process.env.VITE_CONTACT_EMAIL || 'contacto@bizellers.com',
       subject: subject,
       html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <div style="background: linear-gradient(to right, #B4FC05, #9DD604); padding: 30px; text-center;">
-            <h1 style="color: #121212; margin: 0;">BIZELLERS</h1>
-            <p style="color: #121212; margin: 10px 0 0 0; font-weight: bold;">
-              ${service ? `Solicitud de Servicio: ${service}` : 'Nuevo contacto desde la landing page'}
-            </p>
-          </div>
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        </head>
+        <body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #f4f4f4;">
+          <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f4f4f4; padding: 40px 20px;">
+            <tr>
+              <td align="center">
+                <table width="600" cellpadding="0" cellspacing="0" style="max-width: 600px; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                  
+                  <!-- Header -->
+                  <tr>
+                    <td style="background: linear-gradient(135deg, #B4FC05 0%, #9DD604 100%); padding: 40px 30px; text-align: center;">
+                      <h1 style="margin: 0; color: #121212; font-size: 32px; font-weight: 800; letter-spacing: 1px;">BIZELLERS</h1>
+                      <p style="margin: 12px 0 0 0; color: #121212; font-size: 16px; font-weight: 600;">
+                        ${service ? '🎯 Nueva Solicitud de Servicio' : '📧 Nuevo Contacto'}
+                      </p>
+                    </td>
+                  </tr>
 
-          <div style="background: #f5f5f5; padding: 30px;">
-            <h2 style="color: #121212; margin-top: 0;">Información del contacto</h2>
+                  <!-- Service Badge (if applicable) -->
+                  ${service ? `
+                  <tr>
+                    <td style="padding: 20px 30px; background-color: #121212; text-align: center;">
+                      <div style="display: inline-block; background-color: #B4FC05; color: #121212; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 15px;">
+                        ${service}
+                      </div>
+                    </td>
+                  </tr>
+                  ` : ''}
 
-            <div style="background: white; padding: 20px; border-radius: 8px; margin-bottom: 15px;">
-              <p style="margin: 0 0 10px 0;"><strong>Nombre:</strong> ${name}</p>
-              <p style="margin: 0 0 10px 0;"><strong>Email:</strong> ${email}</p>
-              ${cargo ? `<p style="margin: 0 0 10px 0;"><strong>Cargo:</strong> ${cargo}</p>` : ''}
-              ${empresa ? `<p style="margin: 0 0 10px 0;"><strong>Empresa:</strong> ${empresa}</p>` : ''}
-              ${phone ? `<p style="margin: 0 0 10px 0;"><strong>Teléfono:</strong> ${phone}</p>` : ''}
-              ${service ? `<p style="margin: 0 0 10px 0;"><strong>Servicio solicitado:</strong> <span style="color: #B4FC05; background: #121212; padding: 4px 12px; border-radius: 4px; font-weight: bold;">${service}</span></p>` : ''}
-              ${message ? `
-                <div style="margin-top: 20px;">
-                  <p style="margin: 0 0 10px 0;"><strong>Mensaje:</strong></p>
-                  <p style="margin: 0; color: #3A3A3A; line-height: 1.6;">${message}</p>
-                </div>
-              ` : ''}
-            </div>
+                  <!-- Content -->
+                  <tr>
+                    <td style="padding: 40px 30px;">
+                      <h2 style="margin: 0 0 24px 0; color: #121212; font-size: 20px; font-weight: 700;">Información del Contacto</h2>
+                      
+                      <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f9f9f9; border-radius: 8px; padding: 20px;">
+                        <tr>
+                          <td style="padding: 8px 0;">
+                            <strong style="color: #666; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;">Nombre</strong>
+                            <p style="margin: 4px 0 0 0; color: #121212; font-size: 16px; font-weight: 600;">${name}</p>
+                          </td>
+                        </tr>
+                        
+                        <tr>
+                          <td style="padding: 16px 0 8px 0; border-top: 1px solid #e0e0e0;">
+                            <strong style="color: #666; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;">Email</strong>
+                            <p style="margin: 4px 0 0 0;">
+                              <a href="mailto:${email}" style="color: #B4FC05; background-color: #121212; text-decoration: none; font-size: 16px; font-weight: 600; padding: 6px 12px; border-radius: 4px; display: inline-block;">${email}</a>
+                            </p>
+                          </td>
+                        </tr>
+                        
+                        ${cargo ? `
+                        <tr>
+                          <td style="padding: 16px 0 8px 0; border-top: 1px solid #e0e0e0;">
+                            <strong style="color: #666; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;">Cargo</strong>
+                            <p style="margin: 4px 0 0 0; color: #121212; font-size: 16px;">${cargo}</p>
+                          </td>
+                        </tr>
+                        ` : ''}
+                        
+                        ${empresa ? `
+                        <tr>
+                          <td style="padding: 16px 0 8px 0; border-top: 1px solid #e0e0e0;">
+                            <strong style="color: #666; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;">Empresa</strong>
+                            <p style="margin: 4px 0 0 0; color: #121212; font-size: 16px; font-weight: 600;">🏢 ${empresa}</p>
+                          </td>
+                        </tr>
+                        ` : ''}
+                        
+                        ${phone ? `
+                        <tr>
+                          <td style="padding: 16px 0 8px 0; border-top: 1px solid #e0e0e0;">
+                            <strong style="color: #666; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;">Teléfono</strong>
+                            <p style="margin: 4px 0 0 0;">
+                              <a href="tel:${phone}" style="color: #121212; text-decoration: none; font-size: 16px; font-weight: 600;">📞 ${phone}</a>
+                            </p>
+                          </td>
+                        </tr>
+                        ` : ''}
+                        
+                        ${message ? `
+                        <tr>
+                          <td style="padding: 16px 0 8px 0; border-top: 1px solid #e0e0e0;">
+                            <strong style="color: #666; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;">Mensaje</strong>
+                            <div style="margin: 12px 0 0 0; background-color: #ffffff; padding: 16px; border-left: 4px solid #B4FC05; border-radius: 4px;">
+                              <p style="margin: 0; color: #3A3A3A; font-size: 15px; line-height: 1.6;">${message.replace(/\n/g, '<br>')}</p>
+                            </div>
+                          </td>
+                        </tr>
+                        ` : ''}
+                      </table>
+                      
+                      <!-- CTA Button -->
+                      <table width="100%" cellpadding="0" cellspacing="0" style="margin-top: 30px;">
+                        <tr>
+                          <td align="center">
+                            <a href="mailto:${email}" style="display: inline-block; background: linear-gradient(135deg, #B4FC05 0%, #9DD604 100%); color: #121212; text-decoration: none; padding: 14px 32px; border-radius: 8px; font-weight: 700; font-size: 15px; box-shadow: 0 2px 4px rgba(180, 252, 5, 0.3);">
+                              ✉️ Responder ahora
+                            </a>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
 
-            <p style="color: #3A3A3A; font-size: 14px; margin-top: 20px;">
-              Este email fue generado automáticamente desde ${service ? 'el modal de servicios' : 'el formulario de contacto'} de la landing page de Bizellers.
-            </p>
-          </div>
+                  <!-- Footer Info -->
+                  <tr>
+                    <td style="padding: 24px 30px; background-color: #f9f9f9; border-top: 1px solid #e0e0e0;">
+                      <p style="margin: 0; color: #666; font-size: 13px; text-align: center; line-height: 1.6;">
+                        📅 ${new Date().toLocaleDateString('es-MX', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' })}<br>
+                        ${service ? '📋 Enviado desde el modal de servicios' : '📋 Enviado desde el formulario de contacto'}
+                      </p>
+                    </td>
+                  </tr>
 
-          <div style="background: #121212; padding: 20px; text-center;">
-            <p style="color: #B4FC05; margin: 0; font-size: 14px;">
-              © ${new Date().getFullYear()} Bizellers. Todos los derechos reservados.
-            </p>
-          </div>
-        </div>
+                  <!-- Footer -->
+                  <tr>
+                    <td style="background-color: #121212; padding: 30px; text-align: center;">
+                      <p style="margin: 0 0 8px 0; color: #B4FC05; font-size: 18px; font-weight: 700;">BIZELLERS</p>
+                      <p style="margin: 0; color: #999; font-size: 12px;">
+                        © ${new Date().getFullYear()} Bizellers. Todos los derechos reservados.
+                      </p>
+                    </td>
+                  </tr>
+                  
+                </table>
+              </td>
+            </tr>
+          </table>
+        </body>
+        </html>
       `,
     };
 
