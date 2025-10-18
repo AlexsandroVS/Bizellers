@@ -86,15 +86,28 @@ export function Hero() {
     <section id="inicio" className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Video Background */}
       <div className="absolute inset-0">
+        {/* Video para Desktop */}
         <video
           autoPlay
           loop
           muted
           playsInline
-          className="w-full h-full object-cover brightness-[0.3]"
+          className="hidden md:block w-full h-full object-cover brightness-[0.3]"
           poster="/herovid.gif"
         >
           <source src="/herovid2.mp4" type="video/mp4" />
+        </video>
+
+        {/* Video para Responsive/Mobile */}
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="md:hidden w-full h-full object-cover brightness-[0.3]"
+          poster="/herovid.gif"
+        >
+          <source src="/heroresponsive.mp4" type="video/mp4" />
           {/* Fallback to GIF if video doesn't load */}
           <img
             src="/herovid.gif"
@@ -102,6 +115,7 @@ export function Hero() {
             className="w-full h-full object-cover brightness-[0.3]"
           />
         </video>
+
         {/* Overlay oscuro para contraste */}
         <div className="absolute inset-0 bg-negro/50" />
 
