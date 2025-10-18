@@ -143,7 +143,7 @@ export function Contact() {
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     placeholder="Juan Pérez"
-                    className="w-full px-4 py-3 border border-verde-lima rounded-lg focus:border-verde-lima focus:outline-none focus:ring-2 focus:ring-verde-lima/20 transition-all bg-gray-800/50 text-blanco placeholder:text-gray-400"
+                    className="w-full px-4 py-3 border border-verde-lima rounded-lg focus:border-verde-lima focus:outline-none focus:ring-2 focus:ring-verde-lima/20 transition-all bg-gray-800/50 text-black placeholder:text-gray-400"
                   />
                 </div>
 
@@ -158,7 +158,7 @@ export function Contact() {
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     placeholder="tu@empresa.com"
-                    className="w-full px-4 py-3 border border-verde-lima rounded-lg focus:border-verde-lima focus:outline-none focus:ring-2 focus:ring-verde-lima/20 transition-all bg-gray-800/50 text-blanco placeholder:text-gray-400"
+                    className="w-full px-4 py-3 border border-verde-lima rounded-lg focus:border-verde-lima focus:outline-none focus:ring-2 focus:ring-verde-lima/20 transition-all bg-gray-800/50 text-black placeholder:text-gray-400"
                   />
                 </div>
 
@@ -172,7 +172,7 @@ export function Contact() {
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                     placeholder="+52 123 456 7890"
-                    className="w-full px-4 py-3 border border-verde-lima rounded-lg focus:border-verde-lima focus:outline-none focus:ring-2 focus:ring-verde-lima/20 transition-all bg-gray-800/50 text-blanco placeholder:text-gray-400"
+                    className="w-full px-4 py-3 border border-verde-lima rounded-lg focus:border-verde-lima focus:outline-none focus:ring-2 focus:ring-verde-lima/20 transition-all bg-gray-800/50 text-black placeholder:text-gray-400"
                   />
                 </div>
 
@@ -186,7 +186,7 @@ export function Contact() {
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     placeholder="Cuéntanos más sobre tu situación..."
                     rows={3}
-                    className="w-full px-4 py-3 border border-verde-lima rounded-lg focus:border-verde-lima focus:outline-none focus:ring-2 focus:ring-verde-lima/20 transition-all resize-none bg-gray-800/50 text-blanco placeholder:text-gray-400"
+                    className="w-full px-4 py-3 border border-verde-lima rounded-lg focus:border-verde-lima focus:outline-none focus:ring-2 focus:ring-verde-lima/20 transition-all resize-none bg-gray-800/50 text-black placeholder:text-gray-400"
                   />
                 </div>
 
