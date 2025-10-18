@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Send, User, Building, Mail, Phone, MessageSquare, Sparkles, CheckCircle } from "lucide-react";
-import { useState, type FormEvent } from "react";
+import { useState, useEffect, type FormEvent } from "react";
 
 interface ServiceModalProps {
   isOpen: boolean;
@@ -20,6 +20,11 @@ export function ServiceModal({ isOpen, onClose, serviceName }: ServiceModalProps
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
+
+  // Actualizar el servicio cuando cambie el prop serviceName
+  useEffect(() => {
+    setFormData((prev) => ({ ...prev, service: serviceName }));
+  }, [serviceName]);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
