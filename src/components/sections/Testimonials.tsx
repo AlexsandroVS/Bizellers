@@ -217,7 +217,7 @@ export function Testimonials() {
                       "bg-white/95 rounded-3xl",
                       isMobile ? "w-[85vw] max-w-[500px]" : "w-[520px]",
                       isCenter
-                        ? "border-2 !border-verde-lima/50 shadow-[0_25px_80px_-15px_rgba(180,252,5,0.35),0_10px_30px_-10px_rgba(0,0,0,0.15)] ring-2 ring-verde-lima/10"
+                        ? "border-2 !border-verde-lima/50 shadow-[0_25px_80px_-15px_rgba(180,252,5,0.35),0_10px_30px_-10px_rgba(0,0,0,0.15)] ring-2 ring-verde-lima"
                         : "border-2 !border-gray-200 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)]"
                     )}
                     style={{
@@ -239,7 +239,7 @@ export function Testimonials() {
                             className={cn(
                               "w-20 h-20 rounded-full object-cover border-4 shadow-lg transition-all",
                               isCenter
-                                ? "border-verde-lima/50 ring-4 ring-verde-lima/20"
+                                ? "border-verde-lima ring-4 ring-verde-lima"
                                 : "border-gray-300 ring-2 ring-gray-200"
                             )}
                             loading="lazy"
