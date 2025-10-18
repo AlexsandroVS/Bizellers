@@ -66,7 +66,7 @@ export function ServiceModal({ isOpen, onClose, serviceName }: ServiceModalProps
         <>
           {/* Backdrop con blur oscuro MÁS INTENSO */}
           <motion.div
-            className="fixed inset-0 bg-negro/95 backdrop-blur-xl z-50"
+            className="fixed inset-0 bg-negro/97 backdrop-blur-xl z-50"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}

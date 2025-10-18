@@ -33,32 +33,49 @@ export function AboutRuben() {
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-verde-lima/40 rounded-full blur-3xl"
       />
       
-      {/* Partículas flotantes estilo neón - MUY VISIBLES */}
-      {[...Array(14)].map((_, i) => (
-        <motion.div
-          key={i}
-          animate={{
-            y: [0, -28, 0],
-            x: [0, Math.cos(i) * 12, 0],
-            opacity: [0.7, 1, 0.7],
-            scale: [1, 1.25, 1],
-          }}
-          transition={{
-            duration: 2.8 + i * 0.35,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: i * 0.25,
-          }}
-          className="absolute rounded-full bg-verde-lima blur-lg pointer-events-none z-[1]"
-          style={{
-            width: `${42 + i * 9}px`,
-            height: `${42 + i * 9}px`,
-            left: `${6 + i * 7}%`,
-            top: `${15 + (i % 4) * 23}%`,
-            filter: 'blur(7px)',
-          }}
-        />
-      ))}
+      {/* Pocos brillos sutiles en posiciones aleatorias */}
+      <motion.div
+        animate={{ opacity: [0.2, 0.5, 0.2], scale: [1, 1.14, 1], y: [0, -15, 0] }}
+        transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute rounded-full pointer-events-none"
+        style={{
+          width: '100px',
+          height: '100px',
+          left: '10%',
+          top: '30%',
+          background: 'rgba(180, 252, 5, 0.4)',
+          filter: 'blur(31px)',
+          zIndex: 1,
+        }}
+      />
+      <motion.div
+        animate={{ opacity: [0.24, 0.54, 0.24], scale: [1, 1.11, 1], x: [0, 12, 0] }}
+        transition={{ duration: 6.5, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+        className="absolute rounded-full pointer-events-none"
+        style={{
+          width: '115px',
+          height: '115px',
+          right: '15%',
+          top: '65%',
+          background: 'rgba(180, 252, 5, 0.43)',
+          filter: 'blur(33px)',
+          zIndex: 1,
+        }}
+      />
+      <motion.div
+        animate={{ opacity: [0.18, 0.48, 0.18], scale: [1, 1.13, 1] }}
+        transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 4 }}
+        className="absolute rounded-full pointer-events-none"
+        style={{
+          width: '92px',
+          height: '92px',
+          left: '75%',
+          bottom: '25%',
+          background: 'rgba(180, 252, 5, 0.37)',
+          filter: 'blur(29px)',
+          zIndex: 1,
+        }}
+      />
       <div className="container mx-auto px-6 relative z-[5]">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* Left: Image */}

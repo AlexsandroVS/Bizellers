@@ -63,7 +63,7 @@ export function Contact() {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <div className="inline-flex items-center gap-2 bg-verde-lima/10 border border-verde-lima/30 rounded-full px-4 py-2 mb-6">
+              <div className="inline-flex items-center gap-2 bg-verde-lima/10 border border-verde-lima rounded-full px-4 py-2 mb-6">
                 <Sparkles className="w-4 h-4 text-verde-lima" />
                 <span className="text-verde-lima font-bold text-sm">Sesión Gratuita de Descubrimiento</span>
               </div>
@@ -108,7 +108,7 @@ export function Contact() {
 
             {/* Right Side - Form */}
             <motion.div
-              className="bg-gray-900/50 backdrop-blur-sm border-2 border-verde-lima/40 rounded-2xl p-8 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3),0_0_40px_rgba(180,252,5,0.15)]"
+              className="bg-gray-900/50 backdrop-blur-sm border-2 border-verde-lima rounded-2xl p-8 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3),0_0_40px_rgba(180,252,5,0.15)]"
               initial={{ opacity: 0, x: 50 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
@@ -130,7 +130,7 @@ export function Contact() {
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     placeholder="Juan Pérez"
-                    className="w-full px-4 py-3 border border-verde-lima/30 rounded-lg focus:border-verde-lima focus:outline-none focus:ring-2 focus:ring-verde-lima/20 transition-all bg-gray-800/50 text-blanco placeholder:text-gray-400"
+                    className="w-full px-4 py-3 border border-verde-lima rounded-lg focus:border-verde-lima focus:outline-none focus:ring-2 focus:ring-verde-lima/20 transition-all bg-gray-800/50 text-blanco placeholder:text-gray-400"
                   />
                 </div>
 
@@ -145,7 +145,7 @@ export function Contact() {
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     placeholder="tu@empresa.com"
-                    className="w-full px-4 py-3 border border-verde-lima/30 rounded-lg focus:border-verde-lima focus:outline-none focus:ring-2 focus:ring-verde-lima/20 transition-all bg-gray-800/50 text-blanco placeholder:text-gray-400"
+                    className="w-full px-4 py-3 border border-verde-lima rounded-lg focus:border-verde-lima focus:outline-none focus:ring-2 focus:ring-verde-lima/20 transition-all bg-gray-800/50 text-blanco placeholder:text-gray-400"
                   />
                 </div>
 
@@ -159,7 +159,7 @@ export function Contact() {
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                     placeholder="+52 123 456 7890"
-                    className="w-full px-4 py-3 border border-verde-lima/30 rounded-lg focus:border-verde-lima focus:outline-none focus:ring-2 focus:ring-verde-lima/20 transition-all bg-gray-800/50 text-blanco placeholder:text-gray-400"
+                    className="w-full px-4 py-3 border border-verde-lima rounded-lg focus:border-verde-lima focus:outline-none focus:ring-2 focus:ring-verde-lima/20 transition-all bg-gray-800/50 text-blanco placeholder:text-gray-400"
                   />
                 </div>
 
@@ -173,7 +173,7 @@ export function Contact() {
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     placeholder="Cuéntanos más sobre tu situación..."
                     rows={3}
-                    className="w-full px-4 py-3 border border-verde-lima/30 rounded-lg focus:border-verde-lima focus:outline-none focus:ring-2 focus:ring-verde-lima/20 transition-all resize-none bg-gray-800/50 text-blanco placeholder:text-gray-400"
+                    className="w-full px-4 py-3 border border-verde-lima rounded-lg focus:border-verde-lima focus:outline-none focus:ring-2 focus:ring-verde-lima/20 transition-all resize-none bg-gray-800/50 text-blanco placeholder:text-gray-400"
                   />
                 </div>
 
