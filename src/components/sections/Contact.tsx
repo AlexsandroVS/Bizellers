@@ -1,6 +1,8 @@
 import { motion } from "framer-motion";
 import { Calendar, User as UserIcon, MessageSquare, Mail, Phone, Send, Sparkles, CheckCircle } from "lucide-react";
-import { useState, type FormEvent } from "react";
+import { useState, useRef, type FormEvent } from "react";
+import { useScrollInView } from "@/hooks/useScrollInView";
+import { GreenParticles } from "@/components/common/GreenParticles";
 
 export function Contact() {
   const [formData, setFormData] = useState({
@@ -11,6 +13,8 @@ export function Contact() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
+  const sectionRef = useRef<HTMLElement>(null);
+  const { isInView } = useScrollInView(sectionRef, 0.2);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -41,17 +45,25 @@ export function Contact() {
   };
 
   return (
-    <section id="contacto" className="py-24 bg-negro relative overflow-hidden">
-      {/* Green glow effects for dark background */}
+    <section ref={sectionRef} id="contacto" className="py-24 bg-negro relative overflow-hidden">
+      {/* Partículas verdes */}
+      <GreenParticles count={35} minSize={2} maxSize={6} />
+
+      {/* Green glow effects for dark background - MÁS INTENSOS */}
       <motion.div
-        animate={{ scale: [1, 1.2, 1], opacity: [0.15, 0.25, 0.15] }}
+        animate={{ scale: [1, 1.2, 1], opacity: [0.25, 0.4, 0.25] }}
         transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-20 left-20 w-96 h-96 bg-verde-lima/20 rounded-full blur-3xl"
+        className="absolute top-20 left-20 w-96 h-96 bg-verde-lima/30 rounded-full blur-3xl"
       />
       <motion.div
-        animate={{ scale: [1, 1.3, 1], opacity: [0.12, 0.2, 0.12] }}
+        animate={{ scale: [1, 1.3, 1], opacity: [0.2, 0.35, 0.2] }}
         transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 3 }}
-        className="absolute bottom-20 right-20 w-80 h-80 bg-verde-lima/15 rounded-full blur-3xl"
+        className="absolute bottom-20 right-20 w-80 h-80 bg-verde-lima/25 rounded-full blur-3xl"
+      />
+      <motion.div
+        animate={{ scale: [1, 1.15, 1], opacity: [0.15, 0.3, 0.15] }}
+        transition={{ duration: 9, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-verde-lima/20 rounded-full blur-3xl"
       />
       <div className="container mx-auto px-6 relative z-10">
         <div className="max-w-6xl mx-auto">
@@ -60,7 +72,7 @@ export function Contact() {
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: false, amount: 0.3 }}
               transition={{ duration: 0.6 }}
             >
               <div className="inline-flex items-center gap-2 bg-verde-lima/10 border border-verde-lima rounded-full px-4 py-2 mb-6">
@@ -91,8 +103,8 @@ export function Contact() {
                     className="flex items-start gap-4"
                     initial={{ opacity: 0, x: -20 }}
                     whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: i * 0.1 }}
+                    viewport={{ once: false, amount: 0.3 }}
+                    transition={{ delay: 0.2 + i * 0.1, duration: 0.5 }}
                   >
                     <div className="w-12 h-12 bg-verde-lima/10 rounded-lg flex items-center justify-center flex-shrink-0">
                       <benefit.icon className="w-6 h-6 text-verde-lima" />
@@ -108,11 +120,12 @@ export function Contact() {
 
             {/* Right Side - Form */}
             <motion.div
-              className="bg-gray-900/50 backdrop-blur-sm border-2 border-verde-lima rounded-2xl p-8 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3),0_0_40px_rgba(180,252,5,0.15)]"
+              className="bg-gray-900/50 backdrop-blur-sm border-2 border-verde-lima rounded-2xl p-8 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3),0_0_40px_rgba(180,252,5,0.2)]"
               initial={{ opacity: 0, x: 50 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
+              viewport={{ once: false, amount: 0.3 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              whileHover={{ boxShadow: "0 25px 70px -15px rgba(0,0,0,0.4), 0 0 50px rgba(180,252,5,0.25)" }}
             >
               <h3 className="text-2xl font-bold text-blanco mb-6">
                 Agenda tu sesión ahora

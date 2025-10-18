@@ -1,8 +1,9 @@
 import { motion } from "framer-motion";
 import { Zap, Compass, Brain, Microscope, Check, Sparkles } from "lucide-react";
-import { fadeInUp } from "@/utils/animations";
+import { slideUpScale } from "@/utils/animations";
 import { ServiceModal } from "../common/ServiceModal";
-import { useState } from "react";
+import { useState, useRef } from "react";
+import { useScrollInView } from "@/hooks/useScrollInView";
 
 const services = [
   {
@@ -59,6 +60,8 @@ const services = [
 export function Services() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedService, setSelectedService] = useState("");
+  const ref = useRef<HTMLElement>(null);
+  const { isInView } = useScrollInView(ref, 0.2);
 
   const handleServiceClick = (serviceName: string) => {
     setSelectedService(serviceName);
@@ -67,7 +70,7 @@ export function Services() {
 
   return (
     <>
-      <section id="servicios" className="py-24 bg-gray-100 relative overflow-hidden">
+      <section ref={ref} id="servicios" className="py-24 bg-gray-100 relative overflow-hidden">
         {/* Green glow effects */}
         <motion.div
           animate={{ scale: [1, 1.2, 1], opacity: [0.15, 0.25, 0.15] }}
@@ -85,7 +88,8 @@ export function Services() {
             className="text-center mb-16"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: false, amount: 0.3 }}
+            transition={{ duration: 0.6 }}
           >
             <div className="inline-flex items-center gap-2 bg-verde-lima/10 border border-verde-lima/30 rounded-full px-4 py-2 mb-6">
               <Sparkles className="w-4 h-4 text-verde-lima" />
@@ -104,16 +108,27 @@ export function Services() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {services.map((service, i) => (
               <motion.div
-                key={i}
-                className={`relative bg-white border border-gray-200 p-8 rounded-2xl hover:border-verde-lima/50 transition-all duration-300 group overflow-hidden hover:shadow-[0_20px_60px_-15px_rgba(180,252,5,0.25)] shadow-[0_4px_20px_-2px_rgba(0,0,0,0.08)] flex flex-col h-full ${
+                key={`${i}-${isInView}`}
+                className={`relative bg-white border-2 p-8 rounded-2xl group overflow-hidden flex flex-col h-full ${
                   i === 3 ? 'md:col-span-2 lg:col-span-1 lg:col-start-2 md:max-w-md md:mx-auto lg:max-w-none' : ''
                 }`}
-                variants={fadeInUp}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                whileHover={{ y: -8 }}
+                style={{
+                  borderColor: "#e5e7eb",
+                  boxShadow: "0 4px 20px -2px rgba(0,0,0,0.08)"
+                }}
+                initial={{ opacity: 0, y: 60 }}
+                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 60 }}
+                transition={{
+                  delay: isInView ? i * 0.08 : 0,
+                  duration: 0.8,
+                  ease: [0.25, 0.46, 0.45, 0.94],
+                }}
+                whileHover={{
+                  y: -10,
+                  borderColor: "rgba(180, 252, 5, 0.5)",
+                  boxShadow: "0 20px 60px -15px rgba(180, 252, 5, 0.25)",
+                  transition: { duration: 0.3, ease: "easeOut" }
+                }}
               >
                 {/* Gradient overlay effect */}
                 <div className="absolute inset-0 bg-gradient-to-br from-verde-lima/0 via-verde-lima/0 to-verde-lima/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -125,33 +140,87 @@ export function Services() {
                   </div>
                 )}
 
-                <div className="relative w-16 h-16 bg-gradient-to-br from-verde-lima/20 to-verde-lima/5 rounded-xl flex items-center justify-center mb-6 group-hover:scale-105 transition-all duration-300">
-                  <service.icon className="w-8 h-8 text-verde-lima" />
-                </div>
+                <motion.div
+                  className="relative w-16 h-16 bg-gradient-to-br from-verde-lima/20 to-verde-lima/5 rounded-xl flex items-center justify-center mb-6"
+                  whileHover={{
+                    scale: 1.15,
+                    rotate: [0, -5, 5, -5, 0],
+                    backgroundColor: "rgba(180, 252, 5, 0.25)",
+                  }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <motion.div
+                    animate={{
+                      y: [0, -3, 0],
+                    }}
+                    transition={{
+                      duration: 2,
+                      repeat: Infinity,
+                      delay: i * 0.2,
+                    }}
+                  >
+                    <service.icon className="w-8 h-8 text-verde-lima" />
+                  </motion.div>
+                </motion.div>
 
-                <h3 className="relative text-2xl font-bold text-negro mb-3 group-hover:text-verde-lima transition-colors duration-300 min-h-[3.5rem] flex items-center">
+                <motion.h3
+                  className="relative text-2xl font-bold text-negro mb-3 min-h-[3.5rem] flex items-center"
+                  whileHover={{
+                    color: "#b4fc05",
+                    x: 3,
+                  }}
+                  transition={{ duration: 0.2 }}
+                >
                   {service.title}
-                </h3>
+                </motion.h3>
                 <p className="relative text-gray-600 leading-relaxed mb-6 text-sm flex-grow">
                   {service.description}
                 </p>
 
                 <div className="relative space-y-2.5 mb-6 flex-grow">
                   {service.features.map((feature, j) => (
-                    <div key={j} className="flex items-start gap-2.5">
-                      <div className="w-5 h-5 rounded-full bg-verde-lima/15 flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <motion.div
+                      key={j}
+                      className="flex items-start gap-2.5"
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -10 }}
+                      transition={{
+                        delay: isInView ? i * 0.08 + j * 0.05 : 0,
+                        duration: 0.5,
+                      }}
+                      whileHover={{ x: 3 }}
+                    >
+                      <motion.div
+                        className="w-5 h-5 rounded-full bg-verde-lima/15 flex items-center justify-center flex-shrink-0 mt-0.5"
+                        whileHover={{
+                          scale: 1.2,
+                          backgroundColor: "rgba(180, 252, 5, 0.25)",
+                          rotate: 360,
+                        }}
+                        transition={{ duration: 0.3 }}
+                      >
                         <Check className="w-3.5 h-3.5 text-verde-lima" strokeWidth={2.5} />
-                      </div>
+                      </motion.div>
                       <span className="text-gray-700 text-sm">{feature}</span>
-                    </div>
+                    </motion.div>
                   ))}
                 </div>
 
                 <motion.button
                   onClick={() => handleServiceClick(service.title)}
-                  className="relative block w-full bg-negro text-verde-lima text-center px-6 py-3.5 rounded-xl font-semibold group-hover:bg-verde-lima group-hover:text-negro transition-all duration-300 text-sm"
-                  whileHover={{ scale: 1.02 }}
+                  className="relative block w-full bg-negro text-verde-lima text-center px-6 py-3.5 rounded-xl font-semibold text-sm"
+                  style={{
+                    backgroundColor: "#1a1a1a",
+                    color: "#b4fc05",
+                  }}
+                  whileHover={{
+                    scale: 1.02,
+                    backgroundColor: "#b4fc05",
+                    color: "#1a1a1a",
+                    boxShadow: "0 0 20px rgba(180, 252, 5, 0.4)",
+                  }}
                   whileTap={{ scale: 0.98 }}
+                  transition={{ duration: 0.3 }}
                 >
                   {service.cta} →
                 </motion.button>

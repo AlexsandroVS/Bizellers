@@ -1,8 +1,9 @@
 import { motion } from "framer-motion";
 import { slideInLeft, slideInRight } from "@/utils/animations";
 import { useRef } from "react";
-import { useInView } from "@/hooks/useInView";
+import { useScrollInView } from "@/hooks/useScrollInView";
 import { useCountUp } from "@/hooks/useCountUp";
+import { GreenParticles } from "@/components/common/GreenParticles";
 
 const stats = [
   { value: 7, suffix: "+", label: "años", description: "Liderando equipos comerciales y estrategias de desarrollo de negocios" },
@@ -12,10 +13,13 @@ const stats = [
 
 export function AboutRuben() {
   const ref = useRef<HTMLElement>(null);
-  const isInView = useInView(ref, 0.2);
+  const { isInView } = useScrollInView(ref, 0.2);
 
   return (
     <section ref={ref} id="sobre-ruben" className="py-24 bg-negro relative overflow-hidden">
+      {/* Partículas verdes */}
+      <GreenParticles count={30} minSize={2} maxSize={5} />
+
       {/* Green glow effects - MUY VISIBLES */}
       <motion.div
         animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.6, 0.3] }}
@@ -132,14 +136,26 @@ export function AboutRuben() {
               <div className="relative aspect-square rounded-3xl overflow-hidden shadow-2xl">
                 <img
                   src="/ruben-profile.png"
-                  alt="Rubén Viera - Fundador de Bizellers"
+                  alt="Rubén Viera - Fundador y CEO de Bizellers, experto en consultoría de ventas B2B y crecimiento comercial"
                   className="w-full h-full object-cover"
+                  loading="lazy"
+                  width="500"
+                  height="500"
                 />
               </div>
-              {/* Badge flotante */}
-              <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-verde-lima text-negro px-6 py-3 rounded-full font-bold text-sm shadow-xl">
+              {/* Badge flotante - Reducido y centrado */}
+              <motion.div
+                className="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-verde-lima text-negro px-4 py-2 rounded-full font-bold text-xs shadow-xl whitespace-nowrap"
+                initial={{ opacity: 0, y: 20 }}
+                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                transition={{ delay: 0.6, duration: 0.5 }}
+                whileHover={{
+                  scale: 1.05,
+                  boxShadow: "0 0 25px rgba(180, 252, 5, 0.6)",
+                }}
+              >
                 Fundador de Bizellers
-              </div>
+              </motion.div>
             </div>
           </motion.div>
 
@@ -177,13 +193,19 @@ export function AboutRuben() {
             <div className="flex flex-wrap gap-6 items-center mb-8">
               <img
                 src="/Nexum1.png"
-                alt="Nexum Aceleradora"
+                alt="Nexum Aceleradora - Partner de Bizellers en desarrollo de startups y scaleups"
                 className="h-16 object-contain filter brightness-0 invert"
+                loading="lazy"
+                width="200"
+                height="64"
               />
               <img
                 src="/Kaman1.png"
-                alt="Kaman Incubadora de Negocios"
+                alt="Kaman Incubadora de Negocios - Partner de Bizellers en crecimiento empresarial"
                 className="h-16 object-contain filter brightness-0 invert"
+                loading="lazy"
+                width="200"
+                height="64"
               />
             </div>
 

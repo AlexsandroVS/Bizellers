@@ -8,10 +8,12 @@ import { Testimonials } from "./components/sections/Testimonials";
 import { AboutRuben } from "./components/sections/AboutRuben";
 import { FAQs } from "./components/sections/FAQs";
 import { Contact } from "./components/sections/Contact";
+import { SEO } from "./components/common/SEO";
 
 function App() {
   return (
     <div className="min-h-screen bg-negro">
+      <SEO />
       <Header />
       <main>
         <Hero />
