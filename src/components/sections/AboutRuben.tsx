@@ -1,0 +1,213 @@
+import { motion } from "framer-motion";
+import { slideInLeft, slideInRight } from "@/utils/animations";
+import { useRef } from "react";
+import { useInView } from "@/hooks/useInView";
+import { useCountUp } from "@/hooks/useCountUp";
+
+const stats = [
+  { value: 7, suffix: "+", label: "años", description: "Liderando equipos comerciales y estrategias de desarrollo de negocios" },
+  { value: 5, suffix: "+", label: "industrias", description: "Experiencia en ventas B2B y estrategias Go-To-Market" },
+  { value: 5, suffix: "+", label: "países", description: "Sales Ops, ventas, operaciones y expansión internacional" },
+];
+
+export function AboutRuben() {
+  const ref = useRef<HTMLElement>(null);
+  const isInView = useInView(ref, 0.2);
+
+  return (
+    <section ref={ref} id="sobre-ruben" className="py-24 bg-negro relative overflow-hidden">
+      {/* Green glow effects - MUY VISIBLES */}
+      <motion.div
+        animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.6, 0.3] }}
+        transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute top-40 left-20 w-[500px] h-[500px] bg-verde-lima/50 rounded-full blur-3xl"
+      />
+      <motion.div
+        animate={{ scale: [1, 1.3, 1], opacity: [0.25, 0.5, 0.25] }}
+        transition={{ duration: 11, repeat: Infinity, ease: "easeInOut", delay: 4 }}
+        className="absolute bottom-40 right-20 w-96 h-96 bg-verde-lima/45 rounded-full blur-3xl"
+      />
+      <motion.div
+        animate={{ scale: [1, 1.15, 1], opacity: [0.2, 0.4, 0.2] }}
+        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-verde-lima/40 rounded-full blur-3xl"
+      />
+      
+      {/* Partículas flotantes estilo neón - MUY VISIBLES */}
+      {[...Array(14)].map((_, i) => (
+        <motion.div
+          key={i}
+          animate={{
+            y: [0, -28, 0],
+            x: [0, Math.cos(i) * 12, 0],
+            opacity: [0.7, 1, 0.7],
+            scale: [1, 1.25, 1],
+          }}
+          transition={{
+            duration: 2.8 + i * 0.35,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: i * 0.25,
+          }}
+          className="absolute rounded-full bg-verde-lima blur-lg pointer-events-none z-[1]"
+          style={{
+            width: `${42 + i * 9}px`,
+            height: `${42 + i * 9}px`,
+            left: `${6 + i * 7}%`,
+            top: `${15 + (i % 4) * 23}%`,
+            filter: 'blur(7px)',
+          }}
+        />
+      ))}
+      <div className="container mx-auto px-6 relative z-[5]">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          {/* Left: Image */}
+          <motion.div
+            variants={slideInLeft}
+            initial="hidden"
+            animate={isInView ? "visible" : "hidden"}
+            transition={{ duration: 0.8 }}
+          >
+            <div className="relative aspect-square max-w-lg mx-auto">
+              {/* Outer animated glow - SUPER VISIBLE */}
+              <motion.div
+                animate={{
+                  scale: [1, 1.2, 1],
+                  opacity: [0.5, 0.8, 0.5],
+                }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+                className="absolute -inset-8 bg-verde-lima/60 blur-3xl rounded-full"
+              />
+              
+              {/* Middle glow layer */}
+              <motion.div
+                animate={{
+                  scale: [1, 1.15, 1],
+                  opacity: [0.6, 0.9, 0.6],
+                }}
+                transition={{
+                  duration: 3.5,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: 0.5,
+                }}
+                className="absolute -inset-4 bg-verde-lima/50 blur-2xl rounded-full"
+              />
+              
+              {/* Inner sharp glow */}
+              <motion.div
+                animate={{
+                  opacity: [0.4, 0.7, 0.4],
+                }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: 1,
+                }}
+                className="absolute -inset-2 bg-verde-lima/40 blur-xl rounded-full"
+              />
+              
+              <div className="relative aspect-square rounded-3xl overflow-hidden shadow-2xl">
+                <img
+                  src="/ruben-profile.png"
+                  alt="Rubén Viera - Fundador de Bizellers"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              {/* Badge flotante */}
+              <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-verde-lima text-negro px-6 py-3 rounded-full font-bold text-sm shadow-xl">
+                Fundador de Bizellers
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Right: Content */}
+          <motion.div
+            variants={slideInRight}
+            initial="hidden"
+            animate={isInView ? "visible" : "hidden"}
+            transition={{ duration: 0.8 }}
+          >
+            <h2 className="text-4xl md:text-5xl font-bold text-blanco mb-6">
+              Hola, soy <span className="text-verde-lima">Rubén Viera</span> 👋
+            </h2>
+
+            <div className="border-l-4 border-verde-lima pl-6 mb-6">
+              <p className="text-xl text-gray-100 leading-relaxed">
+                He liderado estrategias comerciales de ventas B2B y crecimiento acelerado en startups que escalaron exitosamente en toda Latinoamérica.
+              </p>
+            </div>
+
+            <div className="bg-gray-800 p-6 rounded-xl mb-8">
+              <p className="text-lg text-gray-100 leading-relaxed">
+                Hoy, desde <span className="text-verde-lima font-bold">Bizellers</span>, ayudo a fundadores, líderes, equipos y empresas en expansión a construir sistemas de venta robustos que realmente generan resultados.
+              </p>
+            </div>
+
+            {/* Stats */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
+              {stats.map((stat, i) => (
+                <StatCard key={i} stat={stat} enabled={isInView} delay={i * 0.1} />
+              ))}
+            </div>
+
+            {/* Partner Logos */}
+            <div className="flex flex-wrap gap-6 items-center mb-8">
+              <img
+                src="/Nexum1.png"
+                alt="Nexum Aceleradora"
+                className="h-16 object-contain filter brightness-0 invert"
+              />
+              <img
+                src="/Kaman1.png"
+                alt="Kaman Incubadora de Negocios"
+                className="h-16 object-contain filter brightness-0 invert"
+              />
+            </div>
+
+            <div className="text-center lg:text-left">
+              <motion.a
+                href="#contacto"
+                className="inline-block bg-verde-lima text-negro px-8 py-4 rounded-lg font-bold shadow-xl hover:shadow-verde-lima/50 transition-all duration-300"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                Conversemos sobre tu estrategia comercial
+              </motion.a>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+interface StatCardProps {
+  stat: typeof stats[0];
+  enabled: boolean;
+  delay: number;
+}
+
+function StatCard({ stat, enabled, delay }: StatCardProps) {
+  const count = useCountUp(stat.value, 2000, enabled);
+
+  return (
+    <motion.div
+      className="text-center"
+      initial={{ opacity: 0, y: 20 }}
+      animate={enabled ? { opacity: 1, y: 0 } : {}}
+      transition={{ delay }}
+    >
+      <div className="text-4xl font-bold text-verde-lima mb-1">
+        {count}{stat.suffix}
+      </div>
+      <div className="text-sm font-bold text-blanco mb-2">{stat.label}</div>
+      <p className="text-xs text-gray-100">{stat.description}</p>
+    </motion.div>
+  );
+}

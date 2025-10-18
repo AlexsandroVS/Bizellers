@@ -1,0 +1,213 @@
+import { motion } from "framer-motion";
+import { Calendar, User as UserIcon, MessageSquare, Mail, Phone, Send, Sparkles, CheckCircle } from "lucide-react";
+import { useState, type FormEvent } from "react";
+
+export function Contact() {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    message: "",
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus("idle");
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        setSubmitStatus("success");
+        setFormData({ name: "", email: "", phone: "", message: "" });
+      } else {
+        setSubmitStatus("error");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      setSubmitStatus("error");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <section id="contacto" className="py-24 bg-negro relative overflow-hidden">
+      {/* Green glow effects for dark background */}
+      <motion.div
+        animate={{ scale: [1, 1.2, 1], opacity: [0.15, 0.25, 0.15] }}
+        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute top-20 left-20 w-96 h-96 bg-verde-lima/20 rounded-full blur-3xl"
+      />
+      <motion.div
+        animate={{ scale: [1, 1.3, 1], opacity: [0.12, 0.2, 0.12] }}
+        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 3 }}
+        className="absolute bottom-20 right-20 w-80 h-80 bg-verde-lima/15 rounded-full blur-3xl"
+      />
+      <div className="container mx-auto px-6 relative z-10">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            {/* Left Side - CTA */}
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <div className="inline-flex items-center gap-2 bg-verde-lima/10 border border-verde-lima/30 rounded-full px-4 py-2 mb-6">
+                <Sparkles className="w-4 h-4 text-verde-lima" />
+                <span className="text-verde-lima font-bold text-sm">Sesión Gratuita de Descubrimiento</span>
+              </div>
+
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-blanco mb-6">
+                Da el primer paso hacia{" "}
+                <span className="relative inline-block">
+                  <span className="text-verde-lima">tu crecimiento</span>
+                  <div className="absolute -bottom-2 left-0 right-0 h-1.5 bg-verde-lima/50 rounded-full" />
+                </span>
+              </h2>
+
+              <p className="text-xl text-gray-100 mb-8">
+                En una sesión estratégica de <span className="font-bold text-verde-lima">30 minutos sin costo</span>, revisaremos tu situación actual, identificaremos oportunidades clave y definiremos el mejor camino para escalar tus resultados comerciales.
+              </p>
+
+              <div className="space-y-4 mb-8">
+                {[
+                  { icon: Calendar, title: "30 minutos de valor", desc: "Sesión enfocada y práctica" },
+                  { icon: UserIcon, title: "Asesoría personalizada", desc: "Diagnóstico adaptado a ti" },
+                  { icon: CheckCircle, title: "Plan de acción claro", desc: "Pasos concretos para avanzar" },
+                ].map((benefit, i) => (
+                  <motion.div
+                    key={i}
+                    className="flex items-start gap-4"
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.1 }}
+                  >
+                    <div className="w-12 h-12 bg-verde-lima/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                      <benefit.icon className="w-6 h-6 text-verde-lima" />
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-blanco text-lg">{benefit.title}</h3>
+                      <p className="text-gray-100">{benefit.desc}</p>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+
+            {/* Right Side - Form */}
+            <motion.div
+              className="bg-gray-900/50 backdrop-blur-sm border-2 border-verde-lima/40 rounded-2xl p-8 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3),0_0_40px_rgba(180,252,5,0.15)]"
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <h3 className="text-2xl font-bold text-blanco mb-6">
+                Agenda tu sesión ahora
+              </h3>
+
+              <form onSubmit={handleSubmit} className="space-y-5">
+                <div>
+                  <label className="flex items-center gap-2 text-blanco font-semibold mb-2 text-sm">
+                    <UserIcon className="w-4 h-4 text-verde-lima" />
+                    Nombre completo *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    placeholder="Juan Pérez"
+                    className="w-full px-4 py-3 border border-verde-lima/30 rounded-lg focus:border-verde-lima focus:outline-none focus:ring-2 focus:ring-verde-lima/20 transition-all bg-gray-800/50 text-blanco placeholder:text-gray-400"
+                  />
+                </div>
+
+                <div>
+                  <label className="flex items-center gap-2 text-blanco font-semibold mb-2 text-sm">
+                    <Mail className="w-4 h-4 text-verde-lima" />
+                    Correo electrónico *
+                  </label>
+                  <input
+                    type="email"
+                    required
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    placeholder="tu@empresa.com"
+                    className="w-full px-4 py-3 border border-verde-lima/30 rounded-lg focus:border-verde-lima focus:outline-none focus:ring-2 focus:ring-verde-lima/20 transition-all bg-gray-800/50 text-blanco placeholder:text-gray-400"
+                  />
+                </div>
+
+                <div>
+                  <label className="flex items-center gap-2 text-blanco font-semibold mb-2 text-sm">
+                    <Phone className="w-4 h-4 text-verde-lima" />
+                    Teléfono (opcional)
+                  </label>
+                  <input
+                    type="tel"
+                    value={formData.phone}
+                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                    placeholder="+52 123 456 7890"
+                    className="w-full px-4 py-3 border border-verde-lima/30 rounded-lg focus:border-verde-lima focus:outline-none focus:ring-2 focus:ring-verde-lima/20 transition-all bg-gray-800/50 text-blanco placeholder:text-gray-400"
+                  />
+                </div>
+
+                <div>
+                  <label className="flex items-center gap-2 text-blanco font-semibold mb-2 text-sm">
+                    <MessageSquare className="w-4 h-4 text-verde-lima" />
+                    Mensaje (opcional)
+                  </label>
+                  <textarea
+                    value={formData.message}
+                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                    placeholder="Cuéntanos más sobre tu situación..."
+                    rows={3}
+                    className="w-full px-4 py-3 border border-verde-lima/30 rounded-lg focus:border-verde-lima focus:outline-none focus:ring-2 focus:ring-verde-lima/20 transition-all resize-none bg-gray-800/50 text-blanco placeholder:text-gray-400"
+                  />
+                </div>
+
+                {submitStatus === "success" && (
+                  <div className="bg-verde-lima/20 border border-verde-lima rounded-lg p-4 text-center">
+                    <p className="text-verde-lima font-bold">¡Mensaje enviado! Nos contactaremos pronto.</p>
+                  </div>
+                )}
+
+                {submitStatus === "error" && (
+                  <div className="bg-red-500/20 border border-red-500 rounded-lg p-4 text-center">
+                    <p className="text-red-400 font-bold">Error al enviar. Intenta nuevamente.</p>
+                  </div>
+                )}
+
+                <motion.button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="w-full bg-verde-lima text-negro px-8 py-4 rounded-lg font-bold text-lg flex items-center justify-center gap-2 hover:bg-verde-lima-dark hover:shadow-verde-lima/50 transition-all disabled:opacity-50 shadow-lg"
+                  whileHover={{ scale: isSubmitting ? 1 : 1.02 }}
+                  whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
+                >
+                  {isSubmitting ? "Enviando..." : "Enviar Solicitud"}
+                  <Send className="w-5 h-5" />
+                </motion.button>
+
+                <p className="text-center text-xs text-gray-400">
+                  Protegemos tu privacidad. No compartiremos tu información.
+                </p>
+              </form>
+            </motion.div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
