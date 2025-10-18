@@ -54,9 +54,9 @@ export function Header() {
   return (
     <motion.header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled 
-          ? (isDarkBackground ? "bg-negro/95 shadow-[0_4px_20px_rgba(180,252,5,0.1)]" : "bg-blanco shadow-lg") 
-          : "bg-negro/80 backdrop-blur-sm"
+        isScrolled
+          ? (isDarkBackground ? "bg-negro/98 backdrop-blur-xl shadow-[0_4px_20px_rgba(180,252,5,0.1)] border-b border-verde-lima/10" : "bg-blanco shadow-lg")
+          : "bg-negro/85 backdrop-blur-md"
       }`}
       initial={{ y: -100 }}
       animate={{ y: 0 }}
