@@ -129,7 +129,7 @@ export function ServiceModal({ isOpen, onClose, serviceName }: ServiceModalProps
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       placeholder="Juan Pérez"
-                      className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-verde-lima focus:ring-2 text-black focus:ring-verde-lima/20 focus:outline-none transition-all bg-white shadow-sm hover:shadow-md"
+                      className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-verde-lima focus:ring-2 text-black focus:ring-verde-lima focus:outline-none transition-all bg-white shadow-sm hover:shadow-md"
                     />
                   </div>
 
@@ -145,7 +145,7 @@ export function ServiceModal({ isOpen, onClose, serviceName }: ServiceModalProps
                       value={formData.cargo}
                       onChange={(e) => setFormData({ ...formData, cargo: e.target.value })}
                       placeholder="CEO, Director de Ventas, etc."
-                      className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-verde-lima focus:ring-2 text-black focus:ring-verde-lima/20 focus:outline-none transition-all bg-white shadow-sm hover:shadow-md"
+                      className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-verde-lima focus:ring-2 text-black focus:ring-verde-lima focus:outline-none transition-all bg-white shadow-sm hover:shadow-md"
                     />
                   </div>
                 </div>
@@ -162,7 +162,7 @@ export function ServiceModal({ isOpen, onClose, serviceName }: ServiceModalProps
                     value={formData.empresa}
                     onChange={(e) => setFormData({ ...formData, empresa: e.target.value })}
                     placeholder="Nombre de tu empresa"
-                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-verde-lima focus:ring-2 text-black focus:ring-verde-lima/20 focus:outline-none transition-all bg-white shadow-sm hover:shadow-md"
+                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-verde-lima focus:ring-2 text-black focus:ring-verde-lima focus:outline-none transition-all bg-white shadow-sm hover:shadow-md"
                   />
                 </div>
 
@@ -179,7 +179,7 @@ export function ServiceModal({ isOpen, onClose, serviceName }: ServiceModalProps
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       placeholder="tu@empresa.com"
-                      className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-verde-lima focus:ring-2 text-black focus:ring-verde-lima/20 focus:outline-none transition-all bg-white shadow-sm hover:shadow-md"
+                      className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-verde-lima focus:ring-2 text-black focus:ring-verde-lima focus:outline-none transition-all bg-white shadow-sm hover:shadow-md"
                     />
                   </div>
 
@@ -194,7 +194,7 @@ export function ServiceModal({ isOpen, onClose, serviceName }: ServiceModalProps
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                       placeholder="+52 123 456 7890"
-                      className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-verde-lima focus:ring-2 text-black focus:ring-verde-lima/20 focus:outline-none transition-all bg-white shadow-sm hover:shadow-md"
+                      className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-verde-lima focus:ring-2 text-black focus:ring-verde-lima focus:outline-none transition-all bg-white shadow-sm hover:shadow-md"
                     />
                   </div>
                 </div>
@@ -210,7 +210,7 @@ export function ServiceModal({ isOpen, onClose, serviceName }: ServiceModalProps
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     placeholder="Cuéntanos más sobre tu situación..."
                     rows={4}
-                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-verde-lima focus:ring-2 text-black focus:ring-verde-lima/20 focus:outline-none transition-all resize-none bg-white shadow-sm hover:shadow-md"
+                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-verde-lima focus:ring-2 text-black focus:ring-verde-lima focus:outline-none transition-all resize-none bg-white shadow-sm hover:shadow-md"
                   />
                 </div>
 
