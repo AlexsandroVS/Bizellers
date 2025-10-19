@@ -161,7 +161,7 @@ export function Hero() {
           >
             <motion.a
               href="#contacto"
-              className="inline-flex items-center gap-3 bg-verde-lima text-negro px-6 py-3 rounded-lg font-bold text-xl shadow-2xl relative overflow-hidden group"
+              className="inline-flex items-center gap-3 bg-verde-lima text-negro px-5 py-2.5 rounded-lg font-bold text-lg shadow-2xl relative overflow-hidden group"
               whileHover={{
                 scale: 1.05,
                 boxShadow: "0 0 50px rgba(180, 252, 5, 0.8), 0 10px 30px rgba(0, 0, 0, 0.3)",

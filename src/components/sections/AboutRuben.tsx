@@ -347,7 +347,7 @@ export function AboutRuben() {
                   onClick={() => scrollToSection("contacto")}
                   whileHover={{ scale: 1.05, y: -2 }}
                   whileTap={{ scale: 0.98 }}
-                  className="group bg-verde-lima text-negro px-6 py-5 sm:px-5 sm:py-4 rounded-xl font-bold text-sm sm:text-base md:text-lg shadow-2xl hover:shadow-verde-lima/50 transition-all duration-300 relative overflow-hidden w-full sm:w-auto inline-flex items-center justify-center gap-3"
+                  className="group bg-verde-lima text-negro px-5 py-2.5 rounded-xl font-bold text-lg shadow-2xl hover:shadow-verde-lima/50 transition-all duration-300 relative overflow-hidden w-full sm:w-auto inline-flex items-center justify-center gap-3"
                 >
                   <motion.span
                     className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"

@@ -231,7 +231,7 @@ export function Methodology() {
         >
           <motion.a
             href="#contacto"
-            className="inline-flex items-center gap-3 bg-verde-lima text-negro px-10 py-4 rounded-xl font-bold text-lg shadow-xl group"
+            className="inline-flex items-center gap-3 bg-verde-lima text-negro px-5 py-2.5 rounded-xl font-bold text-lg shadow-xl group"
             whileHover={{ scale: 1.05, boxShadow: "0 0 40px rgba(180, 252, 5, 0.5)" }}
             whileTap={{ scale: 0.95 }}
           >

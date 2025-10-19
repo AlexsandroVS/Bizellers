@@ -101,7 +101,7 @@ export function FAQs() {
         >
           <motion.a
             href="#contacto"
-            className="inline-flex items-center gap-3 bg-verde-lima text-negro px-8 py-4 rounded-lg font-bold text-lg group"
+            className="inline-flex items-center gap-3 bg-verde-lima text-negro px-5 py-2.5 rounded-lg font-bold text-lg group"
             whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(180, 252, 5, 0.5)" }}
             whileTap={{ scale: 0.95 }}
           >
