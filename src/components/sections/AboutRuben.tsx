@@ -372,7 +372,7 @@ export function AboutRuben() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: false, amount: 0.3 }}
-            className="grid grid-cols-1 md:grid-cols-3 gap-0 bg-gray-800/50 rounded-xl md:rounded-2xl shadow-2xl p-4 sm:p-6 border border-verde-lima/20 mb-12 md:mb-16"
+            className="grid grid-cols-1 md:grid-cols-3 gap-0 bg-gray-800/50 rounded-xl md:rounded-2xl shadow-2xl p-4 sm:p-6 border border-verde-lima/20 mb-12 md:mb-16 max-w-5xl mx-auto"
           >
             {stats.map((stat, index) => (
               <StatCounter

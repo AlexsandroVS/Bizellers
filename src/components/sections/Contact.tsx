@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Calendar, User as UserIcon, MessageSquare, Mail, Phone, Send, Sparkles, CheckCircle } from "lucide-react";
+import { Calendar, User as UserIcon, MessageSquare, Mail, Phone, Send, Sparkles, CheckCircle, Building2 } from "lucide-react";
 import { useState, useRef, type FormEvent } from "react";
 import { useScrollInView } from "@/hooks/useScrollInView";
 import { GreenParticles } from "@/components/common/GreenParticles";
@@ -7,6 +7,7 @@ import { GreenParticles } from "@/components/common/GreenParticles";
 export function Contact() {
   const [formData, setFormData] = useState({
     name: "",
+    company: "",
     email: "",
     phone: "",
     message: "",
@@ -32,7 +33,7 @@ export function Contact() {
 
       if (response.ok) {
         setSubmitStatus("success");
-        setFormData({ name: "", email: "", phone: "", message: "" });
+        setFormData({ name: "", company: "", email: "", phone: "", message: "" });
       } else {
         setSubmitStatus("error");
       }
@@ -129,19 +130,35 @@ export function Contact() {
               </h3>
 
               <form onSubmit={handleSubmit} className="space-y-5">
-                <div>
-                  <label className="flex items-center gap-2 text-blanco font-semibold mb-2 text-sm">
-                    <UserIcon className="w-4 h-4 text-verde-lima" />
-                    Nombre completo *
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    placeholder="Juan Pérez"
-                    className="w-full px-4 py-3 border border-verde-lima rounded-lg focus:border-verde-lima focus:outline-none focus:ring-2 focus:ring-verde-lima transition-all bg-gray-800/50 text-black placeholder:text-gray-400"
-                  />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                  <div>
+                    <label className="flex items-center gap-2 text-blanco font-semibold mb-2 text-sm">
+                      <UserIcon className="w-4 h-4 text-verde-lima" />
+                      Nombre completo *
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={formData.name}
+                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      placeholder="Juan Pérez"
+                      className="w-full px-4 py-3 border border-verde-lima rounded-lg focus:border-verde-lima focus:outline-none focus:ring-2 focus:ring-verde-lima transition-all bg-gray-800/50 text-black placeholder:text-gray-400"
+                    />
+                  </div>
+                  <div>
+                    <label className="flex items-center gap-2 text-blanco font-semibold mb-2 text-sm">
+                      <Building2 className="w-4 h-4 text-verde-lima" />
+                      Empresa *
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={formData.company}
+                      onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+                      placeholder="Tu Empresa S.A."
+                      className="w-full px-4 py-3 border border-verde-lima rounded-lg focus:border-verde-lima focus:outline-none focus:ring-2 focus:ring-verde-lima transition-all bg-gray-800/50 text-black placeholder:text-gray-400"
+                    />
+                  </div>
                 </div>
 
                 <div>
@@ -162,10 +179,11 @@ export function Contact() {
                 <div>
                   <label className="flex items-center gap-2 text-blanco font-semibold mb-2 text-sm">
                     <Phone className="w-4 h-4 text-verde-lima" />
-                    Teléfono (opcional)
+                    Teléfono *
                   </label>
                   <input
                     type="tel"
+                    required
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                     placeholder="+52 123 456 7890"

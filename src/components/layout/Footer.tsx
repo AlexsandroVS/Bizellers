@@ -1,4 +1,4 @@
-import { Instagram, Linkedin, Sparkles, ArrowRight } from "lucide-react";
+import { Instagram, Linkedin, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 
 export function Footer() {
@@ -25,29 +25,19 @@ export function Footer() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <motion.h3
-              className="text-2xl font-bold text-verde-lima mb-4 flex items-center gap-2"
+            <motion.div
+              className="mb-4 flex items-center gap-2"
               whileHover={{
-                textShadow: "0 0 20px rgba(180, 252, 5, 0.6)",
                 scale: 1.02,
               }}
               transition={{ duration: 0.3 }}
             >
-              <motion.div
-                animate={{
-                  rotate: [0, 10, -10, 0],
-                  scale: [1, 1.1, 1],
-                }}
-                transition={{
-                  duration: 3,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
-              >
-                <Sparkles className="w-6 h-6" />
-              </motion.div>
-              BIZELLERS
-            </motion.h3>
+              <img 
+                src="/logo2.png" 
+                alt="Bizellers Logo" 
+                className="h-12 w-auto"
+              />
+            </motion.div>
             <p className="text-gray-100 leading-relaxed">
               En Bizellers transformamos equipos comerciales en motores de crecimiento.
             </p>
