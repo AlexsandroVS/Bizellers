@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Zap, Compass, Brain, Microscope, Sparkles } from "lucide-react";
+import { Zap, Compass, Brain, Microscope, Sparkles, Check } from "lucide-react";
 import { slideUpScale } from "@/utils/animations";
 import { ServiceModal } from "../common/ServiceModal";
 import { useState, useRef } from "react";
@@ -132,7 +132,7 @@ export function Services() {
                 <div className="absolute inset-0 bg-gradient-to-br from-verde-lima/0 via-verde-lima/0 to-verde-lima/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
                 {service.badge && (
-                  <div className="absolute -top-3 right-6 bg-gradient-to-r from-verde-lima to-verde-lima-dark text-negro px-5 py-2 rounded-full text-xs font-bold shadow-lg flex items-center gap-1.5">
+                  <div className="absolute top-4 right-4 bg-gradient-to-r from-verde-lima to-verde-lima-dark text-negro px-5 py-2 rounded-full text-xs font-bold shadow-lg flex items-center gap-1.5">
                     <Sparkles className="w-3.5 h-3.5" />
                     {service.badge}
                   </div>
@@ -179,7 +179,7 @@ export function Services() {
                   {service.features.map((feature, j) => (
                     <motion.div
                       key={j}
-                      className="text-left"
+                      className="text-left flex items-start gap-2"
                       initial={{ opacity: 0, y: 10 }}
                       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
                       transition={{
@@ -187,6 +187,7 @@ export function Services() {
                         duration: 0.5,
                       }}
                     >
+                      <Check className="w-5 h-5 text-verde-lima flex-shrink-0 mt-0.5" />
                       <span className="text-gray-700 text-base">{feature}</span>
                     </motion.div>
                   ))}
