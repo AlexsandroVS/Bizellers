@@ -1,4 +1,4 @@
-import { Mail, Instagram, Linkedin, Sparkles } from "lucide-react";
+import { Mail, Instagram, Linkedin, Sparkles, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 
 export function Footer() {
@@ -181,7 +181,10 @@ export function Footer() {
                 ease: "easeInOut"
               }}
             />
-            <span className="relative z-10">Hablemos de tu crecimiento</span>
+            <span className="relative z-10 inline-flex items-center gap-3 group">
+              DIAGNÓSTICO GRATUITO
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            </span>
           </motion.a>
         </motion.div>
       </div>

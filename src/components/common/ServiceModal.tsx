@@ -71,7 +71,7 @@ export function ServiceModal({ isOpen, onClose, serviceName }: ServiceModalProps
         <>
           {/* Backdrop con blur oscuro MÁS INTENSO */}
           <motion.div
-            className="fixed inset-0 bg-negro/97 backdrop-blur-xl z-50"
+            className="fixed inset-0 bg-[#121212]/97 backdrop-blur-xl z-50"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -103,7 +103,7 @@ export function ServiceModal({ isOpen, onClose, serviceName }: ServiceModalProps
               {/* Header con degradado - MÁS COMPACTO */}
               <div className="bg-gradient-to-r from-verde-lima via-verde-lima-dark to-verde-lima px-6 py-5 rounded-t-3xl flex justify-between items-center shadow-lg flex-shrink-0">
                 <div className="flex-1">
-                  <div className="inline-flex items-center gap-1.5 bg-negro/10 rounded-full px-2.5 py-1 mb-2">
+                  <div className="inline-flex items-center gap-1.5 bg-[#121212]/10 rounded-full px-2.5 py-1 mb-2">
                     <Sparkles className="w-3.5 h-3.5 text-negro" />
                     <span className="text-xs font-bold text-negro">SOLICITUD</span>
                   </div>
@@ -111,7 +111,7 @@ export function ServiceModal({ isOpen, onClose, serviceName }: ServiceModalProps
                 </div>
                 <motion.button
                   onClick={onClose}
-                  className="text-negro hover:bg-negro/10 p-2 rounded-full transition-all"
+                  className="text-negro hover:bg-[#121212]/10 p-2 rounded-full transition-all"
                   whileHover={{ scale: 1.1, rotate: 90 }}
                   whileTap={{ scale: 0.9 }}
                 >

@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Building2, TrendingUp, Users, Wrench, ChevronDown } from "lucide-react";
+import { Building2, TrendingUp, Users, Wrench, ChevronDown, ArrowRight } from "lucide-react";
 import { useState, useRef } from "react";
 import { slideUpScale } from "@/utils/animations";
 import { useScrollInView } from "@/hooks/useScrollInView";
@@ -49,7 +49,7 @@ export function FAQs() {
         {/* Header */}
         <div className="text-center mb-16">
           <motion.div
-            className="inline-block bg-verde-lima-muted border border-verde-lima/30 rounded-full px-4 py-2 mb-6"
+            className="inline-block bg-negro border border-verde-lima/30 rounded-full px-4 py-2 mb-6"
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: false, amount: 0.3 }}
@@ -65,7 +65,7 @@ export function FAQs() {
             viewport={{ once: false, amount: 0.3 }}
             transition={{ duration: 0.6 }}
           >
-            Resolvemos tus <span className="text-verde-lima">dudas</span>
+            Resolvemos tus <span className="text-verde-lima decoration-clone">dudas</span>
           </motion.h2>
           <motion.p
             className="text-xl text-gray-700 max-w-3xl mx-auto"
@@ -102,11 +102,12 @@ export function FAQs() {
         >
           <motion.a
             href="#contacto"
-            className="inline-block bg-verde-lima text-negro px-8 py-4 rounded-lg font-bold text-lg"
+            className="inline-flex items-center gap-3 bg-verde-lima text-negro px-8 py-4 rounded-lg font-bold text-lg group"
             whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(180, 252, 5, 0.5)" }}
             whileTap={{ scale: 0.95 }}
           >
-            Aún tengo dudas — conversemos →
+            DIAGNÓSTICO GRATUITO
+            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </motion.a>
         </motion.div>
       </div>
