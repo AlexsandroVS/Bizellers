@@ -148,7 +148,7 @@ export function Methodology() {
         </div>
 
         {/* Pillars */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12 max-w-5xl mx-auto">
           {pillars.map((pillar, i) => (
             <motion.div
               key={`${i}-${isInView}`}
@@ -216,9 +216,7 @@ export function Methodology() {
               <div className="absolute -inset-1 bg-verde-lima/0 group-hover:shadow-[0_0_40px_rgba(180,252,5,0.4)] rounded-2xl transition-all duration-300 -z-10" />
 
               {/* Process Flow */}
-              <div className="flex items-center justify-center gap-2 text-xs pt-6 border-t border-gray-700 mt-auto">
-                
-              </div>
+              
             </motion.div>
           ))}
         </div>
