@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import { Building2, TrendingUp, Users, Wrench, ChevronDown, ArrowRight } from "lucide-react";
 import { useState, useRef } from "react";
-import { slideUpScale } from "@/utils/animations";
 import { useScrollInView } from "@/hooks/useScrollInView";
 
 const faqs = [
