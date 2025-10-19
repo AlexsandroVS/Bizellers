@@ -65,7 +65,7 @@ export function FAQs() {
             viewport={{ once: false, amount: 0.3 }}
             transition={{ duration: 0.6 }}
           >
-            Resolvemos tus <span className="text-verde-lima decoration-clone">dudas</span>
+            Resolvemos tus <span className="inline-block bg-verde-lima text-negro rounded-full px-6 py-2">dudas</span>
           </motion.h2>
           <motion.p
             className="text-xl text-gray-700 max-w-3xl mx-auto"

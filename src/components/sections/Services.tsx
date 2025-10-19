@@ -97,7 +97,7 @@ export function Services() {
             </div>
             <h2 className="text-4xl md:text-5xl font-bold text-negro mb-4">
               Diseñados para{" "}
-              <span className="text-verde-lima relative inline-block border-b-4 border-verde-lima/40 pb-1 underline decoration-verde-lima/40 decoration-4 underline-offset-8">acelerar tu crecimiento B2B</span>
+              <span className="inline-block bg-verde-lima text-negro rounded-full px-6 py-2">acelerar tu crecimiento B2B</span>
             </h2>
             <p className="text-xl text-gray-700 max-w-3xl mx-auto mt-4 font-medium">
               Elige el formato estratégico que mejor se adapta a tu etapa de crecimiento, necesidades y objetivos comerciales.
