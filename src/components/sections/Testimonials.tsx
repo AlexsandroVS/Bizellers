@@ -110,15 +110,8 @@ export function Testimonials() {
             className="text-4xl md:text-5xl font-extrabold mb-6 text-negro"
           >
             La voz de nuestros{" "}
-            <span className="text-verde-lima relative inline-block">
+            <span className="inline-block bg-verde-lima text-negro rounded-full px-6 py-2">
               clientes
-              <motion.span
-                className="absolute -bottom-1 left-0 w-full h-1 bg-gradient-to-r from-verde-lima to-verde-lima-dark rounded-full"
-                initial={{ scaleX: 0 }}
-                whileInView={{ scaleX: 1 }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{ delay: 0.3, duration: 0.8 }}
-              />
             </span>
           </motion.h2>
           <motion.p
