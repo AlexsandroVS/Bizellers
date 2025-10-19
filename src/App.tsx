@@ -17,7 +17,7 @@ function App() {
       <Header />
       <main>
         <Hero />
-        <Stats />
+        {/*  <Stats /> */}
         {/* Divider sutil entre Stats y Metodología */}
         <div className="bg-negro">
           <div className="container mx-auto px-6">

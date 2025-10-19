@@ -208,58 +208,7 @@ export function Hero() {
 
           {/* Métricas */}
           <div className="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl mx-auto">
-            {metrics.map((metric, i) => (
-              <motion.div
-                key={i}
-                className="flex flex-col items-center gap-2 p-4 rounded-full"
-                initial={{ opacity: 0, y: 30, scale: 0.8 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                transition={{
-                  delay: 1.8 + i * 0.1,
-                  type: "spring",
-                  stiffness: 200,
-                  damping: 15
-                }}
-                whileHover={{
-                  backgroundColor: "rgba(180, 252, 5, 0.03)",
-                  transition: { duration: 0.4 }
-                }}
-              >
-                <motion.div
-                  animate={{
-                    rotate: [0, 5, -5, 0],
-                  }}
-                  transition={{
-                    duration: 3,
-                    repeat: Infinity,
-                    delay: i * 0.5,
-                    ease: "easeInOut"
-                  }}
-                >
-                  <metric.icon className="w-8 h-8 text-verde-lima" />
-                </motion.div>
-                <motion.div
-                  className="text-3xl md:text-4xl font-bold text-verde-lima"
-                  animate={{
-                    scale: [1, 1.05, 1],
-                    textShadow: [
-                      "0 0 10px rgba(180, 252, 5, 0.3)",
-                      "0 0 20px rgba(180, 252, 5, 0.6)",
-                      "0 0 10px rgba(180, 252, 5, 0.3)",
-                    ]
-                  }}
-                  transition={{
-                    duration: 2,
-                    repeat: Infinity,
-                    delay: i * 0.3,
-                    ease: "easeInOut"
-                  }}
-                >
-                  {metric.value}
-                </motion.div>
-                <div className="text-sm text-blanco font-medium">{metric.label}</div>
-              </motion.div>
-            ))}
+            
           </div>
         </div>
       </div>
