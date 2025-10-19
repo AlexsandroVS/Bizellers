@@ -202,7 +202,7 @@ export function Hero() {
                   ease: "easeInOut"
                 }}
               />
-              <span className="relative z-10">Diagnóstico Gratuito</span>
+              <span className="relative z-10">DIAGNÓSTICO GRATUITO</span>
             </motion.a>
           </motion.div>
 

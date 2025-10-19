@@ -165,7 +165,7 @@ export function Header() {
                   ease: "easeInOut"
                 }}
               />
-              <span className="relative z-10">Conversemos</span>
+              <span className="relative z-10">SOLICITA UN DIAGNÓSTICO GRATUITO</span>
             </motion.a>
           </nav>
 
@@ -244,7 +244,7 @@ export function Header() {
                 whileTap={{ scale: 0.95 }}
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                Conversemos
+                SOLICITA UN DIAGNÓSTICO GRATUITO
               </motion.a>
             </motion.nav>
           )}
