@@ -81,9 +81,9 @@ export function Contact() {
               </div>
 
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-blanco mb-6">
-                Da el primer paso para{" "}
+                Da el primer paso para{" "}<span className="text-verde-lima">escalar</span>
                 <span className="relative inline-block">
-                  <span className="text-verde-lima">escalar tus ventas</span>
+                  <span className="text-verde-lima">tus ventas</span>
                   <div className="absolute -bottom-2 left-0 right-0 h-1.5 bg-verde-lima/50 rounded-full" />
                 </span>
               </h2>
