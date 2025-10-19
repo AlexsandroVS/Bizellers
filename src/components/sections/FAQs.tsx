@@ -158,10 +158,10 @@ function FAQ({ faq, index, isOpen, onClick, isInView }: FAQProps) {
       >
         <div className="flex items-start gap-4 flex-1">
           <motion.div
-            className="w-12 h-12 rounded-xl bg-verde-lima/10 flex items-center justify-center flex-shrink-0"
+            className="w-12 h-12 rounded-xl bg-negro flex items-center justify-center flex-shrink-0"
             whileHover={{
               scale: 1.1,
-              backgroundColor: "rgba(180, 252, 5, 0.2)",
+              backgroundColor: "#2a2a2a",
               rotate: [0, -5, 5, -5, 0],
             }}
             transition={{ duration: 0.3 }}
