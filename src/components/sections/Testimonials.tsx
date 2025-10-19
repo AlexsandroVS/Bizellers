@@ -387,7 +387,7 @@ export function Testimonials() {
             whileTap={{ scale: 0.95 }}
             className="inline-block bg-verde-lima hover:bg-verde-lima-dark text-negro font-bold shadow-2xl hover:shadow-verde-lima/50 transition-all px-8 py-4 text-lg rounded-full"
           >
-            Agenda tu sesión estratégica →
+            DIAGNÓSTICO GRATUITO →
           </motion.a>
         </motion.div>
       </div>
