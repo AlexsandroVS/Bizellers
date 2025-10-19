@@ -1,24 +1,22 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ArrowRight } from "lucide-react";
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("");
-  const [isDarkBackground, setIsDarkBackground] = useState(true); // Empieza en true porque Hero es oscuro
+  const [isOverWhiteSection, setIsOverWhiteSection] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
 
-      // Secciones con fondo oscuro (negro)
-      const darkSections = ["inicio", "metodologia", "sobre-ruben", "contacto"];
+      // Secciones con fondo blanco
+      const whiteSections = ["servicios", "testimonios", "faqs"];
 
-      // Detectar sección activa y si tiene fondo oscuro
+      // Detectar sección activa
       const allSections = ["inicio", "metodologia", "servicios", "sobre-ruben", "testimonios", "faqs", "contacto"];
-      let found = false;
-      let currentIsDark = isDarkBackground; // Mantener el estado anterior si no encuentra nada
 
       for (const section of allSections) {
         const element = document.getElementById(section);
@@ -27,23 +25,17 @@ export function Header() {
           // Usar un rango más amplio para evitar parpadeos
           if (rect.top <= 150 && rect.bottom >= 50) {
             setActiveSection(section);
-            currentIsDark = darkSections.includes(section);
-            found = true;
+            setIsOverWhiteSection(whiteSections.includes(section));
             break;
           }
         }
-      }
-
-      // Solo actualizar si encontramos una sección válida
-      if (found) {
-        setIsDarkBackground(currentIsDark);
       }
     };
 
     handleScroll(); // Ejecutar inmediatamente
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [isDarkBackground]); // Agregar isDarkBackground como dependencia
+  }, []);
 
   const navItems = [
     { label: "Metodología", href: "#metodologia" },
@@ -55,16 +47,22 @@ export function Header() {
     <motion.header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? (isDarkBackground ? "bg-negro/98 backdrop-blur-xl shadow-[0_4px_20px_rgba(180,252,5,0.1)] border-b border-verde-lima/10" : "bg-blanco shadow-lg")
-          : "bg-negro/85 backdrop-blur-md"
+          ? isOverWhiteSection
+            ? "bg-[#121212]/70 backdrop-blur-xl shadow-[0_4px_20px_rgba(0,0,0,0.3),0_0_40px_rgba(255,255,255,0.1)] border-b border-white/10"
+            : "bg-[#121212]/70 backdrop-blur-xl shadow-[0_4px_20px_rgba(180,252,5,0.1)] border-b border-verde-lima/10"
+          : "bg-[#121212]/85 backdrop-blur-md"
       }`}
+      style={isScrolled && isOverWhiteSection ? {
+        backdropFilter: "blur(16px) saturate(180%)",
+        WebkitBackdropFilter: "blur(16px) saturate(180%)",
+      } : {}}
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.5 }}
     >
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
-          {/* Logo con animación de cambio */}
+          {/* Logo */}
           <motion.a
             href="#inicio"
             className="relative h-12 w-32"
@@ -75,58 +73,31 @@ export function Header() {
             whileTap={{ scale: 0.95 }}
             transition={{ duration: 0.2 }}
           >
-            <AnimatePresence mode="wait">
-              {!isScrolled || isDarkBackground ? (
-                <motion.img
-                  key="logo2"
-                  src="/logo2.png"
-                  alt="Bizellers - Consultoría de Ventas B2B"
-                  className="absolute inset-0 h-full w-full object-contain"
-                  initial={{ opacity: 0, y: -10, rotate: -5 }}
-                  animate={{ opacity: 1, y: 0, rotate: 0 }}
-                  exit={{ opacity: 0, y: 10, rotate: 5 }}
-                  transition={{ duration: 0.3, ease: "easeOut" }}
-                  loading="eager"
-                  width="128"
-                  height="48"
-                />
-              ) : (
-                <motion.img
-                  key="logo3"
-                  src="/logo3.png"
-                  alt="Bizellers - Consultoría de Ventas B2B"
-                  className="absolute inset-0 h-full w-full object-contain"
-                  initial={{ opacity: 0, y: -10, rotate: -5 }}
-                  animate={{ opacity: 1, y: 0, rotate: 0 }}
-                  exit={{ opacity: 0, y: 10, rotate: 5 }}
-                  transition={{ duration: 0.3, ease: "easeOut" }}
-                  loading="eager"
-                  width="128"
-                  height="48"
-                />
-              )}
-            </AnimatePresence>
+            <img
+              src="/logo2.png"
+              alt="Bizellers - Consultoría de Ventas B2B"
+              className="h-full w-full object-contain"
+              loading="eager"
+              width="128"
+              height="48"
+            />
           </motion.a>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-8">
             {navItems.map((item, i) => {
               const isActive = activeSection === item.href.replace("#", "");
-              const textColor = isScrolled && !isDarkBackground ? "#121212" : "#ffffff";
               return (
                 <motion.a
                   key={item.href}
                   href={item.href}
-                  className="relative font-medium"
-                  style={{ color: textColor }}
+                  className="relative font-medium text-blanco"
                   initial={{ opacity: 0, y: -20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.1 * i, duration: 0.5 }}
                   whileHover={{
                     scale: 1.05,
-                    textShadow: isDarkBackground
-                      ? "0 0 8px rgba(180, 252, 5, 0.5)"
-                      : "0 2px 4px rgba(0, 0, 0, 0.2)",
+                    textShadow: "0 0 8px rgba(180, 252, 5, 0.5)",
                   }}
                   whileTap={{ scale: 0.95 }}
                 >
@@ -145,7 +116,7 @@ export function Header() {
             })}
             <motion.a
               href="#contacto"
-              className="bg-verde-lima text-negro px-6 py-2 rounded-lg font-bold relative overflow-hidden"
+              className="bg-verde-lima text-negro px-6 py-2 rounded-lg font-bold relative overflow-hidden inline-flex items-center gap-2 group"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.3, type: "spring", stiffness: 200 }}
@@ -165,14 +136,14 @@ export function Header() {
                   ease: "easeInOut"
                 }}
               />
-              <span className="relative z-10">SOLICITA UN DIAGNÓSTICO GRATUITO</span>
+              <span className="relative z-10">DIAGNÓSTICO GRATUITO</span>
+              <ArrowRight className="w-4 h-4 relative z-10 group-hover:translate-x-1 transition-transform" />
             </motion.a>
           </nav>
 
           {/* Mobile Menu Button */}
           <motion.button
-            className="md:hidden"
-            style={{ color: isScrolled && !isDarkBackground ? "#121212" : "#ffffff" }}
+            className="md:hidden text-blanco"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9, rotate: 90 }}
@@ -213,30 +184,26 @@ export function Header() {
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.3 }}
             >
-              {navItems.map((item, i) => {
-                const textColor = isScrolled && !isDarkBackground ? "#121212" : "#ffffff";
-                return (
-                  <motion.a
-                    key={item.href}
-                    href={item.href}
-                    className="font-medium"
-                    style={{ color: textColor }}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.1, duration: 0.3 }}
-                    whileHover={{
-                      color: "#b4fc05",
-                      x: 5,
-                    }}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    {item.label}
-                  </motion.a>
-                );
-              })}
+              {navItems.map((item, i) => (
+                <motion.a
+                  key={item.href}
+                  href={item.href}
+                  className="font-medium text-blanco"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.1, duration: 0.3 }}
+                  whileHover={{
+                    color: "#b4fc05",
+                    x: 5,
+                  }}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {item.label}
+                </motion.a>
+              ))}
               <motion.a
                 href="#contacto"
-                className="bg-verde-lima text-negro px-6 py-3 rounded-lg font-bold text-center"
+                className="bg-verde-lima text-negro px-6 py-3 rounded-lg font-bold text-center inline-flex items-center justify-center gap-2 group"
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.3, type: "spring", stiffness: 200 }}
@@ -244,7 +211,8 @@ export function Header() {
                 whileTap={{ scale: 0.95 }}
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                SOLICITA UN DIAGNÓSTICO GRATUITO
+                DIAGNÓSTICO GRATUITO
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </motion.a>
             </motion.nav>
           )}

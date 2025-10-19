@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Zap, Compass, Brain, Microscope, Check, Sparkles } from "lucide-react";
+import { Zap, Compass, Brain, Microscope, Sparkles } from "lucide-react";
 import { slideUpScale } from "@/utils/animations";
 import { ServiceModal } from "../common/ServiceModal";
 import { useState, useRef } from "react";
@@ -91,27 +91,25 @@ export function Services() {
             viewport={{ once: false, amount: 0.3 }}
             transition={{ duration: 0.6 }}
           >
-            <div className="inline-flex items-center gap-2 bg-verde-lima/10 border border-verde-lima/30 rounded-full px-4 py-2 mb-6">
+            <div className="inline-flex items-center gap-2 bg-negro border border-verde-lima/30 rounded-full px-4 py-2 mb-6">
               <Sparkles className="w-4 h-4 text-verde-lima" />
               <span className="text-verde-lima font-bold text-sm">Servicios Especializados</span>
             </div>
             <h2 className="text-4xl md:text-5xl font-bold text-negro mb-4">
               Diseñados para{" "}
-              <span className="text-verde-lima">acelerar tu crecimiento B2B</span>
+              <span className="text-verde-lima relative inline-block border-b-4 border-verde-lima/40 pb-1 underline decoration-verde-lima/40 decoration-4 underline-offset-8">acelerar tu crecimiento B2B</span>
             </h2>
             <p className="text-xl text-gray-700 max-w-3xl mx-auto mt-4 font-medium">
               Elige el formato estratégico que mejor se adapta a tu etapa de crecimiento, necesidades y objetivos comerciales.
             </p>
           </motion.div>
 
-          {/* Services Grid - 3 columnas con 4to centrado */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          {/* Services Grid - 4 columnas */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
             {services.map((service, i) => (
               <motion.div
                 key={`${i}-${isInView}`}
-                className={`relative bg-white border-2 p-8 rounded-2xl group overflow-hidden flex flex-col h-full ${
-                  i === 3 ? 'md:col-span-2 lg:col-span-1 lg:col-start-2 md:max-w-md md:mx-auto lg:max-w-none' : ''
-                }`}
+                className="relative bg-white border-2 p-8 rounded-2xl group overflow-hidden flex flex-col h-full"
                 style={{
                   borderColor: "#e5e7eb",
                   boxShadow: "0 4px 20px -2px rgba(0,0,0,0.08)"
@@ -141,11 +139,11 @@ export function Services() {
                 )}
 
                 <motion.div
-                  className="relative w-16 h-16 bg-gradient-to-br from-verde-lima/20 to-verde-lima/5 rounded-xl flex items-center justify-center mb-6"
+                  className="relative w-16 h-16 bg-negro rounded-xl flex items-center justify-center mb-6"
                   whileHover={{
                     scale: 1.15,
                     rotate: [0, -5, 5, -5, 0],
-                    backgroundColor: "rgba(180, 252, 5, 0.25)",
+                    backgroundColor: "#2a2a2a",
                   }}
                   transition={{ duration: 0.5 }}
                 >
@@ -164,7 +162,7 @@ export function Services() {
                 </motion.div>
 
                 <motion.h3
-                  className="relative text-2xl font-bold text-negro mb-3 min-h-[3.5rem] flex items-center"
+                  className="relative text-2xl font-bold text-negro mb-4 text-left"
                   whileHover={{
                     color: "#b4fc05",
                     x: 3,
@@ -173,42 +171,30 @@ export function Services() {
                 >
                   {service.title}
                 </motion.h3>
-                <p className="relative text-gray-600 leading-relaxed mb-6 text-sm flex-grow">
+                <p className="relative text-gray-600 leading-relaxed mb-6 text-base text-left flex-grow">
                   {service.description}
                 </p>
 
-                <div className="relative space-y-2.5 mb-6 flex-grow">
+                <div className="relative space-y-3 mb-6 flex-grow">
                   {service.features.map((feature, j) => (
                     <motion.div
                       key={j}
-                      className="flex items-start gap-2.5"
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -10 }}
+                      className="text-left"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
                       transition={{
                         delay: isInView ? i * 0.08 + j * 0.05 : 0,
                         duration: 0.5,
                       }}
-                      whileHover={{ x: 3 }}
                     >
-                      <motion.div
-                        className="w-5 h-5 rounded-full bg-verde-lima/15 flex items-center justify-center flex-shrink-0 mt-0.5"
-                        whileHover={{
-                          scale: 1.2,
-                          backgroundColor: "rgba(180, 252, 5, 0.25)",
-                          rotate: 360,
-                        }}
-                        transition={{ duration: 0.3 }}
-                      >
-                        <Check className="w-3.5 h-3.5 text-verde-lima" strokeWidth={2.5} />
-                      </motion.div>
-                      <span className="text-gray-700 text-sm">{feature}</span>
+                      <span className="text-gray-700 text-base">{feature}</span>
                     </motion.div>
                   ))}
                 </div>
 
                 <motion.button
                   onClick={() => handleServiceClick(service.title)}
-                  className="relative block w-full bg-negro text-verde-lima text-center px-6 py-3.5 rounded-xl font-semibold text-sm"
+                  className="relative block w-full bg-negro text-verde-lima text-center px-6 py-4 rounded-xl font-semibold text-base"
                   style={{
                     backgroundColor: "#1a1a1a",
                     color: "#b4fc05",

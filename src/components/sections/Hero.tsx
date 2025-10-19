@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ChevronDown, TrendingUp, Target, Zap } from "lucide-react";
+import { ChevronDown, TrendingUp, Target, Zap, ArrowRight } from "lucide-react";
 import { waveVariants, glitchVariants } from "@/utils/animations";
 import { GreenParticles } from "@/components/common/GreenParticles";
 
@@ -117,7 +117,7 @@ export function Hero() {
         </video>
 
         {/* Overlay oscuro para contraste */}
-        <div className="absolute inset-0 bg-negro/50" />
+        <div className="absolute inset-0 bg-[#121212]/50" />
 
         {/* Partículas verdes */}
         <GreenParticles count={30} minSize={2} maxSize={5} />
@@ -139,7 +139,7 @@ export function Hero() {
       <div className="container relative z-10 px-6 py-32">
         <div className="max-w-5xl mx-auto text-center">
           {/* Animated Headline */}
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-blanco mb-6 leading-tight drop-shadow-2xl">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-blanco mb-6 leading-tight drop-shadow-2xl">
             {words.map((word, i) => renderWord(word, i))}
           </h1>
 
@@ -150,29 +150,7 @@ export function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.2, duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
           >
-            En Bizellers convertimos{" "}
-            <motion.span
-              className="text-verde-lima font-bold inline-block"
-              whileHover={{
-                scale: 1.05,
-                textShadow: "0 0 20px rgba(180, 252, 5, 0.8)",
-                transition: { duration: 0.2 }
-              }}
-            >
-              equipos comerciales
-            </motion.span>{" "}
-            en{" "}
-            <motion.span
-              className="text-verde-lima font-bold inline-block"
-              whileHover={{
-                scale: 1.05,
-                textShadow: "0 0 20px rgba(180, 252, 5, 0.8)",
-                transition: { duration: 0.2 }
-              }}
-            >
-              motores de crecimiento
-            </motion.span>
-            .
+            Convertimos equipos comerciales en motores de crecimiento.
           </motion.p>
 
           {/* CTA */}
@@ -183,7 +161,7 @@ export function Hero() {
           >
             <motion.a
               href="#contacto"
-              className="inline-block bg-verde-lima text-negro px-12 py-5 rounded-lg font-bold text-xl shadow-2xl relative overflow-hidden"
+              className="inline-flex items-center gap-3 bg-verde-lima text-negro px-6 py-3 rounded-lg font-bold text-xl shadow-2xl relative overflow-hidden group"
               whileHover={{
                 scale: 1.05,
                 boxShadow: "0 0 50px rgba(180, 252, 5, 0.8), 0 10px 30px rgba(0, 0, 0, 0.3)",
@@ -203,6 +181,7 @@ export function Hero() {
                 }}
               />
               <span className="relative z-10">DIAGNÓSTICO GRATUITO</span>
+              <ArrowRight className="w-5 h-5 relative z-10 group-hover:translate-x-1 transition-transform" />
             </motion.a>
           </motion.div>
 

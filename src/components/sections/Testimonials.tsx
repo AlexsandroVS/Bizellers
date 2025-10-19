@@ -214,11 +214,11 @@ export function Testimonials() {
                   <div
                     className={cn(
                       "p-6 md:p-10 relative transition-all duration-300 backdrop-blur-sm",
-                      "bg-white/95 rounded-3xl",
+                      "bg-negro rounded-3xl",
                       isMobile ? "w-[85vw] max-w-[500px]" : "w-[520px]",
                       isCenter
                         ? "border-2 !border-verde-lima/50 shadow-[0_25px_80px_-15px_rgba(180,252,5,0.35),0_10px_30px_-10px_rgba(0,0,0,0.15)] ring-2 ring-verde-lima"
-                        : "border-2 !border-gray-200 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)]"
+                        : "border-2 !border-gray-700 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.3)]"
                     )}
                     style={{
                       borderColor: isCenter ? 'rgba(180, 252, 5, 0.5)' : undefined,
@@ -226,7 +226,7 @@ export function Testimonials() {
                   >
                     {/* Inner glow effect for active card */}
                     {isCenter && (
-                      <div className="absolute inset-0 bg-gradient-to-br from-verde-lima/5 via-transparent to-verde-lima/5 rounded-3xl pointer-events-none" />
+                      <div className="absolute inset-0 bg-gradient-to-br from-verde-lima/10 via-transparent to-verde-lima/10 rounded-3xl pointer-events-none" />
                     )}
                     <div className="flex flex-col items-center">
                       {/* Image & Rating */}
@@ -240,7 +240,7 @@ export function Testimonials() {
                               "w-20 h-20 rounded-full object-cover border-4 shadow-lg transition-all",
                               isCenter
                                 ? "border-verde-lima ring-4 ring-verde-lima"
-                                : "border-gray-300 ring-2 ring-gray-200"
+                                : "border-gray-600 ring-2 ring-gray-700"
                             )}
                             loading="lazy"
                             width="80"
@@ -266,19 +266,19 @@ export function Testimonials() {
                       <blockquote className={cn(
                         "text-base md:text-lg mb-6 leading-relaxed text-center font-light italic max-w-xl transition-all",
                         isCenter
-                          ? "text-gray-800"
-                          : "text-gray-600"
+                          ? "text-blanco"
+                          : "text-gray-300"
                       )}>
                         "{testimonial.quote}"
                       </blockquote>
 
                       {/* Author Info */}
-                      <div className="border-t border-gray-300 pt-4 text-center w-full">
+                      <div className="border-t border-gray-700 pt-4 text-center w-full">
                         <p className={cn(
                           "font-bold text-base transition-all",
                           isCenter
-                            ? "text-negro"
-                            : "text-gray-700"
+                            ? "text-blanco"
+                            : "text-gray-200"
                         )}>
                           {testimonial.author}
                         </p>
@@ -293,7 +293,7 @@ export function Testimonials() {
                         <p className={cn(
                           "text-xs font-semibold mt-1 transition-all",
                           isCenter
-                            ? "text-gray-600"
+                            ? "text-gray-400"
                             : "text-gray-500"
                         )}>
                           {testimonial.company}

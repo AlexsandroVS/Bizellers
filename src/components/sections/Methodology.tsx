@@ -137,73 +137,11 @@ export function Methodology() {
           </motion.h2>
 
           <motion.p
-            className="text-2xl md:text-3xl font-bold mb-6"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false, amount: 0.3 }}
-            transition={{ delay: 0.2, duration: 0.6 }}
-          >
-            <motion.span
-              className="inline-block text-verde-lima"
-              animate={{
-                scale: [1, 1.05, 1],
-                textShadow: [
-                  "0 0 10px rgba(180, 252, 5, 0.5)",
-                  "0 0 20px rgba(180, 252, 5, 0.8)",
-                  "0 0 10px rgba(180, 252, 5, 0.5)",
-                ],
-              }}
-              transition={{
-                scale: { duration: 2, repeat: Infinity, ease: "easeInOut", repeatType: "loop" },
-                textShadow: { duration: 2, repeat: Infinity, ease: "easeInOut", repeatType: "loop" },
-              }}
-            >
-              ESTRATEGIA
-            </motion.span>
-            {" + "}
-            <motion.span
-              className="inline-block text-verde-lima"
-              animate={{
-                scale: [1, 1.05, 1],
-                textShadow: [
-                  "0 0 10px rgba(180, 252, 5, 0.5)",
-                  "0 0 20px rgba(180, 252, 5, 0.8)",
-                  "0 0 10px rgba(180, 252, 5, 0.5)",
-                ],
-              }}
-              transition={{
-                scale: { duration: 2, repeat: Infinity, ease: "easeInOut", delay: 0.3, repeatType: "loop" },
-                textShadow: { duration: 2, repeat: Infinity, ease: "easeInOut", delay: 0.3, repeatType: "loop" },
-              }}
-            >
-              ENTRENAMIENTO
-            </motion.span>
-            {" + "}
-            <motion.span
-              className="inline-block text-verde-lima"
-              animate={{
-                scale: [1, 1.05, 1],
-                textShadow: [
-                  "0 0 10px rgba(180, 252, 5, 0.5)",
-                  "0 0 20px rgba(180, 252, 5, 0.8)",
-                  "0 0 10px rgba(180, 252, 5, 0.5)",
-                ],
-              }}
-              transition={{
-                scale: { duration: 2, repeat: Infinity, ease: "easeInOut", delay: 0.6, repeatType: "loop" },
-                textShadow: { duration: 2, repeat: Infinity, ease: "easeInOut", delay: 0.6, repeatType: "loop" },
-              }}
-            >
-              TECNOLOGÍA
-            </motion.span>
-          </motion.p>
-
-          <motion.p
             className="text-lg text-gray-100 max-w-2xl mx-auto"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: false, amount: 0.3 }}
-            transition={{ delay: 0.4, duration: 0.6 }}
+            transition={{ delay: 0.2, duration: 0.6 }}
           >
             No creemos en la suerte. Creemos en <span className="text-verde-lima font-bold">sistemas probados</span>.
           </motion.p>
@@ -279,12 +217,7 @@ export function Methodology() {
 
               {/* Process Flow */}
               <div className="flex items-center justify-center gap-2 text-xs pt-6 border-t border-gray-700 mt-auto">
-                {pillar.process.map((step, j) => (
-                  <div key={j} className="flex items-center gap-2">
-                    <span className="text-verde-lima font-semibold">{step}</span>
-                    {j < pillar.process.length - 1 && <ArrowRight className="w-3 h-3 text-gray-100" />}
-                  </div>
-                ))}
+                
               </div>
             </motion.div>
           ))}
@@ -300,11 +233,12 @@ export function Methodology() {
         >
           <motion.a
             href="#contacto"
-            className="inline-block bg-verde-lima text-negro px-10 py-4 rounded-xl font-bold text-lg shadow-xl"
+            className="inline-flex items-center gap-3 bg-verde-lima text-negro px-10 py-4 rounded-xl font-bold text-lg shadow-xl group"
             whileHover={{ scale: 1.05, boxShadow: "0 0 40px rgba(180, 252, 5, 0.5)" }}
             whileTap={{ scale: 0.95 }}
           >
-            Agendar Sesión Gratuita →
+            DIAGNÓSTICO GRATUITO
+            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </motion.a>
         </motion.div>
       </div>
