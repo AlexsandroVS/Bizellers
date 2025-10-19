@@ -48,9 +48,9 @@ export function Header() {
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
           ? isOverWhiteSection
-            ? "bg-[#121212]/70 backdrop-blur-xl shadow-[0_4px_20px_rgba(0,0,0,0.3),0_0_40px_rgba(255,255,255,0.1)] border-b border-white/10"
-            : "bg-[#121212]/70 backdrop-blur-xl shadow-[0_4px_20px_rgba(180,252,5,0.1)] border-b border-verde-lima/10"
-          : "bg-[#121212]/85 backdrop-blur-md"
+            ? "bg-[#121212]/90 backdrop-blur-xl shadow-[0_4px_20px_rgba(0,0,0,0.3),0_0_40px_rgba(255,255,255,0.1)] border-b border-white/10"
+            : "backdrop-blur-xl shadow-[0_4px_20px_rgba(180,252,5,0.1)] border-b border-verde-lima/10"
+          : "backdrop-blur-md"
       }`}
       style={isScrolled && isOverWhiteSection ? {
         backdropFilter: "blur(16px) saturate(180%)",
