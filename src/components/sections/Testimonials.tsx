@@ -131,7 +131,7 @@ export function Testimonials() {
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.7, ease: "easeOut" }}
-          className="relative w-full mx-auto mb-16 px-4"
+          className="relative w-full mx-auto mb-16 px-4 md:px-16"
         >
           <div
             className="relative flex items-center justify-center"
@@ -305,7 +305,8 @@ export function Testimonials() {
             whileHover={{ scale: 1.15, x: -8 }}
             whileTap={{ scale: 0.95 }}
             onClick={prevTestimonial}
-            className="hidden md:block absolute left-8 top-1/2 -translate-y-1/2 p-5 rounded-full shadow-2xl transition-all duration-300 z-[70] bg-verde-lima hover:bg-verde-lima-dark text-negro border-2 border-verde-lima/30 backdrop-blur-sm hover:shadow-verde-lima/50"
+            className="hidden md:block absolute left-24 p-5 rounded-full shadow-2xl transition-all duration-300 z-[70] bg-verde-lima hover:bg-verde-lima-dark text-negro border-2 border-verde-lima/30 backdrop-blur-sm hover:shadow-verde-lima/50"
+            style={{ top: '50%', transform: 'translateY(-50%)' }}
             aria-label="Testimonio anterior"
           >
             <ChevronLeft className="w-7 h-7" strokeWidth={2.5} />
@@ -316,7 +317,8 @@ export function Testimonials() {
             whileHover={{ scale: 1.15, x: 8 }}
             whileTap={{ scale: 0.95 }}
             onClick={nextTestimonial}
-            className="hidden md:block absolute right-8 top-1/2 -translate-y-1/2 p-5 rounded-full shadow-2xl transition-all duration-300 z-[70] bg-verde-lima hover:bg-verde-lima-dark text-negro border-2 border-verde-lima/30 backdrop-blur-sm hover:shadow-verde-lima/50"
+            className="hidden md:block absolute right-24 p-5 rounded-full shadow-2xl transition-all duration-300 z-[70] bg-verde-lima hover:bg-verde-lima-dark text-negro border-2 border-verde-lima/30 backdrop-blur-sm hover:shadow-verde-lima/50"
+            style={{ top: '50%', transform: 'translateY(-50%)' }}
             aria-label="Siguiente testimonio"
           >
             <ChevronRight className="w-7 h-7" strokeWidth={2.5} />

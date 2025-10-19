@@ -77,30 +77,30 @@ export function Contact() {
             >
               <div className="inline-flex items-center gap-2 bg-verde-lima/10 border border-verde-lima rounded-full px-4 py-2 mb-6">
                 <Sparkles className="w-4 h-4 text-verde-lima" />
-                <span className="text-verde-lima font-bold text-sm">Sesión Gratuita de Descubrimiento</span>
+                <span className="text-verde-lima font-bold text-sm">Solicita un Diagnóstico Gratuito</span>
               </div>
 
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-blanco mb-6">
-                Da el primer paso hacia{" "}
+                Da el primer paso para{" "}
                 <span className="relative inline-block">
-                  <span className="text-verde-lima">tu crecimiento</span>
+                  <span className="text-verde-lima">escalar tus ventas</span>
                   <div className="absolute -bottom-2 left-0 right-0 h-1.5 bg-verde-lima/50 rounded-full" />
                 </span>
               </h2>
 
               <p className="text-xl text-gray-100 mb-8">
-                En una sesión estratégica de <span className="font-bold text-verde-lima">30 minutos sin costo</span>, revisaremos tu situación actual, identificaremos oportunidades clave y definiremos el mejor camino para escalar tus resultados comerciales.
+                Identifica las oportunidades clave del <span className="font-bold text-verde-lima">crecimiento de tu empresa </span> y recibe un plan de acción personalizado.
               </p>
 
               <div className="space-y-4 mb-8">
                 {[
-                  { icon: Calendar, title: "30 minutos de valor", desc: "Sesión enfocada y práctica" },
-                  { icon: UserIcon, title: "Asesoría personalizada", desc: "Diagnóstico adaptado a ti" },
-                  { icon: CheckCircle, title: "Plan de acción claro", desc: "Pasos concretos para avanzar" },
+                  { icon: Calendar, title: "30 minutos de valor",  },
+                  { icon: UserIcon, title: "Asesoría personalizada",  },
+                  { icon: CheckCircle, title: "Plan de acción claro",},
                 ].map((benefit, i) => (
                   <motion.div
                     key={i}
-                    className="flex items-start gap-4"
+                    className="flex items-center gap-4"
                     initial={{ opacity: 0, x: -20 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: false, amount: 0.3 }}
@@ -109,10 +109,7 @@ export function Contact() {
                     <div className="w-12 h-12 bg-verde-lima/10 rounded-lg flex items-center justify-center flex-shrink-0">
                       <benefit.icon className="w-6 h-6 text-verde-lima" />
                     </div>
-                    <div>
-                      <h3 className="font-bold text-blanco text-lg">{benefit.title}</h3>
-                      <p className="text-gray-100">{benefit.desc}</p>
-                    </div>
+                    <h3 className="font-bold text-blanco text-lg">{benefit.title}</h3>
                   </motion.div>
                 ))}
               </div>
