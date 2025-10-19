@@ -1,4 +1,4 @@
-import { Mail, Instagram, Linkedin, Sparkles, ArrowRight } from "lucide-react";
+import { Instagram, Linkedin, Sparkles, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 
 export function Footer() {
@@ -53,38 +53,17 @@ export function Footer() {
             </p>
           </motion.div>
 
-          {/* Contacto */}
+          {/* Páginas */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}
           >
-            <h4 className="text-lg font-bold text-blanco mb-4">Contacto</h4>
+            <h4 className="text-lg font-bold text-blanco mb-4">Páginas</h4>
             <div className="flex flex-col gap-2">
               <motion.a
-                href="mailto:contacto@bizellers.com"
-                className="text-gray-100 flex items-center gap-2"
-                whileHover={{
-                  color: "#b4fc05",
-                  x: 3,
-                }}
-                transition={{ duration: 0.2 }}
-              >
-                <motion.div
-                  whileHover={{
-                    rotate: 15,
-                    scale: 1.2,
-                  }}
-                >
-                  <Mail size={18} />
-                </motion.div>
-                contacto@bizellers.com
-              </motion.a>
-              <motion.a
-                href="https://www.bizellers.com"
-                target="_blank"
-                rel="noopener noreferrer"
+                href="#metodologia"
                 className="text-gray-100"
                 whileHover={{
                   color: "#b4fc05",
@@ -92,7 +71,29 @@ export function Footer() {
                 }}
                 transition={{ duration: 0.2 }}
               >
-                www.bizellers.com
+                Metodología
+              </motion.a>
+              <motion.a
+                href="#servicios"
+                className="text-gray-100"
+                whileHover={{
+                  color: "#b4fc05",
+                  x: 3,
+                }}
+                transition={{ duration: 0.2 }}
+              >
+                Servicios
+              </motion.a>
+              <motion.a
+                href="#testimonios"
+                className="text-gray-100"
+                whileHover={{
+                  color: "#b4fc05",
+                  x: 3,
+                }}
+                transition={{ duration: 0.2 }}
+              >
+                Testimonios
               </motion.a>
             </div>
           </motion.div>
