@@ -6,6 +6,7 @@ import { Methodology } from "./components/sections/Methodology";
 import { Services } from "./components/sections/Services";
 import { Testimonials } from "./components/sections/Testimonials";
 import { AboutRuben } from "./components/sections/AboutRuben";
+import { Newsletter } from "./components/sections/Newsletter";
 import { FAQs } from "./components/sections/FAQs";
 import { Contact } from "./components/sections/Contact";
 import { SEO } from "./components/common/SEO";
@@ -22,6 +23,7 @@ function App() {
         <Services />
         <Testimonials />
         <AboutRuben />
+        <Newsletter />
         <FAQs />
         <Contact />
       </main>
