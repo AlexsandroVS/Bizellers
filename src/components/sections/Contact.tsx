@@ -7,7 +7,7 @@ import { GreenParticles } from "@/components/common/GreenParticles";
 export function Contact() {
   const [formData, setFormData] = useState({
     name: "",
-    company: "",
+    empresa: "",
     email: "",
     phone: "",
     message: "",
@@ -33,7 +33,7 @@ export function Contact() {
 
       if (response.ok) {
         setSubmitStatus("success");
-        setFormData({ name: "", company: "", email: "", phone: "", message: "" });
+        setFormData({ name: "", empresa: "", email: "", phone: "", message: "" });
       } else {
         setSubmitStatus("error");
       }
@@ -153,8 +153,8 @@ export function Contact() {
                     <input
                       type="text"
                       required
-                      value={formData.company}
-                      onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+                      value={formData.empresa}
+                      onChange={(e) => setFormData({ ...formData, empresa: e.target.value })}
                       placeholder="Tu Empresa S.A."
                       className="w-full px-4 py-3 border border-verde-lima rounded-lg focus:border-verde-lima focus:outline-none focus:ring-2 focus:ring-verde-lima transition-all bg-gray-800/50 text-black placeholder:text-gray-400"
                     />

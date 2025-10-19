@@ -116,7 +116,7 @@ export function Header() {
             })}
             <motion.a
               href="#contacto"
-              className="bg-verde-lima text-negro px-6 py-2 rounded-lg font-bold relative overflow-hidden inline-flex items-center gap-2 group"
+              className="bg-verde-lima text-negro px-5 py-2 rounded-lg font-bold text-sm relative overflow-hidden inline-flex items-center gap-2 group"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.3, type: "spring", stiffness: 200 }}
@@ -203,7 +203,7 @@ export function Header() {
               ))}
               <motion.a
                 href="#contacto"
-                className="bg-verde-lima text-negro px-6 py-3 rounded-lg font-bold text-center inline-flex items-center justify-center gap-2 group"
+                className="bg-verde-lima text-negro px-5 py-2.5 rounded-lg font-bold text-sm text-center inline-flex items-center justify-center gap-2 group"
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.3, type: "spring", stiffness: 200 }}

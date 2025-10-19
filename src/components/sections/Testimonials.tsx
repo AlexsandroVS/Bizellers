@@ -385,7 +385,7 @@ export function Testimonials() {
             href="#contacto"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="inline-block bg-verde-lima hover:bg-verde-lima-dark text-negro font-bold shadow-2xl hover:shadow-verde-lima/50 transition-all px-8 py-4 text-lg rounded-full"
+            className="inline-flex items-center gap-2 bg-verde-lima hover:bg-verde-lima-dark text-negro font-bold shadow-2xl hover:shadow-verde-lima/50 transition-all px-5 py-2.5 text-lg rounded-full"
           >
             DIAGNÓSTICO GRATUITO →
           </motion.a>
