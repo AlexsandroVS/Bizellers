@@ -222,6 +222,50 @@ export function AboutRuben() {
           zIndex: 1,
         }}
       />
+      
+      {/* More intense neon glows */}
+      <motion.div
+        animate={{ opacity: [0.3, 0.6, 0.3], scale: [1, 1.2, 1], rotate: [0, 180, 360] }}
+        transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+        className="absolute rounded-full pointer-events-none"
+        style={{
+          width: '200px',
+          height: '200px',
+          left: '10%',
+          bottom: '15%',
+          background: 'rgba(180, 252, 5, 0.35)',
+          filter: 'blur(50px)',
+          zIndex: 1,
+        }}
+      />
+      <motion.div
+        animate={{ opacity: [0.25, 0.55, 0.25], scale: [1, 1.18, 1], x: [0, -20, 0] }}
+        transition={{ duration: 9, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+        className="absolute rounded-full pointer-events-none"
+        style={{
+          width: '140px',
+          height: '140px',
+          right: '8%',
+          top: '15%',
+          background: 'rgba(180, 252, 5, 0.48)',
+          filter: 'blur(45px)',
+          zIndex: 1,
+        }}
+      />
+      <motion.div
+        animate={{ opacity: [0.22, 0.52, 0.22], scale: [1, 1.16, 1], y: [0, 20, 0] }}
+        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 3.5 }}
+        className="absolute rounded-full pointer-events-none"
+        style={{
+          width: '160px',
+          height: '160px',
+          left: '50%',
+          top: '10%',
+          background: 'rgba(180, 252, 5, 0.4)',
+          filter: 'blur(42px)',
+          zIndex: 1,
+        }}
+      />
 
       <div className="container mx-auto px-6 sm:px-8 lg:px-4 relative z-10">
         <div className="max-w-6xl mx-auto">
