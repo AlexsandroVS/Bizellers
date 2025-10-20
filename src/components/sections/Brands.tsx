@@ -1,8 +1,19 @@
 import { motion } from "framer-motion";
 
 const brands = [
-  { name: "Kaman", logo: "/Kaman1.png" },
-  { name: "Nexum", logo: "/Nexum1.png" },
+  { name: "AcceptGo", logo: "/Assets/AcceptGo.png" },
+  { name: "ARIA", logo: "/Assets/ARIA.png" },
+  { name: "Buplat", logo: "/Assets/Buplat.png" },
+  { name: "Code", logo: "/Assets/Code.png" },
+  { name: "EasyDrop", logo: "/Assets/EasyDrop.png" },
+  { name: "Equipu", logo: "/Assets/Equipu.png" },
+  { name: "EraDigital", logo: "/Assets/EraDigital.png" },
+  { name: "Kaman", logo: "/Assets/Kaman.png" },
+  { name: "Nexum", logo: "/Assets/Nexum.png" },
+  { name: "Perflay", logo: "/Assets/Perflay.png" },
+  { name: "StartupGrind", logo: "/Assets/StartupGrind.png" },
+  { name: "Superdotados", logo: "/Assets/Superdotados.png" },
+  { name: "Tecsup", logo: "/Assets/Tecsup.png" },
 ];
 
 export function Brands() {
