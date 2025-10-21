@@ -18,7 +18,7 @@ const testimonials = [
     quote: "Me encantó la asesoría de Bizellers sobre cómo fortalecer nuestra estrategia comercial. La estrategia Go-To-Market fue práctica, clara y totalmente aplicable. Gracias por ir más allá, interesándose en nuestro avance y apoyándonos con ideas e iniciativas que ya están dando resultados positivos",
     author: "Sebastián Bustamante",
     role: "Founder",
-    company: "Superdotados",
+    company: "Superdatados",
     rating: 5,
     image: "/Testimonials/Testimonio2.png",
   },
