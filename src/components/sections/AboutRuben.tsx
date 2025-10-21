@@ -132,7 +132,7 @@ export function AboutRuben() {
       description: "Experiencia en ventas B2B y estrategias Go-To-Market",
     },
     {
-      number: 5,
+      number: 3,
       suffix: " países",
       description: "Sales Ops, ventas, operaciones y expansión internacional",
     },
