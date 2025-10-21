@@ -45,9 +45,20 @@ interface StatCounterProps {
 const StatCounter = memo(({ number, suffix, description, index, isLast }: StatCounterProps) => {
   const { ref, rounded } = useInViewCounter(number);
 
+  // --- COMIENZA EL CAMBIO ---
   const displayValue = useTransform(rounded, latest => {
-    return Math.round(latest).toLocaleString();
-  });
+    // 1. Redondea el valor actual de la animación.
+    const roundedValue = Math.round(latest);
+    
+    // 2. Formatea el número con separadores de miles (si aplica).
+    const formattedValue = roundedValue.toLocaleString();
+    
+    // 3. Añade el '+' solo si el número es mayor que 0.
+    const prefix = roundedValue > 0 ? '+' : '';
+
+    // 4. Concatena el prefijo y el valor formateado.
+    return prefix + formattedValue;
+    });
 
   const statVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -81,7 +92,7 @@ const StatCounter = memo(({ number, suffix, description, index, isLast }: StatCo
           whileHover={{ rotate: [0, -5, 5, -5, 0] }}
           transition={{ duration: 0.5 }}
         >
-          {displayValue}
+          {displayValue} 
         </motion.span>
         {suffix}
       </motion.div>
@@ -112,17 +123,17 @@ export function AboutRuben() {
   const stats = [
     {
       number: 7,
-      suffix: "+ años",
+      suffix: " años",
       description: "Liderando equipos comerciales y estrategias de desarrollo de negocios",
     },
     {
       number: 5,
-      suffix: "+ industrias",
+      suffix: " industrias",
       description: "Experiencia en ventas B2B y estrategias Go-To-Market",
     },
     {
       number: 5,
-      suffix: "+ países",
+      suffix: " países",
       description: "Sales Ops, ventas, operaciones y expansión internacional",
     },
   ];
