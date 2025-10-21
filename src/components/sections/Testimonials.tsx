@@ -7,45 +7,30 @@ const cn = (...classes: (string | boolean | undefined)[]) => classes.filter(Bool
 
 const testimonials = [
   {
-    quote: "Pasamos de no tener procesos claros a cerrar deals de manera consistente cada semana. El impacto fue inmediato y completamente sostenible.",
-    author: "Carlos Mendoza",
-    role: "CEO",
-    company: "TechSaaS Perú",
+    quote: "Gracias a Bizellers, pudimos fortalecer nuestra estrategia comercial B2B con clientes corporativos. Su asesoría fue determinante para estructurar propuestas de valor más sólidas, afinar nuestro enfoque comercial y potenciar nuestras habilidades de negociación y cierre de ventas, generando un impacto directo en nuestros resultados",
+    author: "Alejandro Auza",
+    role: "Founder",
+    company: "Accept Go",
     rating: 5,
     image: "/Testimonials/Testimonio1.png",
   },
   {
-    quote: "Logramos previsibilidad real en nuestras ventas y claridad absoluta en los indicadores clave del negocio.",
-    author: "Ana Rodríguez",
-    role: "Co-Founder",
-    company: "ScaleUp México",
+    quote: "Me encantó la asesoría de Bizellers sobre cómo fortalecer nuestra estrategia comercial. La estrategia Go-To-Market fue práctica, clara y totalmente aplicable. Gracias por ir más allá, interesándose en nuestro avance y apoyándonos con ideas e iniciativas que ya están dando resultados positivos",
+    author: "Sebastián Bustamante",
+    role: "Founder",
+    company: "Superdotados",
     rating: 5,
     image: "/Testimonials/Testimonio2.png",
   },
   {
-    quote: "Rubén entiende perfectamente cómo escalar equipos comerciales sin perder la esencia y cultura de ventas.",
-    author: "Diego Silva",
-    role: "Head of Sales",
-    company: "GrowthCo Chile",
+    quote: "Gracias a Bizellers, fortalecimos el proceso comercial de ARIA, nuestro software de creación de agentes IA. Su acompañamiento fue clave para nutrir y cerrar clientes de forma más efectiva, aumentando nuestra tasa de conversión y acelerando el crecimiento de nuestro negocio”",
+    author: "Jorge Veramendi",
+    role: "CEO",
+    company: "ARIA",
     rating: 5,
-    image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop",
+    image: "/Testimonials/Testimonio3.png",
   },
-  {
-    quote: "La estructura estratégica que implementamos nos permitió duplicar exitosamente nuestro pipeline en solo 4 meses.",
-    author: "María González",
-    role: "VP Sales",
-    company: "InnovateTech Argentina",
-    rating: 5,
-    image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop",
-  },
-  {
-    quote: "El entrenamiento intensivo transformó completamente a nuestro equipo de ventas B2B en resultados y mentalidad.",
-    author: "Luis Fernández",
-    role: "Founder",
-    company: "B2B Solutions Colombia",
-    rating: 5,
-    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop",
-  },
+ 
 ];
 
 export function Testimonials() {
@@ -131,11 +116,11 @@ export function Testimonials() {
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.7, ease: "easeOut" }}
-          className="relative w-full mx-auto mb-16 px-4 md:px-16"
+          className="relative w-full mx-auto mb-32 md:mb-16 px-4 md:px-16"
         >
           <div
             className="relative flex items-center justify-center"
-            style={{ minHeight: isMobile ? '580px' : '600px' }}
+            style={{ minHeight: isMobile ? '650px' : '600px' }}
           >
             {testimonials.map((testimonial, index) => {
               const position = getCardPosition(index);
@@ -325,7 +310,7 @@ export function Testimonials() {
           </motion.button>
 
           {/* Navigation Arrows - Mobile */}
-          <div className="md:hidden absolute bottom-0 left-1/2 -translate-x-1/2 flex gap-4 z-[70]">
+          <div className="md:hidden absolute -bottom-12 left-1/2 -translate-x-1/2 flex gap-4 z-[70]">
             <motion.button
               initial={{ opacity: 1, scale: 1 }}
               whileHover={{ scale: 1.1 }}
@@ -350,7 +335,7 @@ export function Testimonials() {
           </div>
 
           {/* Dots Indicator */}
-          <div className="absolute -bottom-8 md:-bottom-8 left-1/2 -translate-x-1/2 flex gap-2 z-[60] mt-20 md:mt-0">
+          <div className="absolute -bottom-28 md:-bottom-8 left-1/2 -translate-x-1/2 flex gap-2 z-[60]">
             {testimonials.map((_, index) => (
               <motion.button
                 key={index}
