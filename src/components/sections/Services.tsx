@@ -34,7 +34,7 @@ const services = [
   {
     icon: Brain,
     title: "Fractional Growth Leadership",
-    description: "Guía experta en ventas B2B para dirigir y acelerar el crecimiento de tu equipo comercial.",
+    description: "Accede a la guía de un experto en ventas B2B para dirigir y hacer crecer tu equipo.",
     features: [
       "Mín. 16 horas/mes",
       "Dirección estratégica",
