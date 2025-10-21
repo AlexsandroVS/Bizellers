@@ -14,7 +14,7 @@ import { SEO } from "./components/common/SEO";
 function App() {
   return (
     <div className="min-h-screen bg-negro">
-      <SEO />
+      <SEO/>
       <Header />
       <main>
         <Hero />
