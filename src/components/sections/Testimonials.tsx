@@ -66,7 +66,7 @@ export function Testimonials() {
   };
 
   return (
-    <section ref={sectionRef} id="testimonios" className="py-24 md:py-36 bg-blanco relative overflow-hidden">
+    <section ref={sectionRef} id="testimonios" className="pt-24 md:py-36 pb-12 bg-blanco relative overflow-hidden">
       {/* Background Elements - Enhanced green glows */}
       <motion.div
         animate={{ scale: [1, 1.2, 1], opacity: [0.15, 0.25, 0.15] }}
@@ -116,7 +116,7 @@ export function Testimonials() {
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.7, ease: "easeOut" }}
-          className="relative w-full mx-auto mb-32 md:mb-16 px-4 md:px-16"
+          className="relative w-full mx-auto px-4 md:px-16 pb-48"
         >
           <div
             className="relative flex items-center justify-center"
@@ -295,7 +295,7 @@ export function Testimonials() {
           </motion.button>
 
           {/* Navigation Arrows - Mobile */}
-          <div className="md:hidden absolute -bottom-12 left-1/2 -translate-x-1/2 flex gap-4 z-[70]">
+          <div className="md:hidden absolute bottom-16 left-1/2 -translate-x-1/2 flex gap-4 z-[70]">
             <motion.button
               initial={{ opacity: 1, scale: 1 }}
               whileHover={{ scale: 1.1 }}
@@ -320,7 +320,7 @@ export function Testimonials() {
           </div>
 
           {/* Dots Indicator */}
-          <div className="absolute -bottom-28 md:-bottom-8 left-1/2 -translate-x-1/2 flex gap-2 z-[60]">
+          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2 z-[60]">
             {testimonials.map((_, index) => (
               <motion.button
                 key={index}
@@ -349,7 +349,7 @@ export function Testimonials() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: false, amount: 0.3 }}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="text-center mt-12"
+          className="text-center"
         >
           <motion.a
             href="#contacto"

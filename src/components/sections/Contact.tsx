@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Calendar, User as UserIcon, MessageSquare, Mail, Phone, Send, Sparkles, CheckCircle, Building2 } from "lucide-react";
+import { UserCheck, ClipboardList, ShieldCheck, User as UserIcon, MessageSquare, Mail, Phone, Send, Sparkles, Building2 } from "lucide-react";
 import { useState, useRef, type FormEvent } from "react";
 import { useScrollInView } from "@/hooks/useScrollInView";
 import { GreenParticles } from "@/components/common/GreenParticles";
@@ -95,9 +95,9 @@ export function Contact() {
 
               <div className="space-y-1 mb-8">
                 {[
-                  { icon: Calendar, title: "30 minutos de valor",  },
-                  { icon: UserIcon, title: "Asesoría personalizada",  },
-                  { icon: CheckCircle, title: "Plan de acción claro",},
+                  { icon: UserCheck, title: "Diagnóstico personalizado" },
+                  { icon: ClipboardList, title: "Plan de acción claro" },
+                  { icon: ShieldCheck, title: "100% gratis y sin compromiso" },
                 ].map((benefit, i) => (
                   <motion.div
                     key={i}
