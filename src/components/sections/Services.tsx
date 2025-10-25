@@ -100,7 +100,7 @@ export function Services() {
               <span className="inline-block bg-verde-lima text-negro rounded-full px-4 py-1 sm:px-6 sm:py-2">crecimiento B2B</span>
             </h2>
             <p className="text-xl text-gray-700 max-w-3xl mx-auto mt-4 font-medium">
-              Elige el formato estratégico que mejor se adapta a tu etapa de crecimiento, necesidades y objetivos comerciales.
+              Elige el servicio que mejor se adapta a tu etapa de crecimiento, necesidades y objetivos comerciales.
             </p>
           </motion.div>
 
@@ -187,7 +187,7 @@ export function Services() {
                         duration: 0.5,
                       }}
                     >
-                      <Check className="w-5 h-5 text-verde-lima flex-shrink-0 mt-0.5" />
+                      <Check className="w-5 h-5 text-negro flex-shrink-0 mt-0.5" />
                       <span className="text-gray-700 text-base">{feature}</span>
                     </motion.div>
                   ))}
