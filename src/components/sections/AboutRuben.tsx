@@ -478,7 +478,7 @@ export function AboutRuben() {
                 <img
                   src="/Nexum1.png"
                   alt="Nexum Aceleradora"
-                  className="h-10 sm:h-12 md:h-14 w-auto object-contain brightness-0 invert opacity-90 hover:opacity-100 transition-opacity"
+                  className="w-28 sm:w-32 md:w-36 h-auto object-contain brightness-0 invert opacity-90 hover:opacity-100 transition-opacity"
                 />
               </motion.div>
               <motion.div
@@ -489,7 +489,7 @@ export function AboutRuben() {
                 <img
                   src="/Kaman1.png"
                   alt="Kaman Incubadora de Negocios"
-                  className="h-10 sm:h-12 md:h-14 w-auto object-contain brightness-0 invert opacity-90 hover:opacity-100 transition-opacity"
+                  className="w-28 sm:w-32 md:w-36 h-auto object-contain brightness-0 invert opacity-90 hover:opacity-100 transition-opacity"
                 />
               </motion.div>
             </motion.div>

@@ -81,7 +81,7 @@ export function Contact() {
                 <span className="text-verde-lima font-bold text-sm">Solicita un Diagnóstico Gratuito</span>
               </div>
 
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-blanco mb-6">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-blanco mb-6 leading-tight sm:leading-normal">
                 Da el primer paso para{" "}<span className="text-verde-lima">escalar</span>
                 <span className="relative inline-block">
                   <span className="text-verde-lima">tus ventas</span>
@@ -93,7 +93,7 @@ export function Contact() {
                 Identifica las oportunidades clave del <span className="font-bold text-verde-lima">crecimiento de tu empresa </span> y recibe un plan de acción personalizado.
               </p>
 
-              <div className="space-y-4 mb-8">
+              <div className="space-y-1 mb-8">
                 {[
                   { icon: Calendar, title: "30 minutos de valor",  },
                   { icon: UserIcon, title: "Asesoría personalizada",  },

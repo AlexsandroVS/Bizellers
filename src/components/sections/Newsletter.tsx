@@ -156,7 +156,7 @@ export function Newsletter() {
                 <motion.button
                   type="submit"
                   disabled={isSubmitting}
-                  className="bg-verde-lima text-negro px-8 py-4 rounded-lg font-bold text-lg flex items-center justify-center gap-2 hover:bg-verde-lima-dark transition-all disabled:opacity-50 shadow-lg whitespace-nowrap"
+                  className="bg-verde-lima text-negro px-6 py-3 text-base sm:px-8 sm:py-4 sm:text-lg rounded-lg font-bold flex items-center justify-center gap-2 hover:bg-verde-lima-dark transition-all disabled:opacity-50 shadow-lg whitespace-nowrap"
                   whileHover={{ scale: isSubmitting ? 1 : 1.02 }}
                   whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
                 >
