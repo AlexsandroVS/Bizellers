@@ -37,12 +37,13 @@ const useInViewCounter = (targetValue: number) => {
 interface StatCounterProps {
   number: number;
   suffix: string;
-  description: string;
+  description1: string;
+  description2: string;
   index: number;
   isLast: boolean;
 }
 
-const StatCounter = memo(({ number, suffix, description, index, isLast }: StatCounterProps) => {
+const StatCounter = memo(({ number, suffix, description1, description2, index, isLast }: StatCounterProps) => {
   const { ref, rounded } = useInViewCounter(number);
 
   // --- COMIENZA EL CAMBIO ---
@@ -97,7 +98,10 @@ const StatCounter = memo(({ number, suffix, description, index, isLast }: StatCo
         {suffix}
       </motion.div>
       <p className="text-xs sm:text-sm text-gray-300 leading-relaxed group-hover:text-blanco transition-colors relative z-10">
-        {description}
+        {description1}
+        <br className="md:hidden" />
+        <span className="hidden md:inline"> </span>
+        {description2}
       </p>
     </motion.div>
   );
@@ -124,17 +128,20 @@ export function AboutRuben() {
     {
       number: 7,
       suffix: " años",
-      description: "Liderando equipos comerciales y estrategias de desarrollo de negocios",
+      description1: "Liderando equipos comerciales",
+      description2: "y estrategias de desarrollo de negocios",
     },
     {
       number: 5,
       suffix: " industrias",
-      description: "Experiencia en ventas B2B y estrategias Go-To-Market",
+      description1: "Experiencia en ventas B2B",
+      description2: "y estrategias Go-To-Market",
     },
     {
       number: 3,
       suffix: " países",
-      description: "Sales Ops, ventas, operaciones y expansión internacional",
+      description1: "Sales Ops, ventas, operaciones",
+      description2: "y expansión internacional",
     },
   ];
 
@@ -385,7 +392,7 @@ export function AboutRuben() {
                   className="bg-gray-800/50 backdrop-blur-sm p-4 sm:p-5 md:p-6 rounded-xl md:rounded-2xl border border-verde-lima/20 shadow-lg"
                 >
                   <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-blanco leading-relaxed">
-                    Hoy, desde <span className="font-bold text-verde-lima bg-verde-lima/10 px-2 py-1 rounded">Bizellers</span>, ayudo a fundadores, líderes, equipos y empresas en expansión a
+                    Hoy, desde <span className="font-bold text-verde-lima bg-verde-lima/10 px-0 py-1 rounded">Bizellers</span>, ayudo a fundadores, líderes, equipos y empresas en expansión a
                     construir sistemas de venta robustos que realmente generan resultados.
                   </p>
                 </motion.div>
@@ -402,7 +409,7 @@ export function AboutRuben() {
                   onClick={() => scrollToSection("contacto")}
                   whileHover={{ scale: 1.05, y: -2 }}
                   whileTap={{ scale: 0.98 }}
-                  className="group bg-verde-lima text-negro px-5 py-2.5 rounded-xl font-bold text-lg shadow-2xl hover:shadow-verde-lima/50 transition-all duration-300 relative overflow-hidden w-full sm:w-auto inline-flex items-center justify-center gap-3"
+                  className="group bg-verde-lima text-negro px-4 py-2 text-base sm:px-5 sm:py-2.5 sm:text-lg rounded-xl font-bold shadow-2xl hover:shadow-verde-lima/50 transition-all duration-300 relative overflow-hidden w-full sm:w-auto inline-flex items-center justify-center gap-3"
                 >
                   <motion.span
                     className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
@@ -434,7 +441,8 @@ export function AboutRuben() {
                 key={index}
                 number={stat.number}
                 suffix={stat.suffix}
-                description={stat.description}
+                description1={stat.description1}
+                description2={stat.description2}
                 index={index}
                 isLast={index === stats.length - 1}
               />

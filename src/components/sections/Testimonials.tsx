@@ -86,7 +86,7 @@ export function Testimonials() {
 
       <div className="container mx-auto px-4 relative z-10">
         {/* Header */}
-        <div className="max-w-3xl mx-auto text-center mb-16">
+        <div className="max-w-3xl mx-auto text-center md:mb-12">
           <motion.h2
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -104,7 +104,7 @@ export function Testimonials() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: false, amount: 0.3 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-xl text-gray-600"
+            className="text-xl text-gray-600 "
           >
             Historias de éxito que prueban nuestra metodología.
           </motion.p>
@@ -120,7 +120,7 @@ export function Testimonials() {
         >
           <div
             className="relative flex items-center justify-center"
-            style={{ minHeight: isMobile ? '650px' : '600px' }}
+            style={{ minHeight: isMobile ? '550px' : '600px' }}
           >
             {testimonials.map((testimonial, index) => {
               const position = getCardPosition(index);
@@ -355,7 +355,7 @@ export function Testimonials() {
             href="#contacto"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="inline-flex items-center gap-2 bg-verde-lima hover:bg-verde-lima-dark text-negro font-bold shadow-2xl hover:shadow-verde-lima/50 transition-all px-5 py-2.5 text-lg rounded-full"
+            className="inline-flex items-center gap-2 bg-verde-lima hover:bg-verde-lima-dark text-negro font-bold shadow-2xl hover:shadow-verde-lima/50 transition-all px-4 py-2 text-base sm:px-5 sm:py-2.5 sm:text-lg rounded-full"
           >
             DIAGNÓSTICO GRATUITO →
           </motion.a>
