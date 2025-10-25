@@ -127,39 +127,24 @@ export function Testimonials() {
               const isCenter = position === 0;
               const absPosition = Math.abs(position);
 
-              if (isMobile && !isCenter) return null;
-
               const maxVisible = 1;
-              if (!isMobile && absPosition > maxVisible) return null;
+              if (absPosition > maxVisible) return null;
 
-              let transformConfig;
+              const side = position > 0 ? 1 : -1;
+              const offsetX = side * (isMobile ? 70 : 100 + absPosition * 120);
+              const offsetZ = -absPosition * (isMobile ? 80 : 150);
+              const rotateY = side * (isMobile ? 10 : 15 + absPosition * 8);
+              const scale = 1 - absPosition * (isMobile ? 0.15 : 0.15);
+              const opacity = 1 - absPosition * (isMobile ? 0.4 : 0.08);
 
-              if (isMobile) {
-                transformConfig = {
-                  x: 0,
-                  y: 0,
-                  scale: 1,
-                  rotateY: 0,
-                  z: 0,
-                  opacity: 1,
-                };
-              } else {
-                const side = position > 0 ? 1 : -1;
-                const offsetX = side * (100 + absPosition * 120);
-                const offsetZ = -absPosition * 150;
-                const rotateY = side * (15 + absPosition * 8);
-                const scale = 1 - absPosition * 0.15;
-                const opacity = 1 - absPosition * 0.08;
-
-                transformConfig = {
-                  x: isCenter ? 0 : offsetX,
-                  y: 0,
-                  scale: scale,
-                  rotateY: isCenter ? 0 : rotateY,
-                  z: isCenter ? 0 : offsetZ,
-                  opacity: opacity,
-                };
-              }
+              const transformConfig = {
+                x: isCenter ? 0 : offsetX,
+                y: 0,
+                scale: scale,
+                rotateY: isCenter ? 0 : rotateY,
+                z: isCenter ? 0 : offsetZ,
+                opacity: opacity,
+              };
 
               const zIndex = 50 - absPosition;
 

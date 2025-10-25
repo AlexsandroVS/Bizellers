@@ -96,8 +96,8 @@ export function Services() {
               <span className="text-verde-lima font-bold text-sm">Servicios Especializados</span>
             </div>
             <h2 className="text-4xl md:text-5xl font-bold text-negro mb-4">
-              Diseñados para{" "}
-              <span className="inline-block bg-verde-lima text-negro rounded-full px-6 py-2">acelerar tu crecimiento B2B</span>
+              Diseñados para acelerar tu{" "}
+              <span className="inline-block bg-verde-lima text-negro rounded-full px-4 py-1 sm:px-6 sm:py-2">crecimiento B2B</span>
             </h2>
             <p className="text-xl text-gray-700 max-w-3xl mx-auto mt-4 font-medium">
               Elige el formato estratégico que mejor se adapta a tu etapa de crecimiento, necesidades y objetivos comerciales.
