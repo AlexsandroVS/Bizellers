@@ -189,7 +189,7 @@ function FAQ({ faq, index, isOpen, onClick, isInView }: FAQProps) {
           className="flex-shrink-0"
           whileHover={{ scale: 1.2 }}
         >
-          <ChevronDown className="w-6 h-6 text-verde-lima" />
+          <ChevronDown className="w-6 h-6 text-negro" />
         </motion.div>
       </button>
 
