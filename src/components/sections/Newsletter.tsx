@@ -150,7 +150,7 @@ export function Newsletter() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="tu@empresa.com"
-                    className="w-full pl-12 pr-4 py-4 bg-gray-800/50 border-2 border-verde-lima rounded-lg focus:border-verde-lima focus:outline-none focus:ring-2 focus:ring-verde-lima transition-all text-blanco placeholder:text-gray-400"
+                    className="w-full pl-12 pr-4 py-4 bg-gray-800/50 border-2 border-verde-lima rounded-lg focus:border-verde-lima focus:outline-none focus:ring-2 focus:ring-verde-lima transition-all text-negro placeholder:text-gray-400"
                   />
                 </div>
                 <motion.button
