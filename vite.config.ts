@@ -11,6 +11,8 @@ export default defineConfig({
     },
   },
   server: {
+    host: true, // Permite acceso desde la red local
+    port: 5173,
     proxy: {
       '/api': {
         target: 'http://localhost:3001',

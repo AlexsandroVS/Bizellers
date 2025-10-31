@@ -44,21 +44,22 @@ export function LeadCard({ lead, onClick }: LeadCardProps) {
       ref={setNodeRef}
       style={style}
       {...attributes}
-      className="bg-[#1a1a1a] border-2 border-gray-800 rounded-lg hover:border-verde-lima/50 transition-colors group flex gap-2"
+      className="bg-[#1a1a1a] border-2 border-gray-800 rounded-lg hover:border-verde-lima/50 transition-colors group flex gap-2 select-none"
       layout
     >
       {/* Drag handle */}
       <div
         {...listeners}
-        className="flex items-center justify-center px-1 cursor-grab active:cursor-grabbing hover:bg-verde-lima/10 transition-colors"
+        className="flex items-center justify-center px-3 cursor-grab active:cursor-grabbing hover:bg-verde-lima/10 transition-colors touch-none touch-target"
+        style={{ touchAction: 'none' }}
       >
-        <GripVertical className="w-4 h-4 text-gray-600 group-hover:text-verde-lima" />
+        <GripVertical className="w-5 h-5 text-gray-600 group-hover:text-verde-lima pointer-events-none" />
       </div>
 
       {/* Clickable content area */}
       <div
         onClick={onClick}
-        className="flex-1 p-4 cursor-pointer"
+        className="flex-1 p-4 cursor-pointer select-none"
       >
       {/* Nombre del lead */}
       <h3 className="text-lg font-bold text-blanco mb-1 group-hover:text-verde-lima transition-colors">
