@@ -1,5 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import nodemailer from 'nodemailer';
+import { prisma } from '../src/lib/prisma';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // Solo permitir POST
@@ -7,14 +8,31 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(405).json({ error: 'Método no permitido' });
   }
 
-  const { name, email, phone, message, cargo, empresa, service } = req.body;
+  const { name, email, phone, message, cargo, empresa, service, servicio } = req.body;
 
   // Validar campos requeridos
-  if (!name || !email) {
-    return res.status(400).json({ error: 'Nombre y email son requeridos' });
+  if (!name || !email || !empresa || !phone) {
+    return res.status(400).json({ error: 'Nombre, email, empresa y teléfono son requeridos' });
   }
 
   try {
+    // Guardar lead en la base de datos
+    const finalServicio = servicio || service || 'Contacto General';
+    const finalCargo = cargo || 'Lead';
+
+    await prisma.lead.create({
+      data: {
+        nombre: name,
+        cargo: finalCargo,
+        empresa,
+        telefono: phone,
+        correo: email,
+        servicio: finalServicio,
+        mensaje: message || null,
+        status: 'nuevo',
+      },
+    });
+
     // Configurar transporter de nodemailer
     const transporter = nodemailer.createTransport({
       service: 'gmail',
@@ -176,9 +194,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     // Enviar el email
     await transporter.sendMail(mailOptions);
 
-    return res.status(200).json({ success: true, message: 'Email enviado correctamente' });
-  } catch (error) {
-    console.error('Error al enviar email:', error);
-    return res.status(500).json({ error: 'Error al enviar el email' });
+    return res.status(200).json({ success: true, message: 'Email enviado correctamente y lead guardado' });
+  } catch (error: any) {
+    console.error('Error al procesar la solicitud:', error);
+    return res.status(500).json({
+      error: 'Error al procesar la solicitud',
+      details: error.message
+    });
+  } finally {
+    await prisma.$disconnect();
   }
 }

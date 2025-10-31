@@ -66,7 +66,7 @@ export function Testimonials() {
   };
 
   return (
-    <section ref={sectionRef} id="testimonios" className="pt-24 md:py-36 pb-12 bg-blanco relative overflow-hidden">
+    <section ref={sectionRef} id="testimonios" className="pt-12 md:pt-20 pb-12 md:pb-24 bg-blanco relative overflow-hidden">
       {/* Background Elements - Enhanced green glows */}
       <motion.div
         animate={{ scale: [1, 1.2, 1], opacity: [0.15, 0.25, 0.15] }}

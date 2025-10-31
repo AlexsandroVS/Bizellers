@@ -118,7 +118,7 @@ export function Newsletter() {
                   transition={{ delay: 0.4, duration: 0.8, ease: "easeOut" }}
                 />
               </span>
-            </motion.h2>false
+            </motion.h2>
 
             {/* Description */}
             <motion.p

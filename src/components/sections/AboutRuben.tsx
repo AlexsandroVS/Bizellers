@@ -153,7 +153,7 @@ export function AboutRuben() {
   };
 
   return (
-    <section id="sobre-ruben" className="py-20 md:py-32 bg-negro relative overflow-hidden">
+    <section id="sobre-ruben" className="pt-12 pb-12 md:pt-24 md:pb-16 bg-negro relative overflow-hidden">
       {/* Animated background elements - INTENSIFIED */}
       <motion.div
         animate={{

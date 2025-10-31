@@ -1,3 +1,4 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Header } from "./components/layout/Header";
 import { Footer } from "./components/layout/Footer";
 import { Hero } from "./components/sections/Hero";
@@ -10,11 +11,14 @@ import { Newsletter } from "./components/sections/Newsletter";
 import { FAQs } from "./components/sections/FAQs";
 import { Contact } from "./components/sections/Contact";
 import { SEO } from "./components/common/SEO";
+import { Login } from "./pages/Login";
+import { Dashboard } from "./pages/Dashboard";
 
-function App() {
+// Landing Page Component
+function LandingPage() {
   return (
     <div className="min-h-screen bg-negro">
-      <SEO/>
+      <SEO />
       <Header />
       <main>
         <Hero />
@@ -29,6 +33,18 @@ function App() {
       </main>
       <Footer />
     </div>
+  );
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
