@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import nodemailer from 'nodemailer';
-import { prisma } from '../src/lib/prisma.js';
+import { prisma } from '../src/lib/prisma';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // Solo permitir POST
