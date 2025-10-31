@@ -5,6 +5,7 @@ import {
   closestCorners,
   KeyboardSensor,
   PointerSensor,
+  TouchSensor,
   useSensor,
   useSensors,
   DragStartEvent,
@@ -30,6 +31,13 @@ export function LeadBoard({ leads, onLeadClick, onStatusChange }: LeadBoardProps
       // Prevenir que el drag se active con un simple click
       activationConstraint: {
         distance: 8, // Mover 8px para activar el drag
+      },
+    }),
+    useSensor(TouchSensor, {
+      // Configuración para dispositivos táctiles
+      activationConstraint: {
+        delay: 250, // Mantener presionado 250ms para activar el drag
+        tolerance: 5, // Permitir 5px de movimiento sin cancelar
       },
     }),
     useSensor(KeyboardSensor, {
