@@ -43,6 +43,19 @@ export function Header() {
     { label: "Testimonios", href: "#testimonios" },
   ];
 
+  const handleMobileNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    setIsMobileMenuOpen(false);
+
+    // Pequeño delay para permitir que el menú se cierre antes de hacer scroll
+    setTimeout(() => {
+      const element = document.querySelector(href);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }, 100);
+  };
+
   return (
     <motion.header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
@@ -196,7 +209,7 @@ export function Header() {
                     color: "#b4fc05",
                     x: 5,
                   }}
-                  onClick={() => setIsMobileMenuOpen(false)}
+                  onClick={(e) => handleMobileNavClick(e, item.href)}
                 >
                   {item.label}
                 </motion.a>
@@ -209,7 +222,7 @@ export function Header() {
                 transition={{ delay: 0.3, type: "spring", stiffness: 200 }}
                 whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(180, 252, 5, 0.5)" }}
                 whileTap={{ scale: 0.95 }}
-                onClick={() => setIsMobileMenuOpen(false)}
+                onClick={(e) => handleMobileNavClick(e, "#contacto")}
               >
                 DIAGNÓSTICO GRATUITO
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />

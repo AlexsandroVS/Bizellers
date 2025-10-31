@@ -13,7 +13,7 @@ const stats = [
 
 export function Stats() {
   const ref = useRef<HTMLElement>(null);
-  const { isInView } = useScrollInView(ref, 0.3);
+  const { hasBeenInView } = useScrollInView(ref, 0.3);
 
   return (
     <section ref={ref} className="py-12 bg-negro relative overflow-hidden">
@@ -47,7 +47,7 @@ export function Stats() {
           <motion.div
             className="inline-flex items-center gap-2 bg-verde-lima-muted border border-verde-lima/30 rounded-full px-4 py-2"
             initial={{ opacity: 0, scale: 0.8 }}
-            animate={isInView ? { opacity: 1, scale: 1 } : {}}
+            animate={hasBeenInView ? { opacity: 1, scale: 1 } : {}}
             transition={{ duration: 0.5 }}
           >
             <TrendingUp className="w-4 h-4 text-verde-lima" />
@@ -57,7 +57,7 @@ export function Stats() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {stats.map((stat, i) => (
-            <StatItem key={i} stat={stat} delay={i * 0.1} enabled={isInView} />
+            <StatItem key={i} stat={stat} delay={i * 0.1} enabled={hasBeenInView} />
           ))}
         </div>
 
