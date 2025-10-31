@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { prisma } from '../src/lib/prisma.js';
-import type { LeadStatus } from '../src/types/dashboard';
+import { prisma } from '../../src/lib/prisma.js';
+import type { LeadStatus } from '../../src/types/dashboard';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // Verificar autenticación básica
@@ -9,29 +9,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(401).json({ success: false, message: 'No autorizado' });
   }
 
+  const { id } = req.query;
+
+  if (!id || typeof id !== 'string') {
+    return res.status(400).json({
+      success: false,
+      message: 'ID es requerido'
+    });
+  }
+
   try {
-    if (req.method === 'GET') {
-      // Obtener todos los leads
-      const leads = await prisma.lead.findMany({
-        orderBy: {
-          created_at: 'desc'
-        }
-      });
-
-      return res.status(200).json({
-        success: true,
-        leads
-      });
-    } else if (req.method === 'PATCH') {
+    if (req.method === 'PATCH') {
       // Actualizar un lead (cambiar status, agregar notas)
-      const { id, status, notes } = req.body;
-
-      if (!id) {
-        return res.status(400).json({
-          success: false,
-          message: 'ID es requerido'
-        });
-      }
+      const { status, notes } = req.body;
 
       // Buscar el lead actual
       const currentLead = await prisma.lead.findUnique({
@@ -74,15 +64,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       });
     } else if (req.method === 'DELETE') {
       // Eliminar un lead
-      const { id } = req.query;
-
-      if (!id || typeof id !== 'string') {
-        return res.status(400).json({
-          success: false,
-          message: 'ID es requerido'
-        });
-      }
-
       await prisma.lead.delete({
         where: { id: parseInt(id) }
       });
