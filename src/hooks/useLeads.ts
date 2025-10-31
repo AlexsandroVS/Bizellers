@@ -40,13 +40,13 @@ export function useLeads(token: string | null) {
     if (!token) return;
 
     try {
-      const response = await fetch(`/api/leads-dashboard/${id}`, {
+      const response = await fetch(`/api/update-lead`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ status: newStatus }),
+        body: JSON.stringify({ id, status: newStatus }),
       });
 
       const data = await response.json();
@@ -75,13 +75,13 @@ export function useLeads(token: string | null) {
     if (!token) return;
 
     try {
-      const response = await fetch(`/api/leads-dashboard/${id}`, {
+      const response = await fetch(`/api/update-lead`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ notes }),
+        body: JSON.stringify({ id, notes }),
       });
 
       const data = await response.json();
@@ -109,7 +109,7 @@ export function useLeads(token: string | null) {
     if (!token) return;
 
     try {
-      const response = await fetch(`/api/leads-dashboard/${id}`, {
+      const response = await fetch(`/api/delete-lead?id=${id}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,
