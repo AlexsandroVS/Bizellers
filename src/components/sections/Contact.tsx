@@ -1,8 +1,9 @@
 import { motion } from "framer-motion";
-import { UserCheck, ClipboardList, ShieldCheck, User as UserIcon, MessageSquare, Mail, Phone, Send, Sparkles, Building2 } from "lucide-react";
+import { UserCheck, ClipboardList, ShieldCheck, User as UserIcon, MessageSquare, Mail, Phone, Send, Sparkles, Building2, AlertCircle } from "lucide-react";
 import { useState, useRef, type FormEvent } from "react";
 import { useScrollInView } from "@/hooks/useScrollInView";
 import { GreenParticles } from "@/components/common/GreenParticles";
+import { validateLatamPhone } from "@/utils/phoneValidation";
 
 export function Contact() {
   const [formData, setFormData] = useState({
@@ -14,13 +15,62 @@ export function Contact() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
+  const [phoneError, setPhoneError] = useState("");
+  const [emailError, setEmailError] = useState("");
   const sectionRef = useRef<HTMLElement>(null);
   const { hasBeenInView } = useScrollInView(sectionRef, 0.2);
 
+  const handlePhoneChange = (value: string) => {
+    setFormData({ ...formData, phone: value });
+
+    // Validar solo si tiene contenido
+    if (value) {
+      const validation = validateLatamPhone(value);
+      if (!validation.isValid) {
+        setPhoneError("Por favor ingresa un número válido con código de país (ej: +51 999 999 999)");
+      } else {
+        setPhoneError("");
+      }
+    } else {
+      setPhoneError("");
+    }
+  };
+
+  const handleEmailChange = (value: string) => {
+    setFormData({ ...formData, email: value });
+
+    if (value) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(value)) {
+        setEmailError("Por favor ingresa un correo electrónico válido.");
+      } else {
+        setEmailError("");
+      }
+    } else {
+      setEmailError("");
+    }
+  };
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+
+    // Validar email antes de enviar
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      setEmailError("Por favor ingresa un correo electrónico válido.");
+      return;
+    }
+
+    // Validar teléfono antes de enviar
+    const phoneValidation = validateLatamPhone(formData.phone);
+    if (!phoneValidation.isValid) {
+      setPhoneError("Por favor ingresa un número válido con código de país (ej: +51 999 999 999)");
+      return;
+    }
+
     setIsSubmitting(true);
     setSubmitStatus("idle");
+    setPhoneError("");
 
     try {
       const response = await fetch("/api/contact", {
@@ -28,7 +78,11 @@ export function Contact() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          cargo: "Lead",
+          servicio: "Contacto General"
+        }),
       });
 
       if (response.ok) {
@@ -141,7 +195,7 @@ export function Contact() {
                       required
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      placeholder="Juan Pérez"
+                      placeholder="Nombre completo"
                       className="w-full px-4 py-3 border border-verde-lima rounded-lg focus:border-verde-lima focus:outline-none focus:ring-2 focus:ring-verde-lima transition-all bg-gray-800/50 text-black placeholder:text-gray-400"
                     />
                   </div>
@@ -155,7 +209,7 @@ export function Contact() {
                       required
                       value={formData.empresa}
                       onChange={(e) => setFormData({ ...formData, empresa: e.target.value })}
-                      placeholder="Tu Empresa S.A."
+                      placeholder="Nombre de tu empresa"
                       className="w-full px-4 py-3 border border-verde-lima rounded-lg focus:border-verde-lima focus:outline-none focus:ring-2 focus:ring-verde-lima transition-all bg-gray-800/50 text-black placeholder:text-gray-400"
                     />
                   </div>
@@ -170,25 +224,48 @@ export function Contact() {
                     type="email"
                     required
                     value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    placeholder="tu@empresa.com"
-                    className="w-full px-4 py-3 border border-verde-lima rounded-lg focus:border-verde-lima focus:outline-none focus:ring-2 focus:ring-verde-lima transition-all bg-gray-800/50 text-black placeholder:text-gray-400"
+                    onChange={(e) => handleEmailChange(e.target.value)}
+                    placeholder="Correo electrónico"
+                    className={`w-full px-4 py-3 border ${emailError ? 'border-red-500' : 'border-verde-lima'} rounded-lg focus:border-verde-lima focus:outline-none focus:ring-2 focus:ring-verde-lima transition-all bg-gray-800/50 text-negro placeholder:text-gray-400`}
                   />
+                  {emailError && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="flex items-center gap-2 mt-2 text-red-400 text-sm"
+                    >
+                      <AlertCircle className="w-4 h-4" />
+                      {emailError}
+                    </motion.div>
+                  )}
                 </div>
 
                 <div>
                   <label className="flex items-center gap-2 text-blanco font-semibold mb-2 text-sm">
                     <Phone className="w-4 h-4 text-verde-lima" />
-                    Teléfono *
+                    Teléfono * (con código de país)
                   </label>
                   <input
                     type="tel"
                     required
                     value={formData.phone}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    placeholder="+52 123 456 7890"
-                    className="w-full px-4 py-3 border border-verde-lima rounded-lg focus:border-verde-lima focus:outline-none focus:ring-2 focus:ring-verde-lima transition-all bg-gray-800/50 text-black placeholder:text-gray-400"
+                    onChange={(e) => handlePhoneChange(e.target.value)}
+                    placeholder="+51 999 999 999"
+                    className={`w-full px-4 py-3 border ${phoneError ? 'border-red-500' : 'border-verde-lima'} rounded-lg focus:border-verde-lima focus:outline-none focus:ring-2 focus:ring-verde-lima transition-all bg-gray-800/50 text-negro placeholder:text-gray-400`}
                   />
+                  {phoneError && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="flex items-center gap-2 mt-2 text-red-400 text-sm"
+                    >
+                      <AlertCircle className="w-4 h-4" />
+                      {phoneError}
+                    </motion.div>
+                  )}
+                  <p className="text-xs text-gray-400 mt-1">
+                    Ejemplo: +51 (Perú), +52 (México), +54 (Argentina)
+                  </p>
                 </div>
 
                 <div>

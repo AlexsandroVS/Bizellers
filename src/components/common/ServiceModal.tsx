@@ -20,14 +20,37 @@ export function ServiceModal({ isOpen, onClose, serviceName }: ServiceModalProps
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
+  const [emailError, setEmailError] = useState("");
 
   // Actualizar el servicio cuando cambie el prop serviceName
   useEffect(() => {
     setFormData((prev) => ({ ...prev, service: serviceName }));
   }, [serviceName]);
 
+  const handleEmailChange = (value: string) => {
+    setFormData({ ...formData, email: value });
+
+    if (value) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(value)) {
+        setEmailError("Por favor ingresa un correo electrónico válido.");
+      } else {
+        setEmailError("");
+      }
+    } else {
+      setEmailError("");
+    }
+  };
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      setEmailError("Por favor ingresa un correo electrónico válido.");
+      return;
+    }
+
     setIsSubmitting(true);
     setSubmitStatus("idle");
 
@@ -133,7 +156,7 @@ export function ServiceModal({ isOpen, onClose, serviceName }: ServiceModalProps
                       required
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      placeholder="Juan Pérez"
+                      placeholder="Nombre completo"
                       className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-verde-lima focus:ring-2 text-black focus:ring-verde-lima focus:outline-none transition-all bg-white shadow-sm hover:shadow-md"
                     />
                   </div>
@@ -182,10 +205,11 @@ export function ServiceModal({ isOpen, onClose, serviceName }: ServiceModalProps
                       type="email"
                       required
                       value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      placeholder="tu@empresa.com"
-                      className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-verde-lima focus:ring-2 text-black focus:ring-verde-lima focus:outline-none transition-all bg-white shadow-sm hover:shadow-md"
+                      onChange={(e) => handleEmailChange(e.target.value)}
+                      placeholder="Correo electrónico"
+                      className={`w-full px-4 py-3 border-2 ${emailError ? 'border-red-500' : 'border-gray-300'} rounded-xl focus:border-verde-lima focus:ring-2 text-black focus:ring-verde-lima focus:outline-none transition-all bg-white shadow-sm hover:shadow-md`}
                     />
+                    {emailError && <p className="text-red-500 text-sm mt-1">{emailError}</p>}
                   </div>
 
                   {/* Teléfono */}

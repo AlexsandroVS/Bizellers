@@ -36,7 +36,7 @@ export function Methodology() {
   const { hasBeenInView } = useScrollInView(ref, 0.2);
 
   return (
-    <section ref={ref} id="metodologia" className="py-24 bg-negro relative overflow-hidden">
+    <section ref={ref} id="metodologia" className="pt-12 pb-24 bg-negro relative overflow-hidden">
       {/* Background Effect - MUY VISIBLES */}
       <motion.div
         animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}

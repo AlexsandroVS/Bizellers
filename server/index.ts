@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 import cors from 'cors';
 import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
+import { prisma } from '../src/lib/prisma';
 
 dotenv.config();
 
@@ -12,16 +13,148 @@ const PORT = process.env.PORT || 3001;
 app.use(cors());
 app.use(express.json());
 
-// Endpoint de contacto
+// ============ DASHBOARD AUTH ============
+app.post('/api/auth-dashboard', async (req: Request, res: Response) => {
+  try {
+    const { username, password } = req.body;
+
+    const adminUsername = process.env.DASHBOARD_USERNAME || 'admin';
+    const adminPassword = process.env.DASHBOARD_PASSWORD || 'admin123';
+
+    if (username === adminUsername && password === adminPassword) {
+      const token = Buffer.from(`${username}:${Date.now()}`).toString('base64');
+      return res.status(200).json({ success: true, token });
+    }
+
+    return res.status(401).json({ success: false, message: 'Credenciales incorrectas' });
+  } catch (error) {
+    console.error('Error en autenticación:', error);
+    return res.status(500).json({ success: false, message: 'Error en el servidor' });
+  }
+});
+
+// ============ DASHBOARD LEADS CRUD ============
+app.get('/api/leads-dashboard', async (req: Request, res: Response) => {
+  try {
+    // Verificar autenticación
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return res.status(401).json({ success: false, message: 'No autorizado' });
+    }
+
+    const leads = await prisma.lead.findMany({
+      orderBy: { created_at: 'desc' }
+    });
+
+    return res.status(200).json({ success: true, leads });
+  } catch (error) {
+    console.error('Error al obtener leads:', error);
+    return res.status(500).json({ success: false, message: 'Error al obtener leads' });
+  }
+});
+
+app.patch('/api/leads-dashboard/:id', async (req: Request, res: Response) => {
+  try {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return res.status(401).json({ success: false, message: 'No autorizado' });
+    }
+
+    const { id } = req.params;
+    const { status, notes } = req.body;
+
+    const leadId = parseInt(id);
+    if (isNaN(leadId)) {
+      return res.status(400).json({ success: false, message: 'ID inválido' });
+    }
+
+    // Obtener el lead actual para el historial
+    const currentLead = await prisma.lead.findUnique({ where: { id: leadId } });
+    if (!currentLead) {
+      return res.status(404).json({ success: false, message: 'Lead no encontrado' });
+    }
+
+    // Preparar datos de actualización
+    const updateData: any = { updated_at: new Date() };
+
+    if (status !== undefined) {
+      updateData.status = status;
+
+      // Agregar al historial si cambió el status
+      const statusHistory = (currentLead.status_history as any[]) || [];
+      statusHistory.push({
+        from: currentLead.status,
+        to: status,
+        timestamp: new Date().toISOString()
+      });
+      updateData.status_history = statusHistory;
+    }
+
+    if (notes !== undefined) {
+      updateData.notes = notes;
+    }
+
+    const updatedLead = await prisma.lead.update({
+      where: { id: leadId },
+      data: updateData
+    });
+
+    return res.status(200).json({ success: true, lead: updatedLead });
+  } catch (error) {
+    console.error('Error al actualizar lead:', error);
+    return res.status(500).json({ success: false, message: 'Error al actualizar lead' });
+  }
+});
+
+app.delete('/api/leads-dashboard/:id', async (req: Request, res: Response) => {
+  try {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return res.status(401).json({ success: false, message: 'No autorizado' });
+    }
+
+    const { id } = req.params;
+    const leadId = parseInt(id);
+
+    if (isNaN(leadId)) {
+      return res.status(400).json({ success: false, message: 'ID inválido' });
+    }
+
+    await prisma.lead.delete({ where: { id: leadId } });
+
+    return res.status(200).json({ success: true, message: 'Lead eliminado' });
+  } catch (error) {
+    console.error('Error al eliminar lead:', error);
+    return res.status(500).json({ success: false, message: 'Error al eliminar lead' });
+  }
+});
+
+// ============ ENDPOINT DE CONTACTO ============
 app.post('/api/contact', async (req: Request, res: Response) => {
-  const { name, email, phone, message, cargo, empresa, service } = req.body;
+  const { name, email, phone, message, cargo, empresa, service, servicio } = req.body;
 
   // Validar campos requeridos
-  if (!name || !email) {
-    return res.status(400).json({ error: 'Nombre y email son requeridos' });
+  if (!name || !email || !empresa || !phone) {
+    return res.status(400).json({ error: 'Nombre, email, empresa y teléfono son requeridos' });
   }
 
   try {
+    // Guardar lead en la base de datos
+    const finalServicio = servicio || service || 'Contacto General';
+    const finalCargo = cargo || 'Lead';
+
+    await prisma.lead.create({
+      data: {
+        nombre: name,
+        cargo: finalCargo,
+        empresa,
+        telefono: phone,
+        correo: email,
+        servicio: finalServicio,
+        mensaje: message || null,
+        status: 'nuevo',
+      },
+    });
     // Configurar transporter de nodemailer
     const transporter = nodemailer.createTransport({
       service: 'gmail',
@@ -183,10 +316,15 @@ app.post('/api/contact', async (req: Request, res: Response) => {
     // Enviar el email
     await transporter.sendMail(mailOptions);
 
-    return res.status(200).json({ success: true, message: 'Email enviado correctamente' });
-  } catch (error) {
-    console.error('Error al enviar email:', error);
-    return res.status(500).json({ error: 'Error al enviar el email' });
+    return res.status(200).json({ success: true, message: 'Email enviado correctamente y lead guardado' });
+  } catch (error: any) {
+    console.error('Error al procesar la solicitud:', error);
+    return res.status(500).json({
+      error: 'Error al procesar la solicitud',
+      details: error.message
+    });
+  } finally {
+    await prisma.$disconnect();
   }
 });
 
