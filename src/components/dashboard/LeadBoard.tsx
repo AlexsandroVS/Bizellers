@@ -36,8 +36,8 @@ export function LeadBoard({ leads, onLeadClick, onStatusChange }: LeadBoardProps
     useSensor(TouchSensor, {
       // Configuración para dispositivos táctiles
       activationConstraint: {
-        delay: 250, // Mantener presionado 250ms para activar el drag
-        tolerance: 5, // Permitir 5px de movimiento sin cancelar
+        delay: 100, // Mantener presionado 100ms para activar el drag
+        tolerance: 15, // Permitir 15px de movimiento sin cancelar
       },
     }),
     useSensor(KeyboardSensor, {

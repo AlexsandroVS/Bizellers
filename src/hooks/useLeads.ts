@@ -40,14 +40,18 @@ export function useLeads(token: string | null) {
     if (!token) return;
 
     try {
-      const response = await fetch(`/api/update-lead`, {
+      const response = await fetch(`/api/leads-dashboard/${id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ id, status: newStatus }),
+        body: JSON.stringify({ status: newStatus }),
       });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
 
       const data = await response.json();
 
@@ -75,14 +79,18 @@ export function useLeads(token: string | null) {
     if (!token) return;
 
     try {
-      const response = await fetch(`/api/update-lead`, {
+      const response = await fetch(`/api/leads-dashboard/${id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ id, notes }),
+        body: JSON.stringify({ notes }),
       });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
 
       const data = await response.json();
 
@@ -109,12 +117,16 @@ export function useLeads(token: string | null) {
     if (!token) return;
 
     try {
-      const response = await fetch(`/api/delete-lead?id=${id}`, {
+      const response = await fetch(`/api/leads-dashboard/${id}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
 
       const data = await response.json();
 
