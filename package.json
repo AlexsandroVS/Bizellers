@@ -10,6 +10,7 @@
         "build": "prisma generate && vite build",
         "build:dev": "vite build --mode development",
         "lint": "eslint .",
+        "vercel-build": "prisma generate && tsc -b && vite build",
         "preview": "vite preview",
         "prisma:generate": "prisma generate",
         "prisma:migrate": "prisma migrate deploy",
