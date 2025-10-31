@@ -53,6 +53,63 @@ app.get('/api/leads-dashboard', async (req: Request, res: Response) => {
   }
 });
 
+// Ruta compatible con producción - PATCH /api/update-lead
+app.patch('/api/update-lead', async (req: Request, res: Response) => {
+  try {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return res.status(401).json({ success: false, message: 'No autorizado' });
+    }
+
+    const { id, status, notes } = req.body;
+
+    if (!id) {
+      return res.status(400).json({ success: false, message: 'ID es requerido' });
+    }
+
+    const leadId = parseInt(id);
+    if (isNaN(leadId)) {
+      return res.status(400).json({ success: false, message: 'ID inválido' });
+    }
+
+    // Obtener el lead actual para el historial
+    const currentLead = await prisma.lead.findUnique({ where: { id: leadId } });
+    if (!currentLead) {
+      return res.status(404).json({ success: false, message: 'Lead no encontrado' });
+    }
+
+    // Preparar datos de actualización
+    const updateData: any = { updated_at: new Date() };
+
+    if (status !== undefined) {
+      updateData.status = status;
+
+      // Agregar al historial si cambió el status
+      const statusHistory = (currentLead.status_history as any[]) || [];
+      statusHistory.push({
+        from: currentLead.status,
+        to: status,
+        timestamp: new Date().toISOString()
+      });
+      updateData.status_history = statusHistory;
+    }
+
+    if (notes !== undefined) {
+      updateData.notes = notes;
+    }
+
+    const updatedLead = await prisma.lead.update({
+      where: { id: leadId },
+      data: updateData
+    });
+
+    return res.status(200).json({ success: true, lead: updatedLead });
+  } catch (error) {
+    console.error('Error al actualizar lead:', error);
+    return res.status(500).json({ success: false, message: 'Error al actualizar lead' });
+  }
+});
+
 app.patch('/api/leads-dashboard/:id', async (req: Request, res: Response) => {
   try {
     const authHeader = req.headers.authorization;
@@ -103,6 +160,33 @@ app.patch('/api/leads-dashboard/:id', async (req: Request, res: Response) => {
   } catch (error) {
     console.error('Error al actualizar lead:', error);
     return res.status(500).json({ success: false, message: 'Error al actualizar lead' });
+  }
+});
+
+// Ruta compatible con producción - DELETE /api/delete-lead?id=X
+app.delete('/api/delete-lead', async (req: Request, res: Response) => {
+  try {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return res.status(401).json({ success: false, message: 'No autorizado' });
+    }
+
+    const id = req.query.id as string;
+    if (!id) {
+      return res.status(400).json({ success: false, message: 'ID es requerido' });
+    }
+
+    const leadId = parseInt(id);
+    if (isNaN(leadId)) {
+      return res.status(400).json({ success: false, message: 'ID inválido' });
+    }
+
+    await prisma.lead.delete({ where: { id: leadId } });
+
+    return res.status(200).json({ success: true, message: 'Lead eliminado' });
+  } catch (error) {
+    console.error('Error al eliminar lead:', error);
+    return res.status(500).json({ success: false, message: 'Error al eliminar lead' });
   }
 });
 
