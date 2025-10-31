@@ -33,7 +33,7 @@ const pillars = [
 
 export function Methodology() {
   const ref = useRef<HTMLElement>(null);
-  const { isInView } = useScrollInView(ref, 0.2);
+  const { hasBeenInView } = useScrollInView(ref, 0.2);
 
   return (
     <section ref={ref} id="metodologia" className="py-24 bg-negro relative overflow-hidden">
@@ -119,7 +119,7 @@ export function Methodology() {
             className="inline-flex items-center gap-2 bg-verde-lima/10 border border-verde-lima/30 rounded-full px-4 py-2 mb-6"
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: false, amount: 0.3 }}
+            viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.5 }}
           >
             <Sparkles className="w-4 h-4 text-verde-lima" />
@@ -130,7 +130,7 @@ export function Methodology() {
             className="text-4xl md:text-5xl font-bold text-blanco mb-6"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false, amount: 0.3 }}
+            viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.6 }}
           >
             Nuestra fórmula de <span className="text-verde-lima">éxito</span>
@@ -140,7 +140,7 @@ export function Methodology() {
             className="text-lg text-gray-100 max-w-2xl mx-auto"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
-            viewport={{ once: false, amount: 0.3 }}
+            viewport={{ once: true, amount: 0.3 }}
             transition={{ delay: 0.2, duration: 0.6 }}
           >
             No creemos en la suerte. Creemos en <span className="text-verde-lima font-bold">sistemas probados</span>.
@@ -151,13 +151,13 @@ export function Methodology() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12 max-w-5xl mx-auto">
           {pillars.map((pillar, i) => (
             <motion.div
-              key={`${i}-${isInView}`}
+              key={i}
               className="relative bg-gray-800/50 backdrop-blur-sm p-8 rounded-2xl border-2 group flex flex-col"
               style={{ borderColor: "#374151" }}
               initial={{ opacity: 0, y: 60 }}
-              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 60 }}
+              animate={hasBeenInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 60 }}
               transition={{
-                delay: isInView ? i * 0.12 : 0,
+                delay: hasBeenInView ? i * 0.12 : 0,
                 duration: 0.8,
                 ease: [0.25, 0.46, 0.45, 0.94],
               }}
@@ -226,7 +226,7 @@ export function Methodology() {
           className="text-center"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.3 }}
+          viewport={{ once: true, amount: 0.3 }}
           transition={{ delay: 0.6, duration: 0.6 }}
         >
           <motion.a

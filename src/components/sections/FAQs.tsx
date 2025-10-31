@@ -29,7 +29,7 @@ const faqs = [
 export function FAQs() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const ref = useRef<HTMLElement>(null);
-  const { isInView } = useScrollInView(ref, 0.2);
+  const { hasBeenInView } = useScrollInView(ref, 0.2);
 
   return (
     <section ref={ref} id="faqs" className="py-24 bg-blanco relative overflow-hidden">
@@ -51,7 +51,7 @@ export function FAQs() {
             className="inline-block bg-negro border border-verde-lima/30 rounded-full px-4 py-2 mb-6"
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: false, amount: 0.3 }}
+            viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.5 }}
           >
             <span className="text-verde-lima font-bold text-sm">Preguntas Frecuentes</span>
@@ -61,7 +61,7 @@ export function FAQs() {
             className="text-4xl md:text-5xl font-bold text-negro mb-4"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false, amount: 0.3 }}
+            viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.6 }}
           >
             Resolvemos tus <span className="inline-block bg-verde-lima text-negro rounded-full px-6 py-2">dudas</span>
@@ -70,7 +70,7 @@ export function FAQs() {
             className="text-xl text-gray-700 max-w-3xl mx-auto"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
-            viewport={{ once: false, amount: 0.3 }}
+            viewport={{ once: true, amount: 0.3 }}
             transition={{ delay: 0.2, duration: 0.6 }}
           >
             Encuentra respuestas claras a las consultas más comunes sobre nuestros servicios
@@ -81,12 +81,12 @@ export function FAQs() {
         <div className="max-w-4xl mx-auto space-y-4 mb-12">
           {faqs.map((faq, i) => (
             <FAQ
-              key={`${i}-${isInView}`}
+              key={i}
               faq={faq}
               index={i}
               isOpen={openIndex === i}
               onClick={() => setOpenIndex(openIndex === i ? null : i)}
-              isInView={isInView}
+              isInView={hasBeenInView}
             />
           ))}
         </div>
@@ -96,7 +96,7 @@ export function FAQs() {
           className="text-center"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.3 }}
+          viewport={{ once: true, amount: 0.3 }}
           transition={{ delay: 0.4, duration: 0.6 }}
         >
           <motion.a

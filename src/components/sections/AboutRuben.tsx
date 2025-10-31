@@ -5,7 +5,7 @@ import { ArrowRight } from "lucide-react";
 // Hook para animación de contador al entrar en el viewport
 const useInViewCounter = (targetValue: number) => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: false, amount: 0.5 });
+  const isInView = useInView(ref, { once: true, amount: 0.5 });
 
   const count = useMotionValue(0);
 
@@ -22,12 +22,9 @@ const useInViewCounter = (targetValue: number) => {
   const [hasStarted, setHasStarted] = useState(false);
 
   useEffect(() => {
-    if (isInView) {
+    if (isInView && !hasStarted) {
       count.set(targetValue);
       setHasStarted(true);
-    } else if (hasStarted) {
-      count.set(0);
-      setHasStarted(false);
     }
   }, [isInView, count, targetValue, hasStarted]);
 
@@ -294,7 +291,7 @@ export function AboutRuben() {
             <motion.div
               initial={{ opacity: 0, x: -100 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: false, amount: 0.3 }}
+              viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
               className="relative w-full aspect-square max-w-sm sm:max-w-md md:max-w-lg mx-auto lg:max-w-xl lg:-mt-12"
             >
@@ -334,7 +331,7 @@ export function AboutRuben() {
               <motion.h2
                 initial={{ opacity: 0, x: 100 }}
                 whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: false, amount: 0.3 }}
+                viewport={{ once: true, amount: 0.3 }}
                 transition={{ delay: 0.2, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
                 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6 text-blanco leading-tight"
               >
@@ -364,7 +361,7 @@ export function AboutRuben() {
                     className="absolute -bottom-1 left-0 right-0 h-1 bg-gradient-to-r from-verde-lima to-verde-lima/50 rounded-full"
                     initial={{ scaleX: 0, originX: 0 }}
                     whileInView={{ scaleX: 1 }}
-                    viewport={{ once: false }}
+                    viewport={{ once: true }}
                     transition={{ delay: 0.5, duration: 0.8, ease: "easeOut" }}
                   />
                 </span>
@@ -375,7 +372,7 @@ export function AboutRuben() {
                 <motion.div
                   initial={{ opacity: 0, x: 100 }}
                   whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: false, amount: 0.3 }}
+                  viewport={{ once: true, amount: 0.3 }}
                   transition={{ delay: 0.3, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
                   className="relative pl-3 md:pl-4 border-l-4 border-verde-lima/40"
                 >
@@ -387,7 +384,7 @@ export function AboutRuben() {
                 <motion.div
                   initial={{ opacity: 0, x: 100 }}
                   whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: false, amount: 0.3 }}
+                  viewport={{ once: true, amount: 0.3 }}
                   transition={{ delay: 0.4, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
                   className="bg-gray-800/50 backdrop-blur-sm p-4 sm:p-5 md:p-6 rounded-xl md:rounded-2xl border border-verde-lima/20 shadow-lg"
                 >
@@ -402,7 +399,7 @@ export function AboutRuben() {
               <motion.div
                 initial={{ opacity: 0, x: 100, scale: 0.9 }}
                 whileInView={{ opacity: 1, x: 0, scale: 1 }}
-                viewport={{ once: false, amount: 0.3 }}
+                viewport={{ once: true, amount: 0.3 }}
                 transition={{ delay: 0.5, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
               >
                 <motion.button
@@ -433,7 +430,7 @@ export function AboutRuben() {
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: false, amount: 0.3 }}
+            viewport={{ once: true, amount: 0.3 }}
             className="grid grid-cols-1 md:grid-cols-3 gap-0 bg-gray-800/50 rounded-xl md:rounded-2xl shadow-2xl p-4 sm:p-6 border border-verde-lima/20 mb-12 md:mb-16 max-w-5xl mx-auto"
           >
             {stats.map((stat, index) => (
@@ -453,7 +450,7 @@ export function AboutRuben() {
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false, amount: 0.3 }}
+            viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
             className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 items-center rounded-xl md:rounded-2xl p-4 sm:p-6 md:p-8"
           >
@@ -461,7 +458,7 @@ export function AboutRuben() {
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: false, amount: 0.3 }}
+              viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.7, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
               className="bg-gradient-to-r from-verde-lima/10 to-transparent p-4 sm:p-5 md:p-6 rounded-lg md:rounded-xl border-l-4 border-verde-lima"
             >
@@ -474,7 +471,7 @@ export function AboutRuben() {
             <motion.div
               initial={{ opacity: 0, x: 50 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: false, amount: 0.3 }}
+              viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.7, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
               className="flex items-center justify-center lg:justify-end gap-4 sm:gap-6"
             >

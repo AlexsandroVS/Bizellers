@@ -91,19 +91,19 @@ export function Newsletter() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false, amount: 0.3 }}
+              viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.5 }}
               className="inline-flex items-center gap-2 bg-verde-lima/10 border border-verde-lima rounded-full px-4 py-2 mb-6"
             >
               <Sparkles className="w-4 h-4 text-verde-lima" />
-              <span className="text-verde-lima font-bold text-sm">Recursos Gratuitos</span>
+              <span className="text-verde-lima font-bold text-sm">Newsletter</span>
             </motion.div>
 
             {/* Heading */}
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false, amount: 0.3 }}
+              viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.6, delay: 0.1 }}
               className="text-3xl md:text-4xl lg:text-5xl font-bold text-blanco mb-4"
             >
@@ -114,21 +114,21 @@ export function Newsletter() {
                   className="absolute -bottom-1 left-0 right-0 h-1 bg-verde-lima/50 rounded-full"
                   initial={{ scaleX: 0, originX: 0 }}
                   whileInView={{ scaleX: 1 }}
-                  viewport={{ once: false }}
+                  viewport={{ once: true }}
                   transition={{ delay: 0.4, duration: 0.8, ease: "easeOut" }}
                 />
               </span>
-            </motion.h2>
+            </motion.h2>false
 
             {/* Description */}
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false, amount: 0.3 }}
+              viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-lg md:text-xl text-gray-100 mb-8 max-w-2xl mx-auto"
+              className="text-lg md:text-xl text-gray-100 mb-8 max-w-3xl mx-auto"
             >
-              Tips, estrategias y recursos para transformar tu equipo comercial en un motor de crecimiento.
+              Recursos para transformar tu equipo comercial en un motor de crecimiento.
             </motion.p>
           </div>
 
@@ -136,7 +136,7 @@ export function Newsletter() {
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false, amount: 0.3 }}
+            viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.6, delay: 0.3 }}
             className="max-w-2xl mx-auto"
           >
@@ -149,7 +149,7 @@ export function Newsletter() {
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="tu@empresa.com"
+                    placeholder="Escribe tu correo electrónico"
                     className="w-full pl-12 pr-4 py-4 bg-gray-800/50 border-2 border-verde-lima rounded-lg focus:border-verde-lima focus:outline-none focus:ring-2 focus:ring-verde-lima transition-all text-negro placeholder:text-gray-400"
                   />
                 </div>
@@ -196,9 +196,7 @@ export function Newsletter() {
                 </motion.div>
               )}
 
-              <p className="text-center text-sm text-gray-400">
-                📧 Sin spam. Solo contenido de valor. Cancela cuando quieras.
-              </p>
+              
             </form>
           </motion.div>
         </div>

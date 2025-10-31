@@ -61,7 +61,7 @@ export function Services() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedService, setSelectedService] = useState("");
   const ref = useRef<HTMLElement>(null);
-  const { isInView } = useScrollInView(ref, 0.2);
+  const { hasBeenInView } = useScrollInView(ref, 0.2);
 
   const handleServiceClick = (serviceName: string) => {
     setSelectedService(serviceName);
@@ -88,7 +88,7 @@ export function Services() {
             className="text-center mb-16"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false, amount: 0.3 }}
+            viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.6 }}
           >
             <div className="inline-flex items-center gap-2 bg-negro border border-verde-lima/30 rounded-full px-4 py-2 mb-6">
@@ -108,16 +108,16 @@ export function Services() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
             {services.map((service, i) => (
               <motion.div
-                key={`${i}-${isInView}`}
+                key={i}
                 className="relative bg-white border-2 p-8 rounded-2xl group overflow-hidden flex flex-col h-full"
                 style={{
                   borderColor: "#e5e7eb",
                   boxShadow: "0 4px 20px -2px rgba(0,0,0,0.08)"
                 }}
                 initial={{ opacity: 0, y: 60 }}
-                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 60 }}
+                animate={hasBeenInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 60 }}
                 transition={{
-                  delay: isInView ? i * 0.08 : 0,
+                  delay: hasBeenInView ? i * 0.08 : 0,
                   duration: 0.8,
                   ease: [0.25, 0.46, 0.45, 0.94],
                 }}
@@ -181,9 +181,9 @@ export function Services() {
                       key={j}
                       className="text-left flex items-start gap-2"
                       initial={{ opacity: 0, y: 10 }}
-                      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+                      animate={hasBeenInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
                       transition={{
-                        delay: isInView ? i * 0.08 + j * 0.05 : 0,
+                        delay: hasBeenInView ? i * 0.08 + j * 0.05 : 0,
                         duration: 0.5,
                       }}
                     >
