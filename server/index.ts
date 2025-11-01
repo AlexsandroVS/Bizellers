@@ -13,7 +13,34 @@ const prisma = new PrismaClient({
   },
 });
 import { isValidEmail } from '../src/utils/emailValidation.js';
-import { sendWelcomeEmail } from '../src/lib/email.js';
+
+// Email sending logic is now co-located
+async function sendWelcomeEmail(email: string, subscriptionId: number) {
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
+    },
+  });
+
+  const mailOptions = {
+    from: `\"Bizellers\" <${process.env.EMAIL_USER}>`,
+    to: email,
+    subject: '¡Bienvenido al Newsletter de Bizellers!',
+    html: `<div>Correo de Bienvenida</div>`, // Placeholder body
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    await prisma.newsletterSubscription.update({
+      where: { id: subscriptionId },
+      data: { welcomeEmailSentAt: new Date() },
+    });
+  } catch (error) {
+    console.error(`Error en el proceso de envío de correo para ${email}:`, error);
+  }
+}
 
 dotenv.config();
 
