@@ -1,44 +1,42 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { prisma } from '../src/lib/prisma.js';
+import { PrismaClient } from '@prisma/client';
 import { isValidEmail } from '../src/utils/emailValidation.js';
+import nodemailer from 'nodemailer';
 
-// --- Lógica de Envío de Correo ---
-// En un proyecto real, esto estaría en su propio archivo y usaría un servicio como Resend, SendGrid, etc.
+// Prisma Client instantiation
+const prisma = new PrismaClient({
+  datasources: {
+    db: {
+      url: `${process.env.DATABASE_URL}?pgbouncer=true`,
+    },
+  },
+});
+
+// Email sending logic is now co-located
 async function sendWelcomeEmail(email: string, subscriptionId: number) {
-  console.log(`SIMULACIÓN: Enviando correo de bienvenida a ${email}`);
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
+    },
+  });
 
-  // TODO: Reemplazar con un servicio de email real
-  // Ejemplo con Resend (requiere instalar 'resend'):
-  /*
-  import { Resend } from 'resend';
-  const resend = new Resend(process.env.RESEND_API_KEY);
+  const mailOptions = {
+    from: `\"Bizellers\" <${process.env.EMAIL_USER}>`,
+    to: email,
+    subject: '¡Bienvenido al Newsletter de Bizellers!',
+    html: `<div>...</div>`, // Email body
+  };
+
   try {
-    await resend.emails.send({
-      from: 'onboarding@bizellers.com',
-      to: email,
-      subject: '¡Bienvenido a Bizellers!',
-      html: '<h1>Gracias por suscribirte</h1><p>Pronto recibirás noticias nuestras.</p>'
-    });
-    console.log(`Correo de bienvenida enviado exitosamente a ${email}`);
-  } catch (error) {
-    console.error(`Error al enviar correo de bienvenida a ${email}:`, error);
-    // Si falla el envío, no actualizamos la DB para poder reintentar luego
-    return;
-  }
-  */
-
-  // Simulación exitosa: esperamos 1 segundo
-  await new Promise(resolve => setTimeout(resolve, 1000));
-
-  // Actualizar la base de datos para marcar que el correo fue enviado
-  try {
+    await transporter.sendMail(mailOptions);
     await prisma.newsletterSubscription.update({
       where: { id: subscriptionId },
       data: { welcomeEmailSentAt: new Date() },
     });
-    console.log(`SIMULACIÓN: Se marcó como enviado el correo para ${email}`);
-  } catch (dbError) {
-    console.error(`Error al actualizar el estado de envío para ${email}:`, dbError);
+  } catch (error) {
+    console.error(`Error en el proceso de envío de correo para ${email}:`, error);
   }
 }
 

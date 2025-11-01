@@ -1,5 +1,14 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { prisma } from '../../src/lib/prisma.js';
+import { PrismaClient } from '@prisma/client';
+
+// Prisma Client instantiation with connection pooling for serverless environments
+const prisma = new PrismaClient({
+  datasources: {
+    db: {
+      url: `${process.env.DATABASE_URL}?pgbouncer=true`,
+    },
+  },
+});
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   const authHeader = req.headers.authorization;

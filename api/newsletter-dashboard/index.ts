@@ -1,6 +1,37 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { prisma } from '../../src/lib/prisma.js';
-import { sendWelcomeEmail } from '../../src/lib/email.js';
+import { PrismaClient } from '@prisma/client';
+import nodemailer from 'nodemailer';
+
+// Prisma Client instantiation
+const prisma = new PrismaClient({
+  datasources: {
+    db: {
+      url: `${process.env.DATABASE_URL}?pgbouncer=true`,
+    },
+  },
+});
+
+// Email sending logic
+async function sendWelcomeEmail(email: string, subscriptionId: number) {
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
+    },
+  });
+  const mailOptions = {
+    from: `\"Bizellers\" <${process.env.EMAIL_USER}>`,
+    to: email,
+    subject: '¡Bienvenido al Newsletter de Bizellers!',
+    html: `<div>...</div>`, // Email body
+  };
+  await transporter.sendMail(mailOptions);
+  await prisma.newsletterSubscription.update({
+    where: { id: subscriptionId },
+    data: { welcomeEmailSentAt: new Date() },
+  });
+}
 
 // Helper para verificar la autenticación
 function isAuthenticated(req: VercelRequest): boolean {
