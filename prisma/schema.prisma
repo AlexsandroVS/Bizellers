@@ -28,3 +28,12 @@ model Lead {
 
   @@map("leads")
 }
+
+model NewsletterSubscription {
+  id                   Int       @id @default(autoincrement())
+  email                String    @unique @db.VarChar(255)
+  createdAt            DateTime  @default(now()) @db.Timestamp()
+  welcomeEmailSentAt   DateTime? @db.Timestamp()
+
+  @@map("newsletter_subscriptions")
+}
