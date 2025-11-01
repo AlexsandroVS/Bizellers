@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { prisma } from '@/lib/prisma';
-import { isValidEmail } from '@/utils/emailValidation';
+import { prisma } from '../src/lib/prisma.js';
+import { isValidEmail } from '../src/utils/emailValidation.js';
 
 // --- Lógica de Envío de Correo ---
 // En un proyecto real, esto estaría en su propio archivo y usaría un servicio como Resend, SendGrid, etc.
