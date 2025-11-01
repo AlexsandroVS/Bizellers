@@ -40,7 +40,40 @@ export function useLeads(token: string | null) {
   }, [token]);
 
   const updateLeadStatus = async (id: number, newStatus: LeadStatus) => {
-    // ... (código sin cambios)
+    if (!token) return false;
+
+    try {
+      const response = await fetch(`/api/update-lead`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ id, status: newStatus }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      if (data.success) {
+        setLeads((prevLeads) =>
+          prevLeads.map((lead) =>
+            lead.id === id ? data.lead : lead
+          )
+        );
+        return true;
+      } else {
+        setError(data.message || 'Error al actualizar el lead');
+        return false;
+      }
+    } catch (err) {
+      setError('Error de conexión al actualizar');
+      console.error('Error updating lead status:', err);
+      return false;
+    }
   };
 
   const updateLeadNotes = async (id: number, notes: string) => {
