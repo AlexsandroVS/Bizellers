@@ -2,7 +2,6 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { prisma } from '../../src/lib/prisma.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  // Verificar autenticación básica
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
     return res.status(401).json({ success: false, message: 'No autorizado' });
@@ -10,8 +9,30 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   try {
     if (req.method === 'GET') {
-      // Obtener todos los leads
+      const { startDate: startDateQuery, endDate: endDateQuery } = req.query;
+
+      // Robustly handle string or string[] from query
+      const startDate = Array.isArray(startDateQuery) ? startDateQuery[0] : startDateQuery;
+      const endDate = Array.isArray(endDateQuery) ? endDateQuery[0] : endDateQuery;
+
+      const whereClause: any = {};
+
+      if (startDate && endDate) {
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+        
+        // Ensure dates are valid before adding to query
+        if (!isNaN(start.getTime()) && !isNaN(end.getTime())) {
+          end.setUTCHours(23, 59, 59, 999); // Go to the very end of the selected day
+          whereClause.created_at = {
+            gte: start,
+            lte: end, // Use lte to include the full end day
+          };
+        }
+      }
+
       const leads = await prisma.lead.findMany({
+        where: whereClause,
         orderBy: {
           created_at: 'desc'
         }

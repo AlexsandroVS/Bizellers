@@ -1,121 +1,84 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import nodemailer from 'nodemailer';
+import { prisma } from '../src/lib/prisma';
+import { isValidEmail } from '../src/utils/emailValidation';
 
+// --- Lógica de Envío de Correo ---
+// En un proyecto real, esto estaría en su propio archivo y usaría un servicio como Resend, SendGrid, etc.
+async function sendWelcomeEmail(email: string, subscriptionId: number) {
+  console.log(`SIMULACIÓN: Enviando correo de bienvenida a ${email}`);
+
+  // TODO: Reemplazar con un servicio de email real
+  // Ejemplo con Resend (requiere instalar 'resend'):
+  /*
+  import { Resend } from 'resend';
+  const resend = new Resend(process.env.RESEND_API_KEY);
+  try {
+    await resend.emails.send({
+      from: 'onboarding@bizellers.com',
+      to: email,
+      subject: '¡Bienvenido a Bizellers!',
+      html: '<h1>Gracias por suscribirte</h1><p>Pronto recibirás noticias nuestras.</p>'
+    });
+    console.log(`Correo de bienvenida enviado exitosamente a ${email}`);
+  } catch (error) {
+    console.error(`Error al enviar correo de bienvenida a ${email}:`, error);
+    // Si falla el envío, no actualizamos la DB para poder reintentar luego
+    return;
+  }
+  */
+
+  // Simulación exitosa: esperamos 1 segundo
+  await new Promise(resolve => setTimeout(resolve, 1000));
+
+  // Actualizar la base de datos para marcar que el correo fue enviado
+  try {
+    await prisma.newsletterSubscription.update({
+      where: { id: subscriptionId },
+      data: { welcomeEmailSentAt: new Date() },
+    });
+    console.log(`SIMULACIÓN: Se marcó como enviado el correo para ${email}`);
+  } catch (dbError) {
+    console.error(`Error al actualizar el estado de envío para ${email}:`, dbError);
+  }
+}
+
+// --- Handler de la API ---
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  // Solo permitir POST
   if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Método no permitido' });
+    return res.status(405).json({ success: false, message: 'Método no permitido' });
   }
 
   const { email } = req.body;
 
-  // Validar email
-  if (!email || !/\S+@\S+\.\S+/.test(email)) {
-    return res.status(400).json({ error: 'Email inválido' });
+  if (!isValidEmail(email)) {
+    return res.status(400).json({ success: false, message: 'El correo proporcionado no es válido.' });
   }
 
   try {
-    // Configurar transporter de nodemailer
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
+    // Intentar crear la suscripción
+    const newSubscription = await prisma.newsletterSubscription.create({
+      data: {
+        email: email.toLowerCase(),
       },
     });
 
-    // Configurar el email
-    const mailOptions = {
-      from: process.env.EMAIL_USER,
-      to: process.env.VITE_CONTACT_EMAIL || 'contacto@bizellers.com',
-      subject: `Nueva suscripción al Newsletter - ${email}`,
-      html: `
-        <!DOCTYPE html>
-        <html lang="es">
-        <head>
-          <meta charset="UTF-8">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        </head>
-        <body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #f4f4f4;">
-          <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f4f4f4; padding: 40px 20px;">
-            <tr>
-              <td align="center">
-                <table width="600" cellpadding="0" cellspacing="0" style="max-width: 600px; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-                  
-                  <!-- Header -->
-                  <tr>
-                    <td style="background: linear-gradient(135deg, #B4FC05 0%, #9DD604 100%); padding: 40px 30px; text-align: center;">
-                      <h1 style="margin: 0; color: #121212; font-size: 32px; font-weight: 800; letter-spacing: 1px;">BIZELLERS</h1>
-                      <p style="margin: 12px 0 0 0; color: #121212; font-size: 16px; font-weight: 600;">
-                        📧 Nueva Suscripción al Newsletter
-                      </p>
-                    </td>
-                  </tr>
+    // Disparar el envío del correo de bienvenida de forma asíncrona (no bloquea la respuesta)
+    sendWelcomeEmail(newSubscription.email, newSubscription.id);
 
-                  <!-- Content -->
-                  <tr>
-                    <td style="padding: 40px 30px;">
-                      <h2 style="margin: 0 0 24px 0; color: #121212; font-size: 20px; font-weight: 700;">Nueva Suscripción</h2>
-                      
-                      <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f9f9f9; border-radius: 8px; padding: 20px;">
-                        <tr>
-                          <td style="padding: 8px 0;">
-                            <strong style="color: #666; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;">Email</strong>
-                            <p style="margin: 4px 0 0 0;">
-                              <a href="mailto:${email}" style="color: #B4FC05; background-color: #121212; text-decoration: none; font-size: 16px; font-weight: 600; padding: 6px 12px; border-radius: 4px; display: inline-block;">${email}</a>
-                            </p>
-                          </td>
-                        </tr>
-                      </table>
-                      
-                      <!-- CTA Button -->
-                      <table width="100%" cellpadding="0" cellspacing="0" style="margin-top: 30px;">
-                        <tr>
-                          <td align="center">
-                            <p style="margin: 0; color: #666; font-size: 14px;">
-                              Agrega este email a tu lista de suscriptores del newsletter.
-                            </p>
-                          </td>
-                        </tr>
-                      </table>
-                    </td>
-                  </tr>
+    return res.status(201).json({ success: true, message: '¡Gracias por suscribirte!' });
 
-                  <!-- Footer Info -->
-                  <tr>
-                    <td style="padding: 24px 30px; background-color: #f9f9f9; border-top: 1px solid #e0e0e0;">
-                      <p style="margin: 0; color: #666; font-size: 13px; text-align: center; line-height: 1.6;">
-                        📅 ${new Date().toLocaleDateString('es-MX', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' })}<br>
-                        📋 Enviado desde el formulario de Newsletter
-                      </p>
-                    </td>
-                  </tr>
+  } catch (error: any) {
+    // Manejar el caso en que el correo ya existe (error de constraint único)
+    if (error.code === 'P2002' && error.meta?.target?.includes('email')) {
+      return res.status(409).json({ success: false, message: 'Este correo ya está suscrito.' });
+    }
 
-                  <!-- Footer -->
-                  <tr>
-                    <td style="background-color: #121212; padding: 30px; text-align: center;">
-                      <p style="margin: 0 0 8px 0; color: #B4FC05; font-size: 18px; font-weight: 700;">BIZELLERS</p>
-                      <p style="margin: 0; color: #999; font-size: 12px;">
-                        © ${new Date().getFullYear()} Bizellers. Todos los derechos reservados.
-                      </p>
-                    </td>
-                  </tr>
-                  
-                </table>
-              </td>
-            </tr>
-          </table>
-        </body>
-        </html>
-      `,
-    };
-
-    // Enviar el email
-    await transporter.sendMail(mailOptions);
-
-    return res.status(200).json({ success: true, message: 'Suscripción registrada correctamente' });
-  } catch (error) {
-    console.error('Error al procesar suscripción:', error);
-    return res.status(500).json({ error: 'Error al procesar la suscripción' });
+    console.error('[NEWSLETTER SUBSCRIBE] Error:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Ocurrió un error en el servidor. Inténtalo de nuevo más tarde.',
+    });
+  } finally {
+    await prisma.$disconnect();
   }
 }
