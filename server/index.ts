@@ -2,7 +2,16 @@ import express, { Request, Response } from 'express';
 import cors from 'cors';
 import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
-import { prisma } from '../src/lib/prisma.js';
+import { PrismaClient } from '@prisma/client';
+
+// Prisma Client instantiation
+const prisma = new PrismaClient({
+  datasources: {
+    db: {
+      url: `${process.env.DATABASE_URL}?pgbouncer=true`,
+    },
+  },
+});
 import { isValidEmail } from '../src/utils/emailValidation.js';
 import { sendWelcomeEmail } from '../src/lib/email.js';
 
