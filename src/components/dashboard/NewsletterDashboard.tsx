@@ -61,7 +61,7 @@ export function NewsletterDashboard({ token }: NewsletterDashboardProps) {
     if (!token) return;
     setSendingId(id);
     try {
-      const response = await fetch('/api/newsletter-dashboard', {
+      const response = await fetch('/api/newsletter/send', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
         body: JSON.stringify({ id }),
