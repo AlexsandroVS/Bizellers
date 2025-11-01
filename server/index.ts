@@ -2,9 +2,9 @@ import express, { Request, Response } from 'express';
 import cors from 'cors';
 import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
-import { prisma } from '../src/lib/prisma';
-import { isValidEmail } from '../src/utils/emailValidation';
-import { sendWelcomeEmail } from '../src/lib/email';
+import { prisma } from '@/lib/prisma';
+import { isValidEmail } from '@/utils/emailValidation';
+import { sendWelcomeEmail } from '@/lib/email';
 
 dotenv.config();
 
