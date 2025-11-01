@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { prisma } from '../../src/lib/prisma';
-import { sendWelcomeEmail } from '../../src/lib/email';
+import { prisma } from '@/lib/prisma';
+import { sendWelcomeEmail } from '@/lib/email';
 
 // Helper para verificar la autenticación
 function isAuthenticated(req: VercelRequest): boolean {
