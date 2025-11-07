@@ -10,7 +10,8 @@ import { DashboardFilters } from '@/components/dashboard/DashboardFilters';
 import { LeadBoard } from '@/components/dashboard/LeadBoard';
 import { LeadModal } from '@/components/dashboard/LeadModal';
 import { NewsletterDashboard } from '@/components/dashboard/NewsletterDashboard';
-import type { Lead } from '@/types/dashboard';
+import { NewsletterKPIs } from '@/components/dashboard/NewsletterKPIs';
+import type { Lead, DashboardKPIs as NewsletterKPIsType } from '@/types/dashboard';
 
 interface DateFilters {
   startDate?: string;
@@ -28,6 +29,9 @@ export function Dashboard() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [newsletterFilters, setNewsletterFilters] = useState<DateFilters>({});
+  const [newsletterSearchTerm, setNewsletterSearchTerm] = useState('');
+ 
 
   // Control fetching based on view
   useEffect(() => {
@@ -52,12 +56,29 @@ export function Dashboard() {
   }, [leads, searchTerm]);
 
   const handleDateFilterApply = (filters: DateFilters) => {
-    fetchLeads(filters);
+    if (currentView === 'leads') {
+      fetchLeads(filters);
+    } else {
+      setNewsletterFilters(filters);
+    }
+  };
+
+  const handleSearchChange = (term: string) => {
+    if (currentView === 'leads') {
+      setSearchTerm(term);
+    } else {
+      setNewsletterSearchTerm(term);
+    }
   };
 
   const handleResetFilters = () => {
-    setSearchTerm('');
-    fetchLeads();
+    if (currentView === 'leads') {
+      setSearchTerm('');
+      fetchLeads();
+    } else {
+      setNewsletterFilters({});
+      setNewsletterSearchTerm('');
+    }
   };
 
   const handleLeadClick = (lead: Lead) => {
@@ -117,21 +138,22 @@ export function Dashboard() {
           </div>
         </div>
 
+        <DashboardFilters
+          searchTerm={currentView === 'leads' ? searchTerm : newsletterSearchTerm}
+          onSearchChange={handleSearchChange}
+          onDateFilterApply={handleDateFilterApply}
+          onReset={handleResetFilters}
+        />
+
         {currentView === 'leads' && (
           <>
-            <DashboardFilters
-              searchTerm={searchTerm}
-              onSearchChange={setSearchTerm}
-              onDateFilterApply={handleDateFilterApply}
-              onReset={handleResetFilters}
-            />
             {isLoading && <div className="flex items-center justify-center py-12"><Loader2 className="w-8 h-8 text-verde-lima animate-spin" /></div>}
             {error && <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="bg-red-900/20 border border-red-500/50 rounded-lg p-4 text-red-400 mb-6">{error}</motion.div>}
             {!isLoading && !error && <LeadBoard leads={filteredLeads} onLeadClick={handleLeadClick} onStatusChange={updateLeadStatus} />}
           </>
         )}
 
-        {currentView === 'newsletter' && <NewsletterDashboard token={token} />}
+        {currentView === 'newsletter' && <NewsletterDashboard token={token} filters={newsletterFilters} searchTerm={newsletterSearchTerm} />}
       </main>
 
       <LeadModal

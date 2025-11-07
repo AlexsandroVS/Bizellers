@@ -1,27 +1,15 @@
 import { useState, useEffect } from 'react';
-import { Trash2, Send, CheckCircle, Clock, Download, ChevronLeft, ChevronRight, Loader2 } from 'lucide-react';
+import { Trash2, Send, Loader2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { exportToExcel } from '@/utils/exportData';
 
 interface NewsletterDashboardProps {
   token: string | null;
+  filters: { startDate?: string, endDate?: string };
+  searchTerm: string;
 }
 
-interface Subscriber {
-  id: number;
-  email: string;
-  createdAt: string;
-  welcomeEmailSentAt: string | null;
-}
-
-interface Pagination {
-  total: number;
-  page: number;
-  limit: number;
-  totalPages: number;
-}
-
-export function NewsletterDashboard({ token }: NewsletterDashboardProps) {
+export function NewsletterDashboard({ token, filters, searchTerm }: NewsletterDashboardProps) {
   const [subscribers, setSubscribers] = useState<Subscriber[]>([]);
   const [pagination, setPagination] = useState<Pagination | null>(null);
   const [page, setPage] = useState(1);
@@ -30,16 +18,24 @@ export function NewsletterDashboard({ token }: NewsletterDashboardProps) {
   const [sendingId, setSendingId] = useState<number | null>(null);
 
   useEffect(() => {
+    console.log('useEffect in newsletter dashboard', filters);
     const fetchSubscribers = async () => {
       if (!token) return;
       setIsLoading(true);
+      const params = new URLSearchParams({
+        page: page.toString(),
+        ...(filters.startDate && { startDate: filters.startDate }),
+        ...(filters.endDate && { endDate: filters.endDate }),
+      });
+
       try {
-        const response = await fetch(`/api/newsletter-dashboard?page=${page}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        const data = await response.json();
-        if (data.success) {
-          setSubscribers(data.data);
+        const url = `/api/newsletter-dashboard?${params.toString()}`;
+                    const response = await fetch(url, {
+                      headers: { Authorization: `Bearer ${token}` },
+                    });
+                    const data = await response.json();
+                    console.log('data from api', data);
+                    if (data.success) {          setSubscribers(data.data);
           setPagination(data.pagination);
         } else {
           setError(data.message || 'Error al cargar suscriptores');
@@ -51,10 +47,31 @@ export function NewsletterDashboard({ token }: NewsletterDashboardProps) {
       }
     };
     fetchSubscribers();
-  }, [token, page]);
+  }, [token, page, filters]);
+
+  const filteredSubscribers = subscribers.filter(subscriber => 
+    subscriber.email.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const handleDelete = async (id: number) => {
-    // ... (código sin cambios)
+    if (!token) return;
+
+    if (window.confirm('¿Estás seguro de que quieres eliminar este suscriptor?')) {
+      try {
+        const response = await fetch(`/api/newsletter-dashboard?id=${id}`, {
+          method: 'DELETE',
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        const data = await response.json();
+        if (data.success) {
+          setSubscribers(subs => subs.filter(s => s.id !== id));
+        } else {
+          alert(`Error: ${data.message}`);
+        }
+      } catch (err) {
+        alert('Error de conexión al eliminar el suscriptor.');
+      }
+    }
   };
 
   const handleSendWelcomeEmail = async (id: number) => {
@@ -81,7 +98,7 @@ export function NewsletterDashboard({ token }: NewsletterDashboardProps) {
   };
   
   const handleDownload = () => {
-    const dataToExport = subscribers.map(({ id, welcomeEmailSentAt, ...rest }) => rest);
+    const dataToExport = filteredSubscribers.map(({ id, welcomeEmailSentAt, ...rest }) => rest);
     exportToExcel(dataToExport, 'suscriptores_newsletter');
   }
 
@@ -94,7 +111,7 @@ export function NewsletterDashboard({ token }: NewsletterDashboardProps) {
             {/* ... (thead sin cambios) ... */}
           </thead>
           <tbody>
-            {subscribers.map(sub => (
+            {filteredSubscribers.map(sub => (
               <tr key={sub.id} className="border-b border-gray-800 hover:bg-gray-800/50 transition-colors">
                 <td className="p-4 text-white font-medium">{sub.email}</td>
                 <td className="p-4 text-gray-300">{new Date(sub.createdAt).toLocaleDateString('es-MX')}</td>

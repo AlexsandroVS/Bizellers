@@ -1,16 +1,18 @@
 import { motion } from "framer-motion";
 import { UserCheck, ClipboardList, ShieldCheck, User as UserIcon, MessageSquare, Mail, Phone, Send, Sparkles, Building2, AlertCircle } from "lucide-react";
-import { useState, useRef, type FormEvent } from "react";
+import { useState, useRef, type FormEvent, useEffect } from "react";
+import { latinAmericanCountriesData } from '@/data/countries';
 import { useScrollInView } from "@/hooks/useScrollInView";
 import { GreenParticles } from "@/components/common/GreenParticles";
-import { validateLatamPhone } from "@/utils/phoneValidation";
 
 export function Contact() {
+  const [phoneCountryCode, setPhoneCountryCode] = useState("+51");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [phonePlaceholder, setPhonePlaceholder] = useState("987 654 321");
   const [formData, setFormData] = useState({
     name: "",
     empresa: "",
     email: "",
-    phone: "",
     message: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -20,21 +22,12 @@ export function Contact() {
   const sectionRef = useRef<HTMLElement>(null);
   const { hasBeenInView } = useScrollInView(sectionRef, 0.2);
 
-  const handlePhoneChange = (value: string) => {
-    setFormData({ ...formData, phone: value });
-
-    // Validar solo si tiene contenido
-    if (value) {
-      const validation = validateLatamPhone(value);
-      if (!validation.isValid) {
-        setPhoneError("Por favor ingresa un número válido con código de país (ej: +51 999 999 999)");
-      } else {
-        setPhoneError("");
-      }
-    } else {
-      setPhoneError("");
+  useEffect(() => {
+    const country = latinAmericanCountriesData.find(c => c.dial_code === phoneCountryCode);
+    if (country) {
+      setPhonePlaceholder(country.placeholder);
     }
-  };
+  }, [phoneCountryCode]);
 
   const handleEmailChange = (value: string) => {
     setFormData({ ...formData, email: value });
@@ -54,17 +47,15 @@ export function Contact() {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
-    // Validar email antes de enviar
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email)) {
       setEmailError("Por favor ingresa un correo electrónico válido.");
       return;
     }
 
-    // Validar teléfono antes de enviar
-    const phoneValidation = validateLatamPhone(formData.phone);
-    if (!phoneValidation.isValid) {
-      setPhoneError("Por favor ingresa un número válido con código de país (ej: +51 999 999 999)");
+    const fullPhoneNumber = `${phoneCountryCode}${phoneNumber}`;
+    if (phoneNumber && !/^\d{7,15}$/.test(phoneNumber)) {
+      setPhoneError("Por favor ingresa un número de teléfono válido.");
       return;
     }
 
@@ -80,6 +71,7 @@ export function Contact() {
         },
         body: JSON.stringify({
           ...formData,
+          phone: fullPhoneNumber,
           cargo: "Lead",
           servicio: "Contacto General"
         }),
@@ -87,7 +79,9 @@ export function Contact() {
 
       if (response.ok) {
         setSubmitStatus("success");
-        setFormData({ name: "", empresa: "", email: "", phone: "", message: "" });
+        setFormData({ name: "", empresa: "", email: "", message: "" });
+        setPhoneNumber("");
+        setPhoneCountryCode("+51");
       } else {
         setSubmitStatus("error");
       }
@@ -98,6 +92,8 @@ export function Contact() {
       setIsSubmitting(false);
     }
   };
+
+  const selectedCountry = latinAmericanCountriesData.find(c => c.dial_code === phoneCountryCode);
 
   return (
     <section ref={sectionRef} id="contacto" className="py-24 bg-negro relative overflow-hidden">
@@ -195,7 +191,6 @@ export function Contact() {
                       required
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      placeholder="Nombre completo"
                       className="w-full px-4 py-3 border border-verde-lima rounded-lg focus:border-verde-lima focus:outline-none focus:ring-2 focus:ring-verde-lima transition-all bg-gray-800/50 text-black placeholder:text-gray-400"
                     />
                   </div>
@@ -226,7 +221,7 @@ export function Contact() {
                     value={formData.email}
                     onChange={(e) => handleEmailChange(e.target.value)}
                     placeholder="Correo electrónico"
-                    className={`w-full px-4 py-3 border ${emailError ? 'border-red-500' : 'border-verde-lima'} rounded-lg focus:border-verde-lima focus:outline-none focus:ring-2 focus:ring-verde-lima transition-all bg-gray-800/50 text-negro placeholder:text-gray-400`}
+                    className={`w-full px-4 py-3 border ${emailError ? 'border-red-500' : 'border-verde-lima'} rounded-lg focus:border-verde-lima focus:outline-none focus:ring-2 focus:ring-verde-lima transition-all bg-gray-800/50 text-black placeholder:text-gray-400`}
                   />
                   {emailError && (
                     <motion.div
@@ -243,16 +238,37 @@ export function Contact() {
                 <div>
                   <label className="flex items-center gap-2 text-blanco font-semibold mb-2 text-sm">
                     <Phone className="w-4 h-4 text-verde-lima" />
-                    Teléfono * (con código de país)
+                    Teléfono *
                   </label>
-                  <input
-                    type="tel"
-                    required
-                    value={formData.phone}
-                    onChange={(e) => handlePhoneChange(e.target.value)}
-                    placeholder="+51 999 999 999"
-                    className={`w-full px-4 py-3 border ${phoneError ? 'border-red-500' : 'border-verde-lima'} rounded-lg focus:border-verde-lima focus:outline-none focus:ring-2 focus:ring-verde-lima transition-all bg-gray-800/50 text-negro placeholder:text-gray-400`}
-                  />
+                  <div className="flex items-center">
+                    <div className="relative">
+                      <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                        <span>{selectedCountry?.flag}</span>
+                      </div>
+                      <select
+                        value={phoneCountryCode}
+                        onChange={(e) => setPhoneCountryCode(e.target.value)}
+                        className="appearance-none w-28 bg-gray-800/50 border border-verde-lima rounded-l-lg py-3 pl-8 pr-8 text-black focus:outline-none focus:border-verde-lima-dark focus:ring-2 focus:ring-verde-lima transition-all"
+                      >
+                        {latinAmericanCountriesData.map((country) => (
+                          <option key={country.code} value={country.dial_code} className="bg-gray-900 text-black">
+                            {country.dial_code}
+                          </option>
+                        ))}
+                      </select>
+                      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-400">
+                         <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                      </div>
+                    </div>
+                    <input
+                      type="tel"
+                      required
+                      value={phoneNumber}
+                      onChange={(e) => setPhoneNumber(e.target.value.replace(/[^0-9]/g, ''))}
+                      placeholder={phonePlaceholder}
+                      className={`w-full px-4 py-3 border-y border-r ${phoneError ? 'border-red-500' : 'border-verde-lima'} rounded-r-lg focus:border-verde-lima-dark focus:outline-none focus:ring-2 focus:ring-verde-lima transition-all bg-gray-800/50 text-black placeholder:text-gray-400`}
+                    />
+                  </div>
                   {phoneError && (
                     <motion.div
                       initial={{ opacity: 0, y: -10 }}
@@ -263,9 +279,6 @@ export function Contact() {
                       {phoneError}
                     </motion.div>
                   )}
-                  <p className="text-xs text-gray-400 mt-1">
-                    Ejemplo: +51 (Perú), +52 (México), +54 (Argentina)
-                  </p>
                 </div>
 
                 <div>
