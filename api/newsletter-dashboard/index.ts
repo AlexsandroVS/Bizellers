@@ -2,6 +2,7 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient({
+  log: ['query'],
   datasources: {
     db: {
       url: `${process.env.DATABASE_URL}?pgbouncer=true`,
@@ -19,10 +20,22 @@ async function handleGet(req: VercelRequest, res: VercelResponse) {
   const page = parseInt(req.query.page as string) || 1;
   const limit = 20;
   const skip = (page - 1) * limit;
+  const { startDate, endDate } = req.query;
+
+  const where: any = {};
+  if (startDate && typeof startDate === 'string') {
+    where.createdAt = { ...where.createdAt, gte: new Date(startDate) };
+  }
+  if (endDate && typeof endDate === 'string') {
+    const endOfDay = new Date(endDate);
+    endOfDay.setUTCHours(23, 59, 59, 999);
+    where.createdAt = { ...where.createdAt, lte: endOfDay };
+  }
 
   try {
-    const total = await prisma.newsletterSubscription.count();
+    const total = await prisma.newsletterSubscription.count({ where });
     const subscribers = await prisma.newsletterSubscription.findMany({
+      where,
       skip,
       take: limit,
       orderBy: { createdAt: 'desc' },

@@ -1,11 +1,11 @@
 import type { PhoneValidation } from '../types/dashboard';
 
 // Códigos de país LATAM más comunes
-const LATAM_COUNTRY_CODES: Record<string, { code: string; length: number; name: string }> = {
+const LATAM_COUNTRY_CODES: Record<string, { code: string; length: number | number[]; name: string }> = {
   '+51': { code: '51', length: 9, name: 'Perú' },          // Perú
   '+52': { code: '52', length: 10, name: 'México' },        // México
   '+53': { code: '53', length: 8, name: 'Cuba' },          // Cuba
-  '+54': { code: '54', length: 10, name: 'Argentina' },     // Argentina
+  '+54': { code: '54', length: [10, 11, 12], name: 'Argentina' },     // Argentina (10 for landlines, 11/12 for mobiles)
   '+55': { code: '55', length: 11, name: 'Brasil' },        // Brasil
   '+56': { code: '56', length: 9, name: 'Chile' },          // Chile
   '+57': { code: '57', length: 10, name: 'Colombia' },      // Colombia
@@ -36,7 +36,6 @@ export function sanitizePhone(phone: string): string {
 export function validateLatamPhone(phone: string): PhoneValidation {
   const sanitized = sanitizePhone(phone);
 
-  // Verificar si empieza con +
   if (!sanitized.startsWith('+')) {
     return {
       isValid: false,
@@ -46,13 +45,11 @@ export function validateLatamPhone(phone: string): PhoneValidation {
     };
   }
 
-  // Buscar el código de país
   let matchedCode: string | null = null;
   let matchedData: typeof LATAM_COUNTRY_CODES[string] | null = null;
 
   for (const [prefix, data] of Object.entries(LATAM_COUNTRY_CODES)) {
     if (sanitized.startsWith(prefix)) {
-      // Usar el código más largo que coincida (para casos como +1 vs +591)
       if (!matchedCode || prefix.length > matchedCode.length) {
         matchedCode = prefix;
         matchedData = data;
@@ -69,11 +66,10 @@ export function validateLatamPhone(phone: string): PhoneValidation {
     };
   }
 
-  // Extraer el número nacional (sin código de país)
   const nationalNumber = sanitized.slice(matchedCode.length);
 
-  // Validar longitud del número nacional
-  const isValid = nationalNumber.length === matchedData.length;
+  const lengths = Array.isArray(matchedData.length) ? matchedData.length : [matchedData.length];
+  const isValid = lengths.some(l => nationalNumber.length === l);
 
   return {
     isValid,

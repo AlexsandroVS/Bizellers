@@ -77,11 +77,72 @@ export function useLeads(token: string | null) {
   };
 
   const updateLeadNotes = async (id: number, notes: string) => {
-    // ... (código sin cambios)
+    if (!token) return false;
+
+    try {
+      const response = await fetch(`/api/update-lead`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ id, notes }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      if (data.success) {
+        setLeads((prevLeads) =>
+          prevLeads.map((lead) =>
+            lead.id === id ? data.lead : lead
+          )
+        );
+        return true;
+      } else {
+        setError(data.message || 'Error al actualizar notas del lead');
+        return false;
+      }
+    } catch (err) {
+      setError('Error de conexión al actualizar notas');
+      console.error('Error updating lead notes:', err);
+      return false;
+    }
   };
 
   const deleteLead = async (id: number) => {
-    // ... (código sin cambios)
+    if (!token) return false;
+
+    try {
+      const response = await fetch(`/api/delete-lead?id=${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      if (data.success) {
+        setLeads((prevLeads) => prevLeads.filter((lead) => lead.id !== id));
+        return true;
+      } else {
+        setError(data.message || 'Error al eliminar el lead');
+        return false;
+      }
+    } catch (err) {
+      setError('Error de conexión al eliminar lead');
+      console.error('Error deleting lead:', err);
+      return false;
+    }
   };
 
   const calculateKPIs = useCallback((): DashboardKPIs => {
