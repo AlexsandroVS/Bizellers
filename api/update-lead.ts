@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import prisma from '@/lib/prisma.js'; // Import shared prisma instance
-import type { LeadStatus } from '../src/types/dashboard.js';
+import  prisma  from '../src/lib/prisma';
+
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   console.log('[UPDATE LEAD] Received request:', req.method, req.url);
