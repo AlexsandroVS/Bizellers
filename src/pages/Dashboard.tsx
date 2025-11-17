@@ -28,12 +28,22 @@ export function Dashboard() {
 
   const [currentView, setCurrentView] = useState<DashboardView>('leads');
   const [dateFilters, setDateFilters] = useState<DateFilters>({});
+
+  console.log('Dashboard: token:', token);
+  console.log('Dashboard: currentView:', currentView);
+  console.log('Dashboard: dateFilters:', dateFilters);
+
   const { kpis: dashboardKpis, isLoading: kpisLoading, error: kpisError, fetchKPIs } = useDashboardKPIs({
     token,
     type: currentView,
     startDate: dateFilters.startDate,
     endDate: dateFilters.endDate,
   });
+
+  console.log('Dashboard: dashboardKpis:', dashboardKpis);
+  console.log('Dashboard: kpisLoading:', kpisLoading);
+  console.log('Dashboard: kpisError:', kpisError);
+
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -43,6 +53,7 @@ export function Dashboard() {
 
   // Control fetching based on view
   useEffect(() => {
+    console.log('Dashboard useEffect: currentView changed or filters changed. Calling fetchKPIs.');
     if (currentView === 'leads') {
       fetchLeads(dateFilters);
     }
