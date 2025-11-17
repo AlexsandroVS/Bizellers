@@ -1,7 +1,11 @@
 {
   "functions": {
     "api/**/*.ts": {
-      "includeFiles": "src/**"
+      "includeFiles": "src/**",
+      "runtime": "nodejs18.x",
+      "typescript": {
+        "config": "tsconfig.node.json"
+      }
     }
   },
   "headers": [
