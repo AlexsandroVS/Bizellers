@@ -20,11 +20,7 @@
     "noUnusedParameters": true,
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true,
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["./src/*"]
-    }
+    "noUncheckedSideEffectImports": true
   },
-  "include": ["vite.config.ts", "api/**/*.ts", "server/**/*.ts", "api/lib/**/*.ts"]
+  "include": ["vite.config.ts", "api/**/*.ts", "server/**/*.ts", "api/utils/**/*.ts"]
 }
