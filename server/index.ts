@@ -454,14 +454,12 @@ app.get('/api/health', (_req: Request, res: Response) => {
 
 // ============ KPIS API ============
 app.get('/api/kpis', async (req: Request, res: Response) => {
-  const handler = kpisHandler(prisma); // Pass the prisma instance
-  await handler(req as any, res as any);
+  await kpisHandler(req as any, res as any);
 });
 
 // ============ EXPORT API ============
 app.get('/api/export', async (req: Request, res: Response) => {
-  const handler = exportHandler(prisma); // Pass the prisma instance
-  await handler(req as any, res as any);
+  await exportHandler(req as any, res as any);
 });
 
 app.listen(PORT, () => {
