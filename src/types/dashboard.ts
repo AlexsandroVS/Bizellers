@@ -28,11 +28,17 @@ export interface Column {
   leads: Lead[];
 }
 
-export interface DashboardKPIs {
+export interface LeadKPIs {
   totalLeads: number;
   contactRate: number;
   inNegotiation: number;
   conversionRate: number;
+  leadsByStatus: { status: string; count: number }[];
+}
+
+export interface NewsletterKPIs {
+  totalSubscribers: number;
+  newSubscribersInPeriod: number;
 }
 
 export interface PhoneValidation {

@@ -3,6 +3,8 @@ import cors from 'cors';
 import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
 import { PrismaClient } from '@prisma/client';
+import kpisHandler from '../api/kpis'; // Import the kpis handler
+import exportHandler from '../api/export'; // Import the export handler
 
 // Prisma Client instantiation
 const prisma = new PrismaClient({
@@ -448,6 +450,18 @@ app.post('/api/contact', async (req: Request, res: Response) => {
 // Health check
 app.get('/api/health', (_req: Request, res: Response) => {
   res.status(200).json({ status: 'ok' });
+});
+
+// ============ KPIS API ============
+app.get('/api/kpis', async (req: Request, res: Response) => {
+  const handler = kpisHandler(prisma); // Pass the prisma instance
+  await handler(req as any, res as any);
+});
+
+// ============ EXPORT API ============
+app.get('/api/export', async (req: Request, res: Response) => {
+  const handler = exportHandler(prisma); // Pass the prisma instance
+  await handler(req as any, res as any);
 });
 
 app.listen(PORT, () => {

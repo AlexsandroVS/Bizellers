@@ -2,6 +2,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, Send, User, Building, Mail, Phone, MessageSquare, Sparkles, CheckCircle } from "lucide-react";
 import { useState, useEffect, type FormEvent } from "react";
 import { latinAmericanCountriesData } from '@/data/countries';
+import { CountryPhoneSelect } from './CountryPhoneSelect';
 
 interface ServiceModalProps {
   isOpen: boolean;
@@ -29,13 +30,6 @@ export function ServiceModal({ isOpen, onClose, serviceName }: ServiceModalProps
   useEffect(() => {
     setFormData((prev) => ({ ...prev, service: serviceName }));
   }, [serviceName]);
-
-  useEffect(() => {
-    const country = latinAmericanCountriesData.find(c => c.dial_code === phoneCountryCode);
-    if (country) {
-      setPhonePlaceholder(country.placeholder);
-    }
-  }, [phoneCountryCode]);
 
   const handleEmailChange = (value: string) => {
     setFormData({ ...formData, email: value });
@@ -104,8 +98,6 @@ export function ServiceModal({ isOpen, onClose, serviceName }: ServiceModalProps
       setIsSubmitting(false);
     }
   };
-
-  const selectedCountry = latinAmericanCountriesData.find(c => c.dial_code === phoneCountryCode);
 
   return (
     <AnimatePresence>
@@ -222,41 +214,34 @@ export function ServiceModal({ isOpen, onClose, serviceName }: ServiceModalProps
                     {emailError && <p className="text-red-500 text-sm mt-1">{emailError}</p>}
                   </div>
 
-                  <div>
-                    <label className="flex items-center gap-2 text-negro font-bold mb-2 text-sm">
-                      <Phone className="w-4 h-4 text-verde-lima" />
-                      Teléfono
-                    </label>
-                    <div className="flex items-center">
-                      <div className="relative">
-                        <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                          <span>{selectedCountry?.flag}</span>
-                        </div>
-                        <select
-                          value={phoneCountryCode}
-                          onChange={(e) => setPhoneCountryCode(e.target.value)}
-                          className="appearance-none w-28 bg-white border-2 border-gray-300 rounded-l-xl py-3 pl-8 pr-8 text-black focus:outline-none focus:border-verde-lima focus:ring-2 focus:ring-verde-lima transition-all shadow-sm hover:shadow-md"
-                        >
-                          {latinAmericanCountriesData.map((country) => (
-                            <option key={country.code} value={country.dial_code}>
-                              {country.dial_code}
-                            </option>
-                          ))}
-                        </select>
-                        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                           <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-                        </div>
-                      </div>
+                  <div className="flex flex-col sm:flex-row gap-5">
+                    <div className="w-full sm:w-1/2">
+                      <label className="flex items-center gap-2 text-negro font-bold mb-2 text-sm">
+                        <Phone className="w-4 h-4 text-verde-lima" />
+                        Código País
+                      </label>
+                      <CountryPhoneSelect
+                        value={phoneCountryCode}
+                        onChange={setPhoneCountryCode}
+                        onPlaceholderChange={setPhonePlaceholder}
+                        className="mt-1"
+                      />
+                    </div>
+                    <div className="w-full sm:w-1/2">
+                      <label className="flex items-center gap-2 text-negro font-bold mb-2 text-sm">
+                        &nbsp;
+                      </label>
                       <input
                         type="tel"
                         value={phoneNumber}
                         onChange={(e) => setPhoneNumber(e.target.value.replace(/[^0-9]/g, ''))}
                         placeholder={phonePlaceholder}
-                        className={`w-full px-4 py-3 border-y-2 border-r-2 ${phoneError ? 'border-red-500' : 'border-gray-300'} rounded-r-xl focus:border-verde-lima focus:ring-2 text-black focus:ring-verde-lima focus:outline-none transition-all bg-white shadow-sm hover:shadow-md`}
+                        className={`w-full px-4 py-3 border-2 ${phoneError ? 'border-red-500' : 'border-gray-300'} rounded-xl focus:border-verde-lima focus:ring-2 text-black focus:ring-verde-lima focus:outline-none transition-all bg-white shadow-sm hover:shadow-md h-12`}
                       />
                     </div>
-                    {phoneError && <p className="text-red-500 text-sm mt-1">{phoneError}</p>}
                   </div>
+                  {phoneError && <p className="text-red-500 text-sm mt-1">{phoneError}</p>}
+                 
                 </div>
 
                 <div>

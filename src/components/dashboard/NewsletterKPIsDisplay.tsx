@@ -1,44 +1,52 @@
 import { motion } from 'framer-motion';
-import { Users, PhoneCall, Handshake, TrendingUp } from 'lucide-react';
-import type { DashboardKPIs } from '@/types/dashboard';
+import { Users, UserPlus } from 'lucide-react';
+import type { NewsletterKPIs } from '@/types/dashboard';
 
-interface DashboardKPIsProps {
-  kpis: DashboardKPIs;
+interface NewsletterKPIsDisplayProps {
+  kpis: NewsletterKPIs;
+  isLoading: boolean;
+  error: string | null;
 }
 
-export function DashboardKPIsComponent({ kpis }: DashboardKPIsProps) {
+export function NewsletterKPIsDisplay({ kpis, isLoading, error }: NewsletterKPIsDisplayProps) {
+  if (isLoading) {
+    return (
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        {[...Array(2)].map((_, index) => ( // Only 2 KPIs for newsletter
+          <div key={index} className="bg-gray-800/10 border-2 border-gray-800/30 rounded-xl p-6 relative overflow-hidden animate-pulse h-32" />
+        ))}
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="bg-red-900/20 border border-red-500/50 rounded-lg p-4 text-red-400 mb-6">
+        Error al cargar KPIs de Newsletter: {error}
+      </motion.div>
+    );
+  }
+
+  if (!kpis) {
+    return null;
+  }
+
   const kpiCards = [
     {
-      title: 'Total de Leads',
-      value: kpis.totalLeads,
+      title: 'Total Suscriptores',
+      value: kpis.totalSubscribers,
       icon: Users,
       color: 'from-blue-500 to-blue-600',
       bgColor: 'bg-blue-500/10',
       borderColor: 'border-blue-500/30',
     },
     {
-      title: 'Tasa de Contacto',
-      value: `${kpis.contactRate.toFixed(1)}%`,
-      icon: PhoneCall,
+      title: 'Nuevos Suscriptores (Periodo)',
+      value: kpis.newSubscribersInPeriod,
+      icon: UserPlus,
       color: 'from-verde-lima to-green-600',
       bgColor: 'bg-verde-lima/10',
       borderColor: 'border-verde-lima/30',
-    },
-    {
-      title: 'En Negociación',
-      value: kpis.inNegotiation,
-      icon: Handshake,
-      color: 'from-orange-500 to-orange-600',
-      bgColor: 'bg-orange-500/10',
-      borderColor: 'border-orange-500/30',
-    },
-    {
-      title: 'Tasa de Conversión',
-      value: `${kpis.conversionRate.toFixed(1)}%`,
-      icon: TrendingUp,
-      color: 'from-purple-500 to-purple-600',
-      bgColor: 'bg-purple-500/10',
-      borderColor: 'border-purple-500/30',
     },
   ];
 
