@@ -1,14 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { PrismaClient } from '@prisma/client';
+import prisma from '../src/lib/prisma.js'; // Import shared prisma instance
 import { isValidEmail } from '../src/utils/emailValidation.js';
-
-const prisma = new PrismaClient({
-  datasources: {
-    db: {
-      url: `${process.env.DATABASE_URL}?pgbouncer=true`,
-    },
-  },
-});
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'POST') {
@@ -36,7 +28,5 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
     console.error('[NEWSLETTER SUBSCRIBE] Error:', error);
     return res.status(500).json({ success: false, message: 'Ocurrió un error en el servidor.' });
-  } finally {
-    await prisma.$disconnect();
   }
 }

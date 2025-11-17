@@ -1,15 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { PrismaClient } from '@prisma/client';
-import type { LeadStatus } from '../src/types/dashboard';
-
-// Prisma Client instantiation with connection pooling for serverless environments
-const prisma = new PrismaClient({
-  datasources: {
-    db: {
-      url: `${process.env.DATABASE_URL}?pgbouncer=true`,
-    },
-  },
-});
+import prisma from '../src/lib/prisma.js'; // Import shared prisma instance
+import type { LeadStatus } from '../src/types/dashboard.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   console.log('[UPDATE LEAD] Received request:', req.method, req.url);
@@ -87,7 +78,5 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       message: 'Error en el servidor',
       error: error.message
     });
-  } finally {
-    await prisma.$disconnect();
   }
 }
