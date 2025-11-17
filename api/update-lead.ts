@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import prisma from '../prisma.js'; // Import shared prisma instance
+import prisma from '../../src/lib/prisma.js'; // Import shared prisma instance
 import type { LeadStatus } from '../src/types/dashboard.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
