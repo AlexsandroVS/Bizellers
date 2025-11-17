@@ -16,7 +16,11 @@ export function useDashboardKPIs({ token, type, startDate, endDate }: UseDashboa
   const [error, setError] = useState<string | null>(null);
 
   const fetchKPIs = useCallback(async () => {
-    if (!token || !type) return;
+    console.log('useDashboardKPIs: fetchKPIs called. token:', token, 'type:', type);
+    if (!token || !type) {
+      console.log('useDashboardKPIs: Skipping fetchKPIs due to missing token or type.');
+      return;
+    }
 
     setIsLoading(true);
     setError(null);
