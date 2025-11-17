@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import prisma from '@/lib/prisma.js'; // Import shared prisma instance
+import  prisma  from '../../src/lib/prisma';
 import * as XLSX from 'xlsx';
 
 // Helper para verificar la autenticación
