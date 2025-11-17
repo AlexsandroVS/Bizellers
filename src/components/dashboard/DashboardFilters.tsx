@@ -8,14 +8,12 @@ type DateRangePreset = 'all' | '7d' | '15d' | '1m' | '3m' | '6m' | '12m';
 interface DashboardFiltersProps {
   searchTerm: string;
   onSearchChange: (value: string) => void;
-  // These will be replaced by date filters
-  // sortBy: 'newest' | 'oldest' | 'name';
-  // onSortChange: (value: 'newest' | 'oldest' | 'name') => void;
   onDateFilterApply: (filters: {
     startDate?: string;
     endDate?: string;
   }) => void;
   onReset: () => void;
+  onExport: (format: 'csv' | 'xlsx') => void;
 }
 
 export function DashboardFilters({
@@ -23,6 +21,7 @@ export function DashboardFilters({
   onSearchChange,
   onDateFilterApply,
   onReset,
+  onExport,
 }: DashboardFiltersProps) {
   const [preset, setPreset] = useState<DateRangePreset>('all');
   const [startDate, setStartDate] = useState('');
@@ -144,6 +143,21 @@ export function DashboardFilters({
               <X className="w-5 h-5" />
             </motion.button>
           )}
+        </div>
+        {/* Export buttons */}
+        <div className="md:col-span-12 flex justify-end gap-2 mt-4">
+          <button
+            onClick={() => onExport('csv')}
+            className="px-4 py-2.5 bg-gray-800 text-blanco font-bold rounded-lg border border-gray-700 hover:border-verde-lima hover:text-verde-lima transition-colors"
+          >
+            Exportar CSV
+          </button>
+          <button
+            onClick={() => onExport('xlsx')}
+            className="px-4 py-2.5 bg-gray-800 text-blanco font-bold rounded-lg border border-gray-700 hover:border-verde-lima hover:text-verde-lima transition-colors"
+          >
+            Exportar Excel
+          </button>
         </div>
       </div>
     </div>

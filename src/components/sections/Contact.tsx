@@ -4,6 +4,7 @@ import { useState, useRef, type FormEvent, useEffect } from "react";
 import { latinAmericanCountriesData } from '@/data/countries';
 import { useScrollInView } from "@/hooks/useScrollInView";
 import { GreenParticles } from "@/components/common/GreenParticles";
+import { CountrySelectWithFlagAndName } from '../common/CountrySelectWithFlagAndName';
 
 export function Contact() {
   const [phoneCountryCode, setPhoneCountryCode] = useState("+51");
@@ -240,34 +241,32 @@ export function Contact() {
                     <Phone className="w-4 h-4 text-verde-lima" />
                     Teléfono *
                   </label>
-                  <div className="flex items-center">
-                    <div className="relative">
-                      <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                        <span>{selectedCountry?.flag}</span>
-                      </div>
-                      <select
+                  <div className="flex flex-col sm:flex-row gap-4">
+                    <div className="w-full sm:w-1/2">
+                      <label htmlFor="countryCode" className="block text-sm font-medium text-gray-400">
+                        Código País
+                      </label>
+                      <CountrySelectWithFlagAndName
                         value={phoneCountryCode}
-                        onChange={(e) => setPhoneCountryCode(e.target.value)}
-                        className="appearance-none w-28 bg-gray-800/50 border border-verde-lima rounded-l-lg py-3 pl-8 pr-8 text-black focus:outline-none focus:border-verde-lima-dark focus:ring-2 focus:ring-verde-lima transition-all"
-                      >
-                        {latinAmericanCountriesData.map((country) => (
-                          <option key={country.code} value={country.dial_code} className="bg-gray-900 text-black">
-                            {country.dial_code}
-                          </option>
-                        ))}
-                      </select>
-                      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-400">
-                         <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-                      </div>
+                        onChange={setPhoneCountryCode}
+                        onPlaceholderChange={setPhonePlaceholder}
+                        className="mt-1"
+                      />
                     </div>
-                    <input
-                      type="tel"
-                      required
-                      value={phoneNumber}
-                      onChange={(e) => setPhoneNumber(e.target.value.replace(/[^0-9]/g, ''))}
-                      placeholder={phonePlaceholder}
-                      className={`w-full px-4 py-3 border-y border-r ${phoneError ? 'border-red-500' : 'border-verde-lima'} rounded-r-lg focus:border-verde-lima-dark focus:outline-none focus:ring-2 focus:ring-verde-lima transition-all bg-gray-800/50 text-black placeholder:text-gray-400`}
-                    />
+                    <div className="w-full sm:w-1/2">
+                      <label htmlFor="phone" className="block text-sm font-medium text-gray-400">
+                        Número
+                      </label>
+                      <input
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        value={phoneNumber}
+                        onChange={(e) => setPhoneNumber(e.target.value.replace(/[^0-9]/g, ''))}
+                        className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md bg-gray-800/50 text-white placeholder:text-gray-400 px-3 py-2 h-10"
+                        placeholder={phonePlaceholder}
+                      />
+                    </div>
                   </div>
                   {phoneError && (
                     <motion.div

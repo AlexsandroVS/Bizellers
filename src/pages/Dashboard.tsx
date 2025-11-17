@@ -5,13 +5,14 @@ import { Loader2, KanbanSquare, Mail } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { useLeads } from '@/hooks/useLeads';
 import { DashboardHeader } from '@/components/dashboard/DashboardHeader';
-import { DashboardKPIsComponent } from '@/components/dashboard/DashboardKPIs';
+import { LeadKPIsDisplay } from '@/components/dashboard/LeadKPIsDisplay';
+import { NewsletterKPIsDisplay } from '@/components/dashboard/NewsletterKPIsDisplay';
 import { DashboardFilters } from '@/components/dashboard/DashboardFilters';
 import { LeadBoard } from '@/components/dashboard/LeadBoard';
 import { LeadModal } from '@/components/dashboard/LeadModal';
 import { NewsletterDashboard } from '@/components/dashboard/NewsletterDashboard';
-import { NewsletterKPIs } from '@/components/dashboard/NewsletterKPIs';
-import type { Lead, DashboardKPIs as NewsletterKPIsType } from '@/types/dashboard';
+import { useDashboardKPIs } from '@/hooks/useDashboardKPIs';
+import type { Lead, LeadKPIs, NewsletterKPIs } from '@/types/dashboard';
 
 interface DateFilters {
   startDate?: string;
@@ -23,9 +24,16 @@ type DashboardView = 'leads' | 'newsletter';
 export function Dashboard() {
   const { isAuthenticated, isLoading: authLoading, logout, getToken } = useAuth();
   const token = getToken();
-  const { leads, isLoading, error, fetchLeads, updateLeadStatus, updateLeadNotes, deleteLead, kpis, setLeads } = useLeads(token);
+  const { leads, isLoading, error, fetchLeads, updateLeadStatus, updateLeadNotes, deleteLead, setLeads } = useLeads(token);
 
   const [currentView, setCurrentView] = useState<DashboardView>('leads');
+  const [dateFilters, setDateFilters] = useState<DateFilters>({});
+  const { kpis: dashboardKpis, isLoading: kpisLoading, error: kpisError, fetchKPIs } = useDashboardKPIs({
+    token,
+    type: currentView,
+    startDate: dateFilters.startDate,
+    endDate: dateFilters.endDate,
+  });
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -36,13 +44,10 @@ export function Dashboard() {
   // Control fetching based on view
   useEffect(() => {
     if (currentView === 'leads') {
-      fetchLeads();
+      fetchLeads(dateFilters);
     }
-    // When switching away, we can clear the leads to save memory if needed
-    // else {
-    //   setLeads([]);
-    // }
-  }, [currentView, fetchLeads]);
+    fetchKPIs();
+  }, [currentView, fetchLeads, fetchKPIs, dateFilters]);
 
   const filteredLeads = useMemo(() => {
     if (!searchTerm) return leads;
@@ -56,6 +61,7 @@ export function Dashboard() {
   }, [leads, searchTerm]);
 
   const handleDateFilterApply = (filters: DateFilters) => {
+    setDateFilters(filters);
     if (currentView === 'leads') {
       fetchLeads(filters);
     } else {
@@ -109,6 +115,44 @@ export function Dashboard() {
     return success;
   };
 
+  const handleExport = async (format: 'csv' | 'xlsx') => {
+    if (!token) return;
+
+    const params = new URLSearchParams();
+    params.append('type', currentView);
+    params.append('format', format);
+    if (dateFilters.startDate) params.append('startDate', dateFilters.startDate);
+    if (dateFilters.endDate) params.append('endDate', dateFilters.endDate);
+    const queryString = params.toString();
+
+    try {
+      const response = await fetch(`/api/export?${queryString}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${currentView}_export.${format}`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        window.URL.revokeObjectURL(url);
+      } else {
+        const errorData = await response.json();
+        console.error('Error exporting data:', errorData.message);
+        alert(`Error al exportar: ${errorData.message}`);
+      }
+    } catch (error) {
+      console.error('Error de conexión al exportar:', error);
+      alert('Error de conexión al exportar datos.');
+    }
+  };
+
   if (authLoading) {
     return (
       <div className="min-h-screen bg-negro flex items-center justify-center">
@@ -127,7 +171,12 @@ export function Dashboard() {
 
       <main className="container mx-auto px-6 py-8">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
-          <DashboardKPIsComponent kpis={kpis} />
+          {currentView === 'leads' && dashboardKpis && (
+            <LeadKPIsDisplay kpis={dashboardKpis as LeadKPIs} isLoading={kpisLoading} error={kpisError} />
+          )}
+          {currentView === 'newsletter' && dashboardKpis && (
+            <NewsletterKPIsDisplay kpis={dashboardKpis as NewsletterKPIs} isLoading={kpisLoading} error={kpisError} />
+          )}
           <div className="p-1 bg-[#1a1a1a] border-2 border-gray-800 rounded-lg flex gap-2">
             <button onClick={() => setCurrentView('leads')} className={`px-4 py-2 rounded-md text-sm font-semibold flex items-center gap-2 transition-colors ${currentView === 'leads' ? 'bg-verde-lima text-negro' : 'text-gray-300 hover:bg-gray-800'}`}>
               <KanbanSquare className="w-4 h-4" /> Leads
@@ -143,6 +192,7 @@ export function Dashboard() {
           onSearchChange={handleSearchChange}
           onDateFilterApply={handleDateFilterApply}
           onReset={handleResetFilters}
+          onExport={handleExport}
         />
 
         {currentView === 'leads' && (
