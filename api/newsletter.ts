@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import prisma from '../../src/lib/prisma.js'; // Import shared prisma instance
+import prisma from '@/lib/prisma.js'; // Import shared prisma instance
 import { isValidEmail } from '../src/utils/emailValidation.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
