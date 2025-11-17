@@ -1,7 +1,7 @@
 // api/kpis/index.ts
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import prisma from '../../src/lib/prisma.js'; // Import shared prisma instance
+import prisma from '../src/lib/prisma.js'; // Import shared prisma instance
 
 function isAuthenticated(req: VercelRequest): boolean {
   const authHeader = req.headers.authorization;
