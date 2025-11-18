@@ -2,8 +2,9 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <!-- Favicon -->
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/svg+xml" href="/placeholder.svg" />
     <link rel="apple-touch-icon" href="/bizellers_logo.jpg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
@@ -25,7 +26,7 @@
     <meta property="og:url" content="https://www.bizellers.com/" />
     <meta property="og:title" content="Bizellers - Consultoría de Ventas B2B | Escalamos tu Crecimiento Comercial" />
     <meta property="og:description" content="Transformamos equipos comerciales en motores de crecimiento. Consultoría estratégica, entrenamiento de alto rendimiento y tecnología de ventas B2B." />
-    <meta property="og:image" content="https://www.bizellers.com/og-image.jpg" />
+    <meta property="og:image" content="https://www.bizellers.com/hero-business.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:locale" content="es_MX" />
@@ -37,12 +38,48 @@
     <meta name="twitter:url" content="https://www.bizellers.com/" />
     <meta name="twitter:title" content="Bizellers - Consultoría de Ventas B2B | Escalamos tu Crecimiento Comercial" />
     <meta name="twitter:description" content="Transformamos equipos comerciales en motores de crecimiento. Consultoría estratégica, entrenamiento de alto rendimiento y tecnología de ventas B2B." />
-    <meta name="twitter:image" content="https://www.bizellers.com/og-image.jpg" />
+    <meta name="twitter:image" content="https://www.bizellers.com/hero-business.png" />
     <meta name="twitter:creator" content="@bizellers" />
 
     <!-- Geo Tags -->
     <meta name="geo.region" content="MX" />
     <meta name="geo.placename" content="México" />
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      "name": "Bizellers",
+      "url": "https://www.bizellers.com",
+      "logo": "https://www.bizellers.com/bizellers_logo.jpg",
+      "image": "https://www.bizellers.com/hero-business.png",
+      "description": "Consultoría de ventas B2B para startups y scaleups en Latinoamérica. Ayudamos a escalar tu crecimiento comercial a través de estrategia, entrenamiento y tecnología.",
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "MX",
+        "addressLocality": "México"
+      },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer service",
+        "email": "contacto@bizellers.com"
+      },
+      "founder": {
+        "@type": "Person",
+        "name": "Rubén Viera"
+      },
+      "areaServed": {
+        "@type": "GeoCircle",
+        "geoMidpoint": {
+          "@type": "GeoCoordinates",
+          "latitude": "23.6345",
+          "longitude": "-102.5528"
+        },
+        "geoRadius": "1000000" 
+      }
+    }
+    </script>
 
     <!-- Additional SEO -->
     <meta name="theme-color" content="#B4FC05" />

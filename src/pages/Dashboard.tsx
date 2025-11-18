@@ -12,6 +12,7 @@ import { LeadBoard } from '@/components/dashboard/LeadBoard';
 import { LeadModal } from '@/components/dashboard/LeadModal';
 import { NewsletterDashboard } from '@/components/dashboard/NewsletterDashboard';
 import { useDashboardKPIs } from '@/hooks/useDashboardKPIs';
+import { SEO } from '@/components/common/SEO';
 import type { Lead, LeadKPIs, NewsletterKPIs } from '@/types/dashboard';
 
 interface DateFilters {
@@ -167,6 +168,11 @@ export function Dashboard() {
 
   return (
     <div className="min-h-screen bg-negro">
+      <SEO 
+        title="Dashboard | Bizellers"
+        description="Dashboard para la administración de leads y suscriptores."
+        noIndex={true}
+      />
       <DashboardHeader onLogout={logout} onExport={handleExport} />
 
       <main className="container mx-auto px-6 py-8">
