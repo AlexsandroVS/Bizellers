@@ -46,10 +46,10 @@ export const CountrySelectWithFlagAndName: React.FC<CountrySelectWithFlagAndName
   return (
     <div className={`relative ${className}`} ref={selectRef}>
       <div
-        className="flex items-center justify-between w-full bg-gray-800/50 border-verde-lima border rounded-md py-2 px-3 text-black focus:outline-none focus:ring-verde-lima focus:border-verde-lima sm:text-sm transition-all shadow-sm hover:shadow-md h-10 cursor-pointer"
+        className="flex items-center justify-between w-full bg-white border-verde-lima border rounded-md py-2 px-3 text-black focus:outline-none focus:ring-verde-lima focus:border-verde-lima sm:text-sm transition-all shadow-sm hover:shadow-md h-10 cursor-pointer"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <div className="flex  items-center gap-2 text-verde-lima"> {/* Changed text-black to text-white for dark background */}
+        <div className="flex  items-center gap-2 text-black"> {/* Changed text-black to text-white for dark background */}
           <span>{selectedCountry?.flag}</span>
           <span>{selectedCountry?.name} ({selectedCountry?.dial_code})</span>
         </div>
@@ -57,11 +57,11 @@ export const CountrySelectWithFlagAndName: React.FC<CountrySelectWithFlagAndName
       </div>
 
       {isOpen && (
-        <div className="absolute z-10 mt-1 w-full bg-gray-900 border border-verde-lima rounded-md shadow-lg max-h-60 overflow-y-auto"> {/* Changed bg-white to bg-gray-800/50 */}
+        <div className="absolute z-10 mt-1 w-full bg-white border border-verde-lima rounded-md shadow-lg max-h-60 overflow-y-auto"> {/* Changed bg-white to bg-gray-800/50 */}
           {latinAmericanCountriesData.map((country) => (
             <div
               key={country.code}
-              className="flex items-center gap-2 px-3 py-2 cursor-pointer hover:bg-gray-700 text-verde-lima"
+              className="flex items-center gap-2 px-3 py-2 cursor-pointer hover:bg-gray-700 text-black hover:text-verde-lima"
               onClick={() => handleSelect(country)}
             > {/* Changed text-black to text-white, hover:bg-gray-100 to hover:bg-gray-700 */}
               <span>{country.name} ({country.dial_code})</span>

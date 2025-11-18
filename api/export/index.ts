@@ -65,10 +65,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           createdAt: dateFilter,
         },
         select: {
-          id: true,
           email: true,
-          createdAt: true,
-          welcomeEmailSentAt: true,
         },
         orderBy: { createdAt: 'desc' },
       });

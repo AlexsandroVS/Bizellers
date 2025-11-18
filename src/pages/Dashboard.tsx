@@ -29,20 +29,12 @@ export function Dashboard() {
   const [currentView, setCurrentView] = useState<DashboardView>('leads');
   const [dateFilters, setDateFilters] = useState<DateFilters>({});
 
-  console.log('Dashboard: token:', token);
-  console.log('Dashboard: currentView:', currentView);
-  console.log('Dashboard: dateFilters:', dateFilters);
-
   const { kpis: dashboardKpis, isLoading: kpisLoading, error: kpisError, fetchKPIs } = useDashboardKPIs({
     token,
     type: currentView,
     startDate: dateFilters.startDate,
     endDate: dateFilters.endDate,
   });
-
-  console.log('Dashboard: dashboardKpis:', dashboardKpis);
-  console.log('Dashboard: kpisLoading:', kpisLoading);
-  console.log('Dashboard: kpisError:', kpisError);
 
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
@@ -53,7 +45,6 @@ export function Dashboard() {
 
   // Control fetching based on view
   useEffect(() => {
-    console.log('Dashboard useEffect: currentView changed or filters changed. Calling fetchKPIs.');
     if (currentView === 'leads') {
       fetchLeads(dateFilters);
     }
@@ -155,11 +146,9 @@ export function Dashboard() {
         window.URL.revokeObjectURL(url);
       } else {
         const errorData = await response.json();
-        console.error('Error exporting data:', errorData.message);
         alert(`Error al exportar: ${errorData.message}`);
       }
     } catch (error) {
-      console.error('Error de conexión al exportar:', error);
       alert('Error de conexión al exportar datos.');
     }
   };
@@ -178,14 +167,14 @@ export function Dashboard() {
 
   return (
     <div className="min-h-screen bg-negro">
-      <DashboardHeader onLogout={logout} leads={leads} />
+      <DashboardHeader onLogout={logout} onExport={handleExport} />
 
       <main className="container mx-auto px-6 py-8">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
-          {currentView === 'leads' && dashboardKpis && (
+          {currentView === 'leads' && dashboardKpis && 'leadsByStatus' in dashboardKpis && (
             <LeadKPIsDisplay kpis={dashboardKpis as LeadKPIs} isLoading={kpisLoading} error={kpisError} />
           )}
-          {currentView === 'newsletter' && dashboardKpis && (
+          {currentView === 'newsletter' && dashboardKpis && 'totalSubscribers' in dashboardKpis && (
             <NewsletterKPIsDisplay kpis={dashboardKpis as NewsletterKPIs} isLoading={kpisLoading} error={kpisError} />
           )}
           <div className="p-1 bg-[#1a1a1a] border-2 border-gray-800 rounded-lg flex gap-2">
@@ -203,7 +192,6 @@ export function Dashboard() {
           onSearchChange={handleSearchChange}
           onDateFilterApply={handleDateFilterApply}
           onReset={handleResetFilters}
-          onExport={handleExport}
         />
 
         {currentView === 'leads' && (

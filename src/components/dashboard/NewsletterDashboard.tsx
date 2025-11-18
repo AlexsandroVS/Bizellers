@@ -1,12 +1,25 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Trash2, Send, Loader2 } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { exportToExcel } from '@/utils/exportData';
 
 interface NewsletterDashboardProps {
   token: string | null;
   filters: { startDate?: string, endDate?: string };
   searchTerm: string;
+}
+
+interface Subscriber {
+  id: number;
+  email: string;
+  createdAt: string;
+  welcomeEmailSentAt: string | null;
+}
+
+interface Pagination {
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
 }
 
 export function NewsletterDashboard({ token, filters, searchTerm }: NewsletterDashboardProps) {
@@ -16,9 +29,17 @@ export function NewsletterDashboard({ token, filters, searchTerm }: NewsletterDa
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [sendingId, setSendingId] = useState<number | null>(null);
+  const prevFilters = useRef(filters);
 
   useEffect(() => {
-    console.log('useEffect in newsletter dashboard', filters);
+    const filtersHaveChanged = JSON.stringify(filters) !== JSON.stringify(prevFilters.current);
+    if (filtersHaveChanged && page !== 1) {
+      setPage(1);
+      prevFilters.current = filters;
+      return;
+    }
+    prevFilters.current = filters;
+
     const fetchSubscribers = async () => {
       if (!token) return;
       setIsLoading(true);
@@ -30,20 +51,18 @@ export function NewsletterDashboard({ token, filters, searchTerm }: NewsletterDa
 
       try {
         const url = `/api/newsletter-dashboard?${params.toString()}`;
-                    const response = await fetch(url, {
-                      headers: { Authorization: `Bearer ${token}` },
-                    });
-                    const data = await response.json();
-                    console.log('data from api', data);
-                    if (data.success) {          setSubscribers(data.data);
+        const response = await fetch(url, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        const data = await response.json();
+        if (data.success) {
+          setSubscribers(data.data);
           setPagination(data.pagination);
         } else {
           setError(data.message || 'Error al cargar suscriptores');
         }
       } catch (err) {
         setError('Error de conexión');
-      } finally {
-        setIsLoading(false);
       }
     };
     fetchSubscribers();
@@ -85,7 +104,6 @@ export function NewsletterDashboard({ token, filters, searchTerm }: NewsletterDa
       });
       const data = await response.json();
       if (data.success) {
-        // Actualizar el suscriptor en la lista
         setSubscribers(subs => subs.map(s => s.id === id ? data.data : s));
       } else {
         alert(`Error: ${data.message}`);
@@ -97,11 +115,6 @@ export function NewsletterDashboard({ token, filters, searchTerm }: NewsletterDa
     }
   };
   
-  const handleDownload = () => {
-    const dataToExport = filteredSubscribers.map(({ id, welcomeEmailSentAt, ...rest }) => rest);
-    exportToExcel(dataToExport, 'suscriptores_newsletter');
-  }
-
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="bg-[#1a1a1a] border-2 border-gray-800 rounded-xl p-4 sm:p-6">
       {/* ... (header sin cambios) ... */}
@@ -142,3 +155,4 @@ export function NewsletterDashboard({ token, filters, searchTerm }: NewsletterDa
     </motion.div>
   );
 }
+
