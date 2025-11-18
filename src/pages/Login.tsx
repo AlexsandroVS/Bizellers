@@ -2,6 +2,7 @@ import { useState, FormEvent } from 'react';
 import { motion } from 'framer-motion';
 import { Lock, User, ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { SEO } from '@/components/common/SEO';
 
 export function Login() {
   const [username, setUsername] = useState('');
@@ -38,7 +39,6 @@ export function Login() {
       }
     } catch (err) {
       setError('Error al iniciar sesión. Intenta de nuevo.');
-      console.error('Login error:', err);
     } finally {
       setIsLoading(false);
     }
@@ -46,6 +46,11 @@ export function Login() {
 
   return (
     <div className="min-h-screen bg-negro flex items-center justify-center p-6 relative overflow-hidden">
+      <SEO 
+        title="Login | Dashboard Bizellers"
+        description="Acceso al Dashboard de Bizellers."
+        noIndex={true}
+      />
       {/* Background effects */}
       <motion.div
         animate={{ scale: [1, 1.2, 1], opacity: [0.15, 0.3, 0.15] }}
