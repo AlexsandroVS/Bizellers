@@ -23,20 +23,20 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const startDate = Array.isArray(startDateQuery) ? startDateQuery[0] : startDateQuery;
   const endDate = Array.isArray(endDateQuery) ? endDateQuery[0] : endDateQuery;
 
-  const whereClause: any = {};
-  if (startDate && typeof startDate === 'string') {
-    whereClause.created_at = { ...whereClause.created_at, gte: new Date(startDate) };
-  }
-  if (endDate && typeof endDate === 'string') {
-    const endOfDay = new Date(endDate);
-    endOfDay.setUTCHours(23, 59, 59, 999);
-    whereClause.created_at = { ...whereClause.created_at, lte: endOfDay };
-  }
-
   try {
     let kpis: any = {};
 
     if (type === 'leads') {
+      const whereClause: any = {};
+      if (startDate && typeof startDate === 'string') {
+        whereClause.created_at = { ...whereClause.created_at, gte: new Date(startDate) };
+      }
+      if (endDate && typeof endDate === 'string') {
+        const endOfDay = new Date(endDate);
+        endOfDay.setUTCHours(23, 59, 59, 999);
+        whereClause.created_at = { ...whereClause.created_at, lte: endOfDay };
+      }
+
       // 1. Obtener leads filtrados por fecha
       const allLeads = await prisma.lead.findMany({
         where: whereClause,
@@ -64,6 +64,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         leadsByStatus: leadsByStatus,
       };
     } else if (type === 'newsletter') {
+      const whereClause: any = {};
+      if (startDate && typeof startDate === 'string') {
+        whereClause.createdAt = { ...whereClause.createdAt, gte: new Date(startDate) };
+      }
+      if (endDate && typeof endDate === 'string') {
+        const endOfDay = new Date(endDate);
+        endOfDay.setUTCHours(23, 59, 59, 999);
+        whereClause.createdAt = { ...whereClause.createdAt, lte: endOfDay };
+      }
       
       // 1. Obtener suscriptores filtrados por fecha
       const allSubscribers = await prisma.newsletterSubscription.findMany({

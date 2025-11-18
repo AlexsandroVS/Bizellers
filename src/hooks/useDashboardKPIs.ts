@@ -16,9 +16,7 @@ export function useDashboardKPIs({ token, type, startDate, endDate }: UseDashboa
   const [error, setError] = useState<string | null>(null);
 
   const fetchKPIs = useCallback(async () => {
-    console.log('useDashboardKPIs: fetchKPIs called. token:', token, 'type:', type);
     if (!token || !type) {
-      console.log('useDashboardKPIs: Skipping fetchKPIs due to missing token or type.');
       return;
     }
 
@@ -39,11 +37,7 @@ export function useDashboardKPIs({ token, type, startDate, endDate }: UseDashboa
         },
       });
 
-      // Log raw response text for debugging
-      const responseText = await response.text();
-      console.log('Raw API response:', responseText);
-
-      const data = JSON.parse(responseText); // Manually parse after logging
+      const data = await response.json();
 
       if (data.success) {
         setKpis(data.data);
@@ -52,7 +46,6 @@ export function useDashboardKPIs({ token, type, startDate, endDate }: UseDashboa
       }
     } catch (err) {
       setError('Error de conexión al cargar KPIs');
-      console.error('Error fetching KPIs:', err);
     } finally {
       setIsLoading(false);
     }

@@ -190,6 +190,7 @@ export function Contact() {
                     <input
                       type="text"
                       required
+                      placeholder="Nombre y Apellido"
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       className="w-full px-4 py-3 border border-verde-lima rounded-lg focus:border-verde-lima focus:outline-none focus:ring-2 focus:ring-verde-lima transition-all bg-gray-800/50 text-black placeholder:text-gray-400"
