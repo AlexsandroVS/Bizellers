@@ -264,7 +264,7 @@ export function Contact() {
                         name="phone"
                         value={phoneNumber}
                         onChange={(e) => setPhoneNumber(e.target.value.replace(/[^0-9]/g, ''))}
-                        className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md bg-gray-800/50 text-white placeholder:text-gray-400 px-3 py-2 h-10"
+                        className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md bg-gray-800/50 text-black placeholder:text-gray-400 px-3 py-2 h-10"
                         placeholder={phonePlaceholder}
                       />
                     </div>
